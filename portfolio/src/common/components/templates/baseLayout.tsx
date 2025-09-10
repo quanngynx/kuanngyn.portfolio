@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ReactNode } from 'react';
+import { Toaster } from 'sonner';
 import { StyledComponentsRegistry } from '@/common/configs';
 
 import "@radix-ui/themes/styles.css";
@@ -37,6 +38,7 @@ export async function BaseLayout({
                         <NextIntlClientProvider messages={messages}>
                             <StyledComponentsRegistry>
                                 {children}
+                                <Toaster richColors />
                             </StyledComponentsRegistry>
                         </NextIntlClientProvider>
                     </div>

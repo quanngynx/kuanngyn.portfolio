@@ -1,9 +1,19 @@
 "use server";
 
 import { DISCORD_WEBHOOK_URL } from "@/common/venv";
+import { SendDiscordMessageResponse } from "./_response";
 
-export const sendDiscordMessage = async (formData: FormData) => {
+export const sendDiscordMessage = async (
+    prevState: unknown, 
+    formData: Iterable<readonly [PropertyKey, unknown]>
+): Promise<SendDiscordMessageResponse> => {
     try {
+        console.log(prevState);
+
+        if (!formData) {
+            throw new Error("formData is undefined or not provided");
+        }
+
         const rawFormEntries = Object.fromEntries(formData);
 
         console.log(rawFormEntries);
@@ -29,8 +39,17 @@ export const sendDiscordMessage = async (formData: FormData) => {
                     },
                 ],
             }),
-        })
+        });
+        return {
+            success: true,
+            message: `Your message has been sent successfully.`,
+        };
+
     } catch (err) {
         console.log(err);
+        return {
+            success: false,
+            message: `Problem is sending message: ${err}`,
+        };
     }
 };

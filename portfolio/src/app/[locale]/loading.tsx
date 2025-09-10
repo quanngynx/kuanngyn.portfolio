@@ -1,7 +1,8 @@
 export default function Loading() {
-    return (
-        <div className="w-full h-full flex justify-center items-center">
-            
-        </div>
-    );
-  }
+  // Or a custom loading skeleton component
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <span className="loader"></span>
+    </div>
+  );
+}

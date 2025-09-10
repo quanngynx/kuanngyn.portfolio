@@ -1,16 +1,41 @@
 "use client";
 
-// import { useActionState, useEffect  } from "react";
+import { useActionState, useEffect } from "react";
 import { Control, Field, Label, Message, Root, Submit } from "@radix-ui/react-form";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 import { sendDiscordMessage } from "@/app/actions";
 
 import { TextAreaCustomizable } from "../../molecules/textArea";
 import { ButtonSubmitCustomizable } from "../../atoms/button";
 
+// interface FormState {}
+
+// interface FormAction {}
+
+// interface IsPending {}
+
 export function CustomizableFormContact() {
+    const [formState, formAction, isPending]
+    // : [
+    //     FormState,
+    //     FormAction,
+    //     IsPending
+    // ] 
+    = useActionState(
+        sendDiscordMessage,
+        null
+    ); 
+
+    useEffect (() => {
+        if (formState?.success) {
+          toast.success(formState?.message);
+        } else if (formState?.success === false) {
+          toast.error(formState?.message);
+        }
+    },[formState?.success, formState?.message])
+
     return (
-        <Root className="w-[60%]" action={sendDiscordMessage}>
+        <Root className="w-[60%]" action={formAction}>
             <Field className="w-full mb-2.5 grid" name="fullname">
                 <div className="flex items-baseline justify-between">
                     <Label className="text-[15px] font-medium leading-[35px]">
@@ -110,7 +135,7 @@ export function CustomizableFormContact() {
             />
 
             <Submit asChild>
-                <ButtonSubmitCustomizable name="Send for me!" />
+                <ButtonSubmitCustomizable name={isPending ? "Sending..." : "Send for me!"} />
             </Submit>
         </Root>
     );

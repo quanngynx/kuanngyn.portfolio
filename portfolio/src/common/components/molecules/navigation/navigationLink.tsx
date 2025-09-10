@@ -17,7 +17,7 @@ export function NavigationLink({
     <Link
       aria-current={isActive ? 'page' : undefined}
       className={clsx(
-        'inline-block px-2 py-3 transition-colors hover:border-b-indigo-400 hover:border-b',
+        'inline-block px-2 py-3 transition-colors hover:border-b hover:border-b-indigo-400',
         isActive ? '' : 'hover:text-gray-200'
       )}
       href={href}

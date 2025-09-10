@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react";
 import { gsap, Expo } from "gsap";
 import { AppContainer, Loading, Follow, ProgressBar, Content } from "./styled";
 
@@ -12,23 +12,7 @@ export function IntroduceLoad ({
     setLoading 
 }: SetStateLoading) {
   const [counter, setCounter] = useState(0);
-  useEffect(() => {
-    const count = setInterval(() => {
-      setCounter((counter: number) => {
-        if(counter < 100) {
-            return counter + 1
-        } else {
-            clearInterval(count);
-            setCounter(100);
-            reveal();
-            return counter;
-        }
-      });
-    }, 25);
-    return () => clearInterval(count);
-  }, [reveal]);
-
-  async function reveal() {
+  const reveal = useCallback(async () => {
     const t1 =  gsap.timeline({});
 
       await t1
@@ -48,7 +32,25 @@ export function IntroduceLoad ({
     if (!t1.isActive()) {
        setLoading(false);
     }
-  }
+  }, [setLoading]);
+
+  useEffect(() => {
+    const count = setInterval(() => {
+      setCounter((counter: number) => {
+        if(counter < 100) {
+            return counter + 1
+        } else {
+            clearInterval(count);
+            setCounter(100);
+            reveal();
+            return counter;
+        }
+      });
+    }, 25);
+    return () => clearInterval(count);
+  }, [reveal]);
+
+
 
   return (
     <AppContainer>

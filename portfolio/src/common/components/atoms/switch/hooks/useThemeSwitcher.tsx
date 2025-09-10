@@ -6,6 +6,7 @@ export const useThemeSwitcher = () : [
 ]  => {
    const preferDarkQuery = '(prefers-color-scheme: dark)';
    const [darkMode, setDarkMode] = useState('dark');
+   const getClassList = document.documentElement.classList;
 
    useEffect(() => {
       const mediaQuery = window.matchMedia(preferDarkQuery);
@@ -17,9 +18,9 @@ export const useThemeSwitcher = () : [
             setDarkMode(check);
 
             if (check === 'dark') {
-               document.documentElement.classList.add('dark');
+                getClassList.add('dark');
             } else {
-               document.documentElement.classList.remove('dark');
+                getClassList.remove('dark');
             }
          } else {
             const check = mediaQuery.matches ? 'dark' : 'light';
@@ -27,9 +28,9 @@ export const useThemeSwitcher = () : [
             window.localStorage.setItem('theme', check);
 
             if (check === 'dark') {
-               document.documentElement.classList.add('dark');
+               getClassList.add('dark');
             } else {
-               document.documentElement.classList.remove('dark');
+               getClassList.remove('dark');
             }
          }
       };
@@ -38,18 +39,18 @@ export const useThemeSwitcher = () : [
       mediaQuery.addEventListener('change', handleChange);
 
       return () => mediaQuery.removeEventListener('change', handleChange);
-   }, []);
+   }, [getClassList]);
 
    useEffect(() => {
       if (darkMode === 'dark') {
          window.localStorage.setItem('theme', 'dark');
-         document.documentElement.classList.add('dark');
+         getClassList.add('dark');
       }
       if (darkMode === 'light') {
          window.localStorage.setItem('theme', 'light');
-         document.documentElement.classList.remove('dark');
+         getClassList.remove('dark');
       }
-   }, [darkMode]);
+   }, [darkMode, getClassList]);
 
    return [darkMode, setDarkMode];
 };
