@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
         ...sassOptions,
         implementation: 'sass-embedded',
     },
+    turbopack: {},
     compiler: {
         ...compiler,
         styledComponents: true,
