@@ -1,10 +1,8 @@
-import * as yup from 'yup';
+import { z } from 'zod'
 
-import { ContactFormState } from '../interfaces';
-
-export const contactFormSchema: yup.ObjectSchema<ContactFormState> = yup.object({
-    fullName: yup.string().required('Tên đầy đủ là bắt buộc'),
-    mail: yup.string().email().required('Email là bắt buộc'),
-    phone: yup.string().required('Số điện thoại là bắt buộc'),
-    message: yup.string().required('Nội dung tin nhắn là bắt buộc'),
+export const contactFormSchema = z.object({
+  fullName: z.string().min(1, 'Tên đầy đủ là bắt buộc'),
+  mail: z.email('Email không hợp lệ').min(1, 'Email là bắt buộc'),
+  phone: z.string().min(1, 'Số điện thoại là bắt buộc'),
+  message: z.string().min(1, 'Nội dung tin nhắn là bắt buộc'),
 }) 

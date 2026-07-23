@@ -1,7 +1,8 @@
+"use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Camera, Globe, Home, MousePointer, Mail, Linkedin } from "lucide-react";
-import { SiGithub } from "@icons-pack/react-simple-icons";
+import { Camera, Globe, Home, MousePointer, Mail } from 'lucide-react'
+import { Github, Linkedin } from '../../atoms/icons'
 
 import Tooltip from "../../atoms/tooltip/tooltip";
 
@@ -99,7 +100,7 @@ export function Sidebar() {
               }`}
               onClick={() => handleButtonClick("github")}
             >
-              <SiGithub className="w-5 h-5 text-[#717689] hover:text-white transition-colors" />
+              <Github className="w-5 h-5 text-[#717689] hover:text-white transition-colors" />
             </div>
           </Tooltip>
         </div>

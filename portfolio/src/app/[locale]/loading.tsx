@@ -1,8 +1,24 @@
+"use client";
+
+import { useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+
 export default function Loading() {
-  // Or a custom loading skeleton component
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <span className="loader"></span>
-    </div>
-  );
+    const router = useRouter();
+    const params = useParams<{ locale: string }>();
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            const locale = params?.locale ?? '';
+            router.replace(`/${locale}`);
+        }, 5000);
+
+        return () => clearTimeout(timeoutId);
+    }, [router, params?.locale]);
+
+    return (
+        <div className="flex flex-col items-center justify-center h-screen">
+            <span className="loader"></span>
+        </div>
+    );
 }

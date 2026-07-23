@@ -6,7 +6,6 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 
 import "../globals.css";
-import { Sidebar } from "@/common/components/organisms/sidebar/sidebar";
 
 export const metadata: Metadata = {
     title: "kuanngyn.portfolio",
@@ -59,7 +58,6 @@ export default async function LocaleLayout({
   
   return (
     <BaseLayout locale={locale}>
-        <Sidebar />
         {children}
     </BaseLayout>
   );

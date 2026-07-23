@@ -1,4 +1,5 @@
-import { Field, Label, Message, Control } from "@radix-ui/react-form";
+import { Form } from 'radix-ui'
+const { Field, Label, Message, Control } = Form
 
 export interface FieldInputCustomizable {
     label: string;

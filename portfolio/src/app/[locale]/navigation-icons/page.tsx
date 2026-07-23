@@ -6,15 +6,14 @@ import {
   MousePointer,
   Globe,
   Camera,
-  Linkedin,
-  Github,
   TextCursor as Cursor,
   Move,
   Hand,
   Target,
   Navigation,
   Crosshair,
-} from "lucide-react"
+} from 'lucide-react'
+import { Github, Linkedin } from '@/common/components/atoms/icons'
 import Link from "next/link"
 import { useState } from "react"
 

@@ -1,4 +1,5 @@
-import { ArrowLeft, Home, MousePointer, Globe, Camera, Linkedin, Github } from "lucide-react"
+import { ArrowLeft, Home, MousePointer, Globe, Camera } from 'lucide-react'
+import { Github, Linkedin } from '@/common/components/atoms/icons'
 import Link from "next/link"
 
 interface ProjectPageProps {
@@ -7,51 +8,37 @@ interface ProjectPageProps {
   }
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = params
+import { projects } from '@/common/utils/string'
 
-  // Mock project data - in a real app this would come from a CMS or database
-  const projectData = {
-    "design-projects": {
-      title: "Design projects",
-      subtitle: "Subtitle",
-      description:
-        "Explore my collection of innovative design projects that blend functionality with aesthetic appeal. Each project represents a unique challenge solved through thoughtful design thinking and user-centered approaches.",
-      heroGradient: "from-[#01071a] via-[#000588] to-[#b6d2ff]",
-      sections: [
-        {
-          title: "Project title",
-          subtitle: "and some additional information",
-          content:
-            "Explore what your project is about, what your goals were, and how you achieved them. This section provides context and background for your creative process.",
-          details:
-            "This approach allows you to tell a story using a variety of content blocks and layouts to showcase your detailed creative process.",
-        },
-      ],
-    },
-    "art-projects": {
-      title: "Art projects",
-      subtitle: "Subtitle",
-      description:
-        "Dive into my artistic journey through various mediums and styles. These projects showcase experimental approaches and creative explorations in digital and traditional art forms.",
-      heroGradient: "from-[#000588] via-purple-600 to-orange-500",
-      sections: [
-        {
-          title: "Artistic vision",
-          subtitle: "and creative exploration",
-          content:
-            "Discover the inspiration behind each artistic piece, the techniques used, and the emotions conveyed through visual storytelling.",
-          details:
-            "Each artwork represents a moment of creative discovery, pushing boundaries and exploring new possibilities in visual expression.",
-        },
-      ],
-    },
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params
+  const slug = decodeURIComponent(resolvedParams.slug)
+
+  const stringProject = projects.find((p) => p.id === slug || p.title.toLowerCase() === slug.toLowerCase())
+
+  if (!stringProject) {
+    return (
+      <div className="p-10 text-white">
+        <h1>Project not found</h1>
+        <p>Received slug: "{slug}"</p>
+        <p>Available projects: {projects.map(p => p.id).join(', ')}</p>
+      </div>
+    )
   }
 
-  const project = projectData[slug as keyof typeof projectData]
-
-  if (!project) {
-    return <div>Project not found</div>
+  const project = {
+    title: stringProject.title,
+    subtitle: stringProject.subtitle,
+    description: stringProject.description,
+    heroGradient: stringProject.gradient,
+    sections: [
+      {
+        title: "Project Overview",
+        subtitle: stringProject.projectType,
+        content: `Tech Stack: ${stringProject.techStack}. ${stringProject.architectureHighlights}`,
+        details: `Key Metrics: ${stringProject.keyMetrics}`,
+      },
+    ],
   }
 
   return (

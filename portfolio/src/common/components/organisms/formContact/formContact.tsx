@@ -1,12 +1,13 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { Control, Field, Label, Message, Root, Submit } from "@radix-ui/react-form";
+import { Form } from 'radix-ui'
+const { Control, Field, Label, Message, Root, Submit } = Form
 import { toast } from "sonner";
 import { sendDiscordMessage } from "@/app/actions";
 
 import { TextAreaCustomizable } from "../../molecules/textArea";
-import { ButtonSubmitCustomizable } from "../../atoms/button";
+import { ButtonSubmitCustomizable } from "../../atoms/button/button.submit";
 
 // interface FormState {}
 

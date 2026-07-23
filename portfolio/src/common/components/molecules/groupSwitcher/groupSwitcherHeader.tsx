@@ -1,4 +1,5 @@
-import { LocaleSwitcher, ThemeSwitcher } from "../../atoms/switch";
+import { LocaleSwitcher } from "../../atoms/switch/localeSwitcher";
+import { ThemeSwitcher } from "../../atoms/switch/themeSwitcher";
 
 export function GroupSwitcherHeader() {
     return ( 

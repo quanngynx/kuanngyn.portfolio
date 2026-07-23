@@ -14,8 +14,8 @@ import {
   addMonths,
   subMonths,
 } from "date-fns"
-import { toZonedTime, fromZonedTime, formatInTimeZone } from "date-fns-tz"
-import { vi } from "date-fns/locale/vi"
+import { TZDate } from '@date-fns/tz'
+import { vi } from 'date-fns/locale/vi'
 import { cn } from "@/common/utils/ui"
 import { Button } from "@/common/components/atoms/button"
 
@@ -38,36 +38,36 @@ function Calendar({
 }: CalendarProps) {
   const getInitialDate = () => {
     const baseDate = (Array.isArray(selected) ? selected[0] : selected) || new Date()
-    return toZonedTime(baseDate, timezone)
+    return new TZDate(baseDate, timezone)
   }
 
-  const [currentMonth, setCurrentMonth] = React.useState(getInitialDate())
+  const [currentMonth, setCurrentMonth] = React.useState<Date>(getInitialDate())
 
   const isDateSelectedTz = (date: Date) => {
     if (!selected) return false
 
-    if (mode === "single") {
+    if (mode === 'single') {
       if (!(selected instanceof Date)) return false
-      const selectedTz = toZonedTime(selected, timezone)
-      const dateTz = toZonedTime(date, timezone)
+      const selectedTz = new TZDate(selected, timezone)
+      const dateTz = new TZDate(date, timezone)
       return isSameDay(dateTz, selectedTz)
-    } else if (mode === "multiple") {
+    } else if (mode === 'multiple') {
       if (!Array.isArray(selected)) return false
       return selected.some((d) => {
-        const selectedTz = toZonedTime(d, timezone)
-        const dateTz = toZonedTime(date, timezone)
+        const selectedTz = new TZDate(d, timezone)
+        const dateTz = new TZDate(date, timezone)
         return isSameDay(dateTz, selectedTz)
       })
-    } else if (mode === "range") {
+    } else if (mode === 'range') {
       if (!Array.isArray(selected) || selected.length === 0) return false
       if (selected.length === 1) {
-        const selectedTz = toZonedTime(selected[0], timezone)
-        const dateTz = toZonedTime(date, timezone)
+        const selectedTz = new TZDate(selected[0], timezone)
+        const dateTz = new TZDate(date, timezone)
         return isSameDay(dateTz, selectedTz)
       }
       return selected.some((d) => {
-        const selectedTz = toZonedTime(d, timezone)
-        const dateTz = toZonedTime(date, timezone)
+        const selectedTz = new TZDate(d, timezone)
+        const dateTz = new TZDate(date, timezone)
         return isSameDay(dateTz, selectedTz)
       })
     }
@@ -75,9 +75,9 @@ function Calendar({
   }
 
   const isDateInRange = (date: Date) => {
-    if (mode !== "range" || !Array.isArray(selected) || selected.length !== 2) return false
-    const [start, end] = selected.map((d) => toZonedTime(d, timezone)).sort((a, b) => a.getTime() - b.getTime())
-    const dateTz = toZonedTime(date, timezone)
+    if (mode !== 'range' || !Array.isArray(selected) || selected.length !== 2) return false
+    const [start, end] = selected.map((d) => new TZDate(d, timezone)).sort((a, b) => a.getTime() - b.getTime())
+    const dateTz = new TZDate(date, timezone)
     return dateTz >= start && dateTz <= end
   }
 
@@ -85,30 +85,30 @@ function Calendar({
     if (disabled && disabled(date)) return
     if (!onSelect) return
 
-    const utcDate = fromZonedTime(date, timezone)
+    const utcDate = new Date(date.getTime())
 
-    if (mode === "single") {
+    if (mode === 'single') {
       onSelect(utcDate)
-    } else if (mode === "multiple") {
+    } else if (mode === 'multiple') {
       const currentSelected = Array.isArray(selected) ? selected : []
       const isAlreadySelected = currentSelected.some((d) => {
-        const selectedTz = toZonedTime(d, timezone)
-        const dateTz = toZonedTime(date, timezone)
+        const selectedTz = new TZDate(d, timezone)
+        const dateTz = new TZDate(date, timezone)
         return isSameDay(dateTz, selectedTz)
       })
 
       if (isAlreadySelected) {
         onSelect(
           currentSelected.filter((d) => {
-            const selectedTz = toZonedTime(d, timezone)
-            const dateTz = toZonedTime(date, timezone)
+            const selectedTz = new TZDate(d, timezone)
+            const dateTz = new TZDate(date, timezone)
             return !isSameDay(dateTz, selectedTz)
           }),
         )
       } else {
         onSelect([...currentSelected, utcDate])
       }
-    } else if (mode === "range") {
+    } else if (mode === 'range') {
       const currentSelected = Array.isArray(selected) ? selected : []
 
       if (currentSelected.length === 0 || currentSelected.length === 2) {
@@ -119,8 +119,8 @@ function Calendar({
     }
   }
 
-  const monthStartTz = toZonedTime(startOfMonth(currentMonth), timezone)
-  const monthEndTz = toZonedTime(endOfMonth(monthStartTz), timezone)
+  const monthStartTz = new TZDate(startOfMonth(currentMonth), timezone)
+  const monthEndTz = new TZDate(endOfMonth(monthStartTz), timezone)
   const startDate = startOfWeek(monthStartTz, { locale: vi })
   const endDate = endOfWeek(monthEndTz, { locale: vi })
 
@@ -139,7 +139,7 @@ function Calendar({
       const isSelected = isDateSelectedTz(day)
       const isInRange = isDateInRange(day)
       const isDisabled = disabled && disabled(day)
-      const isTodayDate = isSameDay(toZonedTime(new Date(), timezone), day)
+      const isTodayDate = isSameDay(new TZDate(new Date(), timezone), day)
 
       days.push(
         <div
@@ -194,7 +194,7 @@ function Calendar({
           </Button>
 
           <div className="text-base font-semibold text-foreground">
-            {formatInTimeZone(currentMonth, timezone, "MMMM yyyy", { locale: vi })}
+            {format(new TZDate(currentMonth, timezone), 'MMMM yyyy', { locale: vi })}
           </div>
 
           <Button

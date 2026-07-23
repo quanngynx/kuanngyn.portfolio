@@ -32,6 +32,9 @@ const compiler = {}
 const onDemandEntries = {}
 
 const nextConfig: NextConfig = {
+    images: {
+        formats: ["image/avif", "image/webp"],
+    },
     cleanDistDir: true,
     sassOptions: {
         ...sassOptions,
@@ -55,7 +58,7 @@ const nextConfig: NextConfig = {
         optimizeCss: true,
         optimizeServerReact: true,
         scrollRestoration: true,
-        nextScriptWorkers: true,
+
         parallelServerCompiles: true,
         parallelServerBuildTraces: true,
         webpackBuildWorker: true,
