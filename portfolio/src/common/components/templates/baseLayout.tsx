@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ReactNode } from 'react';
+import { Toaster } from 'sonner';
 import { StyledComponentsRegistry } from '@/common/configs';
 
 import "@radix-ui/themes/styles.css";
@@ -31,15 +32,14 @@ export async function BaseLayout({
     const messages = await getMessages();
 
     return (
-        <html lang={locale}>
-            <body className={clsx(geistSans.variable, geistMono.variable)}>
-                    <div className='flex w-full flex-col min-h-[100vh]'>
-                        <NextIntlClientProvider messages={messages}>
-                            <StyledComponentsRegistry>
-                                {children}
-                            </StyledComponentsRegistry>
-                        </NextIntlClientProvider>
-                    </div>
+        <html lang={locale} suppressHydrationWarning>
+            <body className={clsx(geistSans.variable, geistMono.variable)} suppressHydrationWarning>
+                <NextIntlClientProvider messages={messages}>
+                    <StyledComponentsRegistry>
+                        {children}
+                        <Toaster richColors />
+                    </StyledComponentsRegistry>
+                </NextIntlClientProvider>
             </body>
         </html>
     );

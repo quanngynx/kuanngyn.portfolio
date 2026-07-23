@@ -1,46 +1,140 @@
 {
-    "Error": {
-      "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
-      "title": "Something went wrong!"
-    },
-    "IndexPage": {
-      "description": "This is a basic example that demonstrates the usage of <code>next-intl</code> with the Next.js App Router. Try changing the locale in the top right corner and see how the content changes.",
-      "title": "next-intl example"
-    },
-    "LocaleLayout": {
-      "title": "next-intl example"
-    },
-    "LocaleSwitcher": {
-      "label": "Change language",
-      "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} other {Unknown}}"
-    },
-    "Manifest": {
-      "name": "next-intl example"
-    },
-    "Navigation": {
-      "home": "Home",
-      "pathnames": "Pathnames"
-    },
-    "NotFoundPage": {
-      "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
-      "title": "Page not found"
-    },
-    "PageLayout": {
-      "links": {
-        "docs": {
-          "description": "Learn more about next-intl in the official docs.",
-          "href": "https://next-intl.dev",
-          "title": "Docs"
-        },
-        "source": {
-          "description": "Browse the source code of this example on GitHub.",
-          "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
-          "title": "Source code"
-        }
+  "Navigation": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "stack": "Công nghệ",
+    "projects": "Dự án",
+    "roadmap": "Lộ trình",
+    "contact": "Liên hệ"
+  },
+  "Hero": {
+    "scrollDown": "Cuộn xuống",
+    "contactMe": "Liên hệ tôi",
+    "exploreProjects": "Khám phá dự án"
+  },
+  "About": {
+    "title": "Giới thiệu",
+    "intro": "Tôi là một lập trình viên Full-stack đam mê xây dựng các trải nghiệm web hiện đại.",
+    "description": "Tôi có kinh nghiệm thực tế trong phát triển Front-end sử dụng React, TypeScript và phương pháp thiết kế Atomic Design. Bên cạnh đó, tôi đã sử dụng ExpressJS và NestJS trên môi trường NodeJS cho phát triển Back-end. Với nền tảng vững chắc trong các dự án Agile, tôi đam mê áp dụng kỹ năng của mình để tạo ra giải pháp sáng tạo và đóng góp hiệu quả cho đội ngũ năng động.",
+    "readFullVersion": "Xem bản đầy đủ",
+    "full": "Xin chào! Tôi là Nguyễn Minh Quân (Quanngynx). Tôi là sinh viên đang theo đuổi sự nghiệp phát triển phần mềm với trọng tâm là công nghệ web, thiết kế giao diện tương thích và kiến trúc backend có thể mở rộng. Tôi yêu thích việc kết hợp thẩm mỹ thiết kế với mã nguồn vững chắc để mang đến trải nghiệm người dùng ấn tượng."
+  },
+  "Stack": {
+    "title": "Công nghệ",
+    "frontend": "Giao diện (Frontend)",
+    "backend": "Hậu đài (Backend)",
+    "database": "Cơ sở dữ liệu",
+    "tools": "Công cụ & Hạ tầng"
+  },
+  "Projects": {
+    "title": "Dự án",
+    "intro": "Bộ sưu tập các ứng dụng web, thử nghiệm và sản phẩm tương tác tôi đã xây dựng.",
+    "scrollText": "Cuộn để khám phá",
+    "endText": "Sắp ra mắt thêm",
+    "items": [
+      {
+        "id": "servexa-warranty-ai",
+        "title": "Servexa Warranty AI",
+        "category": "Nền tảng AI & Cloud",
+        "year": "2026",
+        "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng, tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG, trợ lý AI Copilot và quy trình phê duyệt Human-in-the-loop.",
+        "image": "/main_logo.png",
+        "demo": "https://servxa.io.vn",
+        "repo": "https://github.com/quanngynx/GDGO-2026.Servexa-Warranty-AI",
+        "stack": ["React", "Express", "FastAPI", "PostgreSQL", "pgvector", "gRPC", "LangGraph", "GCP"]
+      },
+      {
+        "id": "quanngynx-portfolio",
+        "title": "Quanngynx Portfolio",
+        "category": "Phát triển Web",
+        "year": "2026",
+        "description": "Trang web cá nhân tương tác hiện đại được xây dựng với Next.js App Router, Framer Motion, Lenis scroll và Tailwind CSS.",
+        "image": "/main_logo.png",
+        "demo": "https://github.com/quanngynx",
+        "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
+      },
+      {
+        "id": "locknlock-asc",
+        "title": "Hệ thống Quản lý LocknLock ASC",
+        "category": "Hệ thống Doanh nghiệp",
+        "year": "2025",
+        "description": "Hệ thống quản lý dịch vụ hậu mãi cho vận hành LocknLock ASC, hỗ trợ quy trình sửa chữa, bảo hành, quản lý kho linh kiện, điều phối kho và xuất báo cáo.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "readdi-ielts",
+        "title": "Nền tảng Nâng cao IELTS READDI",
+        "category": "Nền tảng Giáo dục",
+        "year": "2025",
+        "description": "Nền tảng học trực tuyến IELTS nội bộ tích hợp chấm điểm và phản hồi tự động bằng AI, gợi ý lộ trình học cá nhân hóa sau khi làm bài kiểm tra.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "cores-after-sales",
+        "title": "Hệ thống Hậu mãi CORES",
+        "category": "Hệ thống Quản lý Nội bộ",
+        "year": "2024 - 2025",
+        "description": "Hệ thống quản lý nội bộ dịch vụ hậu mãi thiết bị gia dụng, hỗ trợ theo dõi tồn kho, kích hoạt bảo hành, đăng ký đối tác và phân quyền người dùng.",
+        "image": "/main_logo.png",
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       }
-    },
-    "PathnamesPage": {
-      "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
-      "title": "Pathnames"
-    }
+    ]
+  },
+  "Roadmap": {
+    "title": "Lộ trình",
+    "description": "Các mốc quan trọng trong quá trình phát triển và hành trình học tập liên tục của tôi.",
+    "items": [
+      {
+        "id": "01",
+        "year": "2023",
+        "description": "Bắt đầu hành trình đại học ngành Khoa học Máy tính và làm chủ kiến thức cơ bản về HTML, CSS, JavaScript.",
+        "stack": ["HTML5", "CSS3", "JavaScript"]
+      },
+      {
+        "id": "02",
+        "year": "2024",
+        "description": "Mở rộng sang phát triển frontend hiện đại với React, TypeScript và Tailwind CSS.",
+        "stack": ["React", "TypeScript", "Tailwind CSS"]
+      },
+      {
+        "id": "03",
+        "year": "2025",
+        "description": "Xây dựng ứng dụng full-stack với Next.js App Router, ExpressJS, NestJS và PostgreSQL.",
+        "stack": ["Next.js", "ExpressJS", "NestJS", "PostgreSQL"]
+      },
+      {
+        "id": "04",
+        "year": "2026",
+        "description": "Tối ưu hóa kiến trúc, hiệu ứng UI, đa ngôn ngữ (i18n) và đóng góp cho nguồn mở.",
+        "stack": ["Next.js", "Atomic Design", "next-intl", "Framer Motion"]
+      }
+    ]
+  },
+  "Contact": {
+    "title": "Liên hệ",
+    "introText": "Bạn có suy nghĩ về dự án hợp tác hoặc câu hỏi? Đừng ngần ngại liên hệ bất cứ lúc nào!",
+    "sendEmail": "Gửi Email",
+    "sendEmailSubject": "[Portfolio] Liên hệ hợp tác công việc",
+    "sendEmailBody": "Xin chào Minh Quân, Tôi đã xem qua Portfolio của bạn và rất ấn tượng với các dự án bạn đã thực hiện. Tôi muốn trao đổi thêm với bạn về vị trí công việc / dự án sắp tới. Vui lòng phản hồi lại email này hoặc liên hệ với tôi qua số điện thoại: .................... Trân trọng,",
+    "directLine": "Số điện thoại",
+    "allRightsReserved": "Đã đăng ký bản quyền."
+  },
+  "Modals": {
+    "aboutTitle": "Giới thiệu bản thân",
+    "contactTitle": "Liên hệ với tôi",
+    "contactDescription": "Kết nối trực tiếp qua email, điện thoại hoặc các mạng xã hội bên dưới.",
+    "projectDetails": "Chi tiết dự án",
+    "aboutProject": "Về dự án",
+    "technologies": "Công nghệ sử dụng",
+    "liveDemo": "Xem trực tiếp",
+    "sourceCode": "Mã nguồn"
+  },
+  "NotFound": {
+    "title": "Không tìm thấy trang",
+    "description": "Vui lòng kiểm tra lại địa chỉ trình duyệt hoặc quay lại trang chủ.",
+    "goHome": "Về trang chủ"
   }
+}

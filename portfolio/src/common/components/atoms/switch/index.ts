@@ -1,2 +1,2 @@
-export * from './localeSwitcher'
-export  * from './themeSwitcher';
+export * from './locale-switcher'
+export  * from './theme-switcher';

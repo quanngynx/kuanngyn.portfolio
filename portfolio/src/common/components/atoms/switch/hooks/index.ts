@@ -1,1 +1,1 @@
-export * from './useThemeSwitcher';
+export * from './use-theme-switcher';

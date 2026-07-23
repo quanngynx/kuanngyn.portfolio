@@ -1,1 +1,1 @@
-export * from './webhookUrl';
+export * from './webhook-url';

@@ -1,1 +1,1 @@
-export * from './styledComponent';
+export * from './styled-component';

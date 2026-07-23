@@ -1,90 +1,140 @@
 {
-    "Error": {
-        "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
-        "title": "Something went wrong!"
-    },
-    "IndexPage": {
-        "description": "This is a basic example that demonstrates the usage of <code>next-intl</code> with the Next.js App Router. Try changing the locale in the top right corner and see how the content changes.",
-        "title": "next-intl example"
-    },
-    "LocaleLayout": {
-        "title": "next-intl example"
-    },
-    "LocaleSwitcher": {
-        "label": "Change language",
-        "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} other {Unknown}}"
-    },
-    "Manifest": {
-        "name": "next-intl example"
-    },
-    "NotFoundPage": {
-        "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
-        "title": "Page not found"
-    },
-    "PageLayout": {
-        "links": {
-            "docs": {
-                "description": "Learn more about next-intl in the official docs.",
-                "href": "https://next-intl.dev",
-                "title": "Docs"
-            },
-            "source": {
-                "description": "Browse the source code of this example on GitHub.",
-                "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
-                "title": "Source code"
-            }
-        }
-    },
-    "PathnamesPage": {
-        "description": "<p>The pathnames are internationalized too.</p><p>If you're using the default language English, you'll see <code>/en/pathnames</code> in the browser address bar on this page.</p><p>If you change the locale to German, the URL is localized accordingly (<code>/de/pfadnamen</code>).</p>",
-        "title": "Pathnames"
-    },
-    "HomePage": {
-        "title": "Hello, My name is Quan.",
-        "description": "I'm a third-year student want to become a full-stack dev.",
-        "detail": "I have strong hands-on experience in Front-end development using React Typescript and atomic design methodology. Additionally, I've used ExpressJS and NestJS with NodeJS runtime for Back-end development. With a solid background in Agile projects, I'm passionate about using my skills to drive innovative solutions and contribute effectively to dynamic, collaborative teams."
-    },
-    "Navigation": {
-        "labelhome": "Home",
-        "pathnameHome": "/",
-        "labelAboutUs": "About",
-        "pathnameAboutUs": "/about",
-        "labelProjects": "Projects",
-        "pathnameProjects": "/projects",
-        "labelContact": "Contact",
-        "pathnameContact": "/contact",
-        "labelBlog": "Blog",
-        "pathnameBlog": "/blog"
-    },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    "loggingNotification": {
-        "fullNameFormContact": "Tên đầy đủ là bắt buộc",
-        "emailFormContact": "Email là bắt buộc",
-        "phoneFormContact": "Số điện thoại là bắt buộc",
-        "messageFormContact": "Nội dung tin nhắn là bắt buộc"
-    }
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "stack": "Stack",
+    "projects": "Projects",
+    "roadmap": "Roadmap",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "scrollDown": "Scroll Down",
+    "contactMe": "Contact Me",
+    "exploreProjects": "Explore Projects"
+  },
+  "About": {
+    "title": "About Me",
+    "intro": "I'm a full-stack developer passionate about building modern web experiences.",
+    "description": "I have strong hands-on experience in Front-end development using React, TypeScript, and atomic design methodology. Additionally, I've used ExpressJS and NestJS with NodeJS runtime for Back-end development. With a solid background in Agile projects, I'm passionate about using my skills to drive innovative solutions and contribute effectively to dynamic, collaborative teams.",
+    "readFullVersion": "Read full version",
+    "full": "Hello! My name is Nguyen Minh Quan (Quanngynx). I am a student pursuing a career in software development with a focus on web technologies, responsive UI engineering, and scalable backend architecture. I love combining design aesthetics with robust functional code to deliver memorable user experiences."
+  },
+  "Stack": {
+    "title": "Tech Stack",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "database": "Database",
+    "tools": "Tools & Infrastructure"
+  },
+  "Projects": {
+    "title": "Projects",
+    "intro": "A collection of web applications, experiments, and interactive experiences I've built.",
+    "scrollText": "Scroll to explore",
+    "endText": "More Coming Soon",
+    "items": [
+      {
+        "id": "servexa-warranty-ai",
+        "title": "Servexa Warranty AI",
+        "category": "AI agents & Cloud Platform",
+        "year": "2026",
+        "description": "Agentic AI warranty operation platform for home appliance service centers, featuring RAG-based knowledge retrieval, AI copilot assistance, and Human-in-the-loop approval workflows.",
+        "image": "/main_logo.png",
+        "demo": "https://servxa.io.vn",
+        "repo": "https://github.com/quanngynx/GDGO-2026.Servexa-Warranty-AI",
+        "stack": ["React", "Express", "FastAPI", "PostgreSQL", "pgvector", "gRPC", "LangGraph", "GCP"]
+      },
+      {
+        "id": "quanngynx-portfolio",
+        "title": "Quanngynx Portfolio",
+        "category": "Web Development",
+        "year": "2026",
+        "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, and Tailwind CSS.",
+        "image": "/main_logo.png",
+        "demo": "https://github.com/quanngynx",
+        "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
+      },
+      {
+        "id": "asc",
+        "title": "Customer Service & Warranty Management Platform",
+        "category": "Enterprise System",
+        "year": "2025",
+        "description": "After-sales service management system for LocknLock ASC operations, supporting repair case workflows, accessory inventory, warehouse coordination, and custom reports.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "readdi-ielts",
+        "title": "READDI IELTS Platform",
+        "category": "EdTech Platform",
+        "year": "2025",
+        "description": "Internal IELTS e-learning platform with AI-powered feedback, personalized learning suggestions, test practice, result review, and learning dashboards.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "cores-after-sales",
+        "title": "Home Appliance After-Sales Service Platform",
+        "category": "Internal Management System",
+        "year": "2024 - 2025",
+        "description": "Internal management system for household appliance after-sales service, supporting inventory tracking, warranty activation, partner registration, and role-based access control.",
+        "image": "/main_logo.png",
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
+      }
+    ]
+  },
+  "Roadmap": {
+    "title": "Roadmap",
+    "description": "Key milestones in my growth as a developer and continuous learning journey.",
+    "items": [
+      {
+        "id": "01",
+        "year": "2023",
+        "description": "Started university journey in Computer Science and mastered HTML, CSS, JavaScript fundamentals.",
+        "stack": ["HTML5", "CSS3", "JavaScript"]
+      },
+      {
+        "id": "02",
+        "year": "2024",
+        "description": "Expanded into modern frontend development with React, TypeScript, and Tailwind CSS.",
+        "stack": ["React", "TypeScript", "Tailwind CSS"]
+      },
+      {
+        "id": "03",
+        "year": "2025",
+        "description": "Built full-stack applications using Next.js App Router, ExpressJS, NestJS, and PostgreSQL.",
+        "stack": ["Next.js", "ExpressJS", "NestJS", "PostgreSQL"]
+      },
+      {
+        "id": "04",
+        "year": "2026",
+        "description": "Refining architecture, UI animations, internationalization, and contributing to open source.",
+        "stack": ["Next.js", "Atomic Design", "next-intl", "Framer Motion"]
+      }
+    ]
+  },
+  "Contact": {
+    "title": "Contact Me",
+    "introText": "Interested in working together or have a question? Feel free to reach out anytime!",
+    "sendEmail": "Send Email",
+    "sendEmailSubject": "[Portfolio] Business Inquiries",
+    "sendEmailBody": "Hello Minh Quân, I have reviewed your portfolio and am very impressed with the projects you have completed. I would like to discuss the upcoming job position/project with you further. Please reply to this email or contact me at: .................... Sincerely,",
+    "directLine": "Direct Line",
+    "allRightsReserved": "All rights reserved."
+  },
+  "Modals": {
+    "aboutTitle": "About Me",
+    "contactTitle": "Contact Me",
+    "contactDescription": "Reach out directly via email, phone, or connect on my social channels.",
+    "projectDetails": "Project details for",
+    "aboutProject": "About Project",
+    "technologies": "Technologies Used",
+    "liveDemo": "Live Demo",
+    "sourceCode": "Source Code"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "Please double-check the browser address bar or use navigation to go to a known page.",
+    "goHome": "Go to home"
+  }
 }
