@@ -7,6 +7,8 @@ import { ArrowRight, Mouse } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ContactModal } from "@/common/components/molecules/modals/contact-modal";
 import { InteractiveParticles } from "@/common/components/effects/interactive-particles";
+import { ButtonWithVideo } from "../../atoms/button/button.video";
+import Link from "next/link";
 
 const TRACK_1 = [
     "/hero-slider/amncu2ytwgk1u3entffj.webp",
@@ -177,15 +179,15 @@ export default function Hero() {
                             </span>
                         </button>
 
-                        <button
+                        <ButtonWithVideo className="w-fit group relative flex h-12 xl:h-16 cursor-pointer items-center justify-center px-6 xl:px-10 border border-border text-muted-foreground transition-all duration-500 bg-secondary hover:text-white hover:bg-secondary/15 rounded-full border border-border sm:border-transparent hover:border-border/30 backdrop-blur-sm"
+                            videoFileName='header-button-home'
                             onClick={scrollToProjects}
-                            className="w-fit group relative flex h-12 xl:h-16 cursor-pointer items-center justify-center px-6 xl:px-10 text-muted-foreground transition-all duration-500 hover:text-foreground hover:bg-secondary/15 rounded-full border border-border sm:border-transparent hover:border-border/30 backdrop-blur-sm"
+                            asChild
                         >
-                            <span className="relative z-10 text-xs xl:text-base font-semibold tracking-[0.15em] uppercase flex items-center gap-2 xl:gap-3">
-                                <Mouse className="w-3.5 xl:w-5 h-3.5 xl:h-5 opacity-50 group-hover:opacity-100 transition-opacity" />
+                            <span className="z-10 text-xs xl:text-base font-semibold tracking-[0.15em] uppercase flex items-center gap-2 xl:gap-3">
                                 {tHero('exploreProjects')}
                             </span>
-                        </button>
+                        </ButtonWithVideo>
                     </div>
                 </div>
 

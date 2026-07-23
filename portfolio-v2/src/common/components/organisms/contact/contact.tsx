@@ -51,8 +51,10 @@ export default function Contact() {
                 <div className="flex flex-col w-full max-w-5xl mx-auto mb-12 sm:mb-24 xl:mb-40 border-t border-border/50">
                     <BlurReveal>
                         <a
-                            href={`mailto:${contactInfo.email}`}
+                            href={`mailto:${contactInfo.email}?subject=${encodeURIComponent(t('sendEmailSubject'))}&body=${encodeURIComponent(t('sendEmailBody'))}`}
                             className="group flex flex-col md:flex-row md:items-center justify-between py-10 md:py-14 border-b border-border/50 transition-all duration-700 hover:px-8"
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             <span className="text-sm font-mono tracking-widest text-muted-foreground uppercase mb-4 md:mb-0 transition-colors duration-500 group-hover:text-foreground">
                                 {t('sendEmail')}
@@ -113,6 +115,6 @@ export default function Contact() {
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

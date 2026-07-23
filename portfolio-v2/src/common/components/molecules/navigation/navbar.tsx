@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { useLenis } from "@/common/providers/smooth-scroll-provider";
 import { ThemeSwitcher } from "@/common/components/widgets/theme-switcher";
 import { LanguageSwitcher } from "@/common/components/widgets/language-switcher";
+import { SecondaryLogo } from "@/common/components/atoms/icons/brand";
 import { cn } from "@/common/utils/ui";
 
 export function Navbar() {
@@ -145,7 +146,7 @@ export function Navbar() {
           backdropFilter,
           WebkitBackdropFilter: backdropFilter,
         }}
-        className="absolute inset-0 bg-background/75 border-b border-border/40 -z-10 pointer-events-none"
+        className="absolute inset-0 bg-background/75 border-b border-border-secondary -z-10 pointer-events-none"
       />
 
       <motion.nav
@@ -159,13 +160,12 @@ export function Navbar() {
           onClick={(e) => scrollToSection(e, "#home")}
           className="relative z-110 flex items-center gap-2 group"
         >
-          {/* NOTE: PLACE FOR LOGO BRAND */}
-          <span className={cn(
-            "text-xl sm:text-2xl font-black tracking-tighter uppercase transition-colors duration-300 group-hover:opacity-70",
-            isPastHero ? "text-foreground" : "text-white"
-          )}>
-            quanngynx
-          </span>
+          <SecondaryLogo
+            className={cn(
+              "h-6 sm:h-12 w-auto transition-colors duration-300 group-hover:opacity-70",
+              isPastHero ? "text-foreground" : "text-white"
+            )}
+          />
         </Link>
 
         <div className="hidden xl:flex items-center gap-8">
@@ -175,34 +175,25 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   onClick={(e) => scrollToSection(e, link.href)}
-                  className={cn(
-                    "relative text-xs font-bold uppercase tracking-[0.2em] transition-colors duration-300 group py-2",
-                    isPastHero ? "text-white/80 hover:text-white" : "text-black hover:text-black/70"
-                  )}
+                  className="relative text-xs font-bold uppercase tracking-[0.2em] text-foreground/80 hover:text-foreground transition-colors duration-300 group py-2"
                 >
                   {link.name}
-                  <span className={cn(
-                    "absolute bottom-0 left-0 w-0 h-px transition-all duration-300 group-hover:w-full",
-                    isPastHero ? "bg-white" : "bg-black"
-                  )} />
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-foreground transition-all duration-300 group-hover:w-full" />
                 </Link>
               </li>
             ))}
           </ul>
 
           <div className="flex items-center gap-3">
-            <LanguageSwitcher isPastHero={isPastHero} />
-            <ThemeSwitcher isPastHero={isPastHero} />
+            <LanguageSwitcher />
+            <ThemeSwitcher />
           </div>
         </div>
 
         <div className="flex xl:hidden items-center gap-4">
           <button
             onClick={() => setIsMobileMenuOpen(prev => !prev)}
-            className={cn(
-              "relative z-110 p-2 focus:outline-none transition-colors duration-300",
-              isPastHero ? "text-white" : "text-black"
-            )}
+            className="relative z-110 p-2 text-foreground focus:outline-none transition-colors duration-300"
             aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -255,8 +246,8 @@ export function Navbar() {
                 className="mt-8 flex items-center justify-between"
               >
                 <div className="flex items-center gap-4">
-                  <LanguageSwitcher isPastHero={true} />
-                  <ThemeSwitcher isPastHero={true} />
+                  <LanguageSwitcher />
+                  <ThemeSwitcher />
                 </div>
               </motion.div>
             </div>
