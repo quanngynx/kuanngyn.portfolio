@@ -17,7 +17,7 @@
     "intro": "I'm a full-stack developer passionate about building modern web experiences.",
     "description": "I have strong hands-on experience in Front-end development using React, TypeScript, and atomic design methodology. Additionally, I've used ExpressJS and NestJS with NodeJS runtime for Back-end development. With a solid background in Agile projects, I'm passionate about using my skills to drive innovative solutions and contribute effectively to dynamic, collaborative teams.",
     "readFullVersion": "Read full version",
-    "full": "Hello! My name is Nguyen Minh Quan (Kintaro). I am a student pursuing a career in software development with a focus on web technologies, responsive UI engineering, and scalable backend architecture. I love combining design aesthetics with robust functional code to deliver memorable user experiences."
+    "full": "Hello! My name is Nguyen Minh Quan (Quanngynx). I am a student pursuing a career in software development with a focus on web technologies, responsive UI engineering, and scalable backend architecture. I love combining design aesthetics with robust functional code to deliver memorable user experiences."
   },
   "Stack": {
     "title": "Tech Stack",
@@ -33,15 +33,53 @@
     "endText": "More Coming Soon",
     "items": [
       {
-        "id": "portfolio-v2",
-        "title": "Kintaro Portfolio",
+        "id": "servexa-warranty-ai",
+        "title": "Servexa Warranty AI",
+        "category": "AI agents & Cloud Platform",
+        "year": "2026",
+        "description": "Agentic AI warranty operation platform for home appliance service centers, featuring RAG-based knowledge retrieval, AI copilot assistance, and Human-in-the-loop approval workflows.",
+        "image": "/main_logo.png",
+        "demo": "https://servxa.io.vn",
+        "repo": "https://github.com/quanngynx/GDGO-2026.Servexa-Warranty-AI",
+        "stack": ["React", "Express", "FastAPI", "PostgreSQL", "pgvector", "gRPC", "LangGraph", "GCP"]
+      },
+      {
+        "id": "quanngynx-portfolio",
+        "title": "Quanngynx Portfolio",
         "category": "Web Development",
         "year": "2026",
         "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, and Tailwind CSS.",
-        "image": "/hero-slider/kintaro-1.webp",
-        "demo": "https://github.com/LOQ-burh",
-        "repo": "https://github.com/LOQ-burh/kuanngyn.portfolio",
+        "image": "/main_logo.png",
+        "demo": "https://github.com/quanngynx",
+        "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
         "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
+      },
+      {
+        "id": "asc",
+        "title": "Customer Service & Warranty Management Platform",
+        "category": "Enterprise System",
+        "year": "2025",
+        "description": "After-sales service management system for LocknLock ASC operations, supporting repair case workflows, accessory inventory, warehouse coordination, and custom reports.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "readdi-ielts",
+        "title": "READDI IELTS Platform",
+        "category": "EdTech Platform",
+        "year": "2025",
+        "description": "Internal IELTS e-learning platform with AI-powered feedback, personalized learning suggestions, test practice, result review, and learning dashboards.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "cores-after-sales",
+        "title": "Home Appliance After-Sales Service Platform",
+        "category": "Internal Management System",
+        "year": "2024 - 2025",
+        "description": "Internal management system for household appliance after-sales service, supporting inventory tracking, warranty activation, partner registration, and role-based access control.",
+        "image": "/main_logo.png",
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       }
     ]
   },
@@ -79,6 +117,8 @@
     "title": "Contact Me",
     "introText": "Interested in working together or have a question? Feel free to reach out anytime!",
     "sendEmail": "Send Email",
+    "sendEmailSubject": "[Portfolio] Business Inquiries",
+    "sendEmailBody": "Hello Minh Quân, I have reviewed your portfolio and am very impressed with the projects you have completed. I would like to discuss the upcoming job position/project with you further. Please reply to this email or contact me at: .................... Sincerely,",
     "directLine": "Direct Line",
     "allRightsReserved": "All rights reserved."
   },

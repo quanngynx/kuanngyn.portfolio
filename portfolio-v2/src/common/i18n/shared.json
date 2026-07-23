@@ -1,25 +1,21 @@
 {
     "contact": {
         "location": "Konya, Türkiye",
-        "email": "mustafw42@gmail.com",
-        "phone": "Not added yet."
+        "email": "nguyenminhquan042004@gmail.com",
+        "phone": "(+84) 374 444 252"
     },
     "social": [
         {
             "label": "GitHub",
-            "href": "https://github.com/xkintaro"
-        },
-        {
-            "label": "Discord",
-            "href": "https://discord.gg/NSQk27Zdkv"
+            "href": "https://github.com/quanngynx"
         },
         {
             "label": "Instagram",
-            "href": "https://instagram.com/xkintaro"
+            "href": "https://instagram.com/ero_eward204"
         },
         {
             "label": "Linkedin",
-            "href": "https://www.linkedin.com/in/mustafa-tasal/"
+            "href": "https://www.linkedin.com/in/quan-nguyen-fcj"
         }
     ],
     "stack": {
@@ -38,10 +34,6 @@
                 "name": "Tailwind CSS",
                 "icon": "/stack/tailwindcss.svg",
                 "featured": true
-            },
-            {
-                "name": "Bootstrap",
-                "icon": "/stack/bootstrap.svg"
             },
             {
                 "name": "Framer Motion",
@@ -70,29 +62,12 @@
                 "icon": "/stack/nodejs.svg"
             },
             {
-                "name": "PHP",
-                "icon": "/stack/php.svg"
-            },
-            {
-                "name": "Laravel",
-                "icon": "/stack/laravel.svg",
-                "featured": true
-            },
-            {
-                "name": "ASP.NET",
-                "icon": "/stack/aspnet.svg"
-            },
-            {
-                "name": "Rust",
-                "icon": "/stack/rust.svg"
-            },
-            {
-                "name": "C#",
-                "icon": "/stack/csharp.svg"
-            },
-            {
                 "name": "Python",
                 "icon": "/stack/python.svg"
+            },
+            {
+                "name": "Golang",
+                "icon": "/stack/go.svg"
             },
             {
                 "name": "Discord.js",
@@ -133,8 +108,12 @@
                 "icon": "/stack/vercel.svg"
             },
             {
-                "name": "Tauri",
-                "icon": "/stack/tauri.svg"
+                "name": "Google Cloud Platform",
+                "icon": "/stack/gcp.svg"
+            },
+            {
+                "name": "Amazon Web Services",
+                "icon": "/stack/aws.svg"
             }
         ]
     }
