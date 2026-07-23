@@ -12,7 +12,11 @@ import {
 } from "@/common/components/atoms/dropdown-menu";
 import { cn } from "@/common/utils/ui";
 
-export function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+    isPastHero?: boolean;
+}
+
+export function LanguageSwitcher({ isPastHero = true }: LanguageSwitcherProps) {
     const locale = useLocale();
     const router = useRouter();
     const pathname = usePathname();
@@ -24,7 +28,14 @@ export function LanguageSwitcher() {
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-                <button className="group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-border/50 bg-background/50 backdrop-blur-md text-foreground transition-all duration-500 hover:bg-foreground hover:text-background hover:border-foreground/30 shadow-sm focus:outline-none">
+                <button
+                    className={cn(
+                        "group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full backdrop-blur-md transition-all duration-500 shadow-sm focus:outline-none",
+                        isPastHero
+                            ? "border border-border/50 bg-background/50 text-foreground hover:bg-foreground hover:text-background hover:border-foreground/30"
+                            : "border border-white/20 bg-white/10 text-white hover:bg-white hover:text-black hover:border-white/40"
+                    )}
+                >
                     <div className="absolute inset-0 flex h-full w-full justify-center -translate-x-full -skew-x-13 group-hover:duration-1000 group-hover:translate-x-full">
                         <div className="relative h-full w-4 bg-background/20 dark:bg-background/20" />
                     </div>
