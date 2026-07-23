@@ -1,0 +1,100 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "stack": "Stack",
+    "projects": "Projects",
+    "roadmap": "Roadmap",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "scrollDown": "Scroll Down",
+    "contactMe": "Contact Me",
+    "exploreProjects": "Explore Projects"
+  },
+  "About": {
+    "title": "About Me",
+    "intro": "I'm a full-stack developer passionate about building modern web experiences.",
+    "description": "I have strong hands-on experience in Front-end development using React, TypeScript, and atomic design methodology. Additionally, I've used ExpressJS and NestJS with NodeJS runtime for Back-end development. With a solid background in Agile projects, I'm passionate about using my skills to drive innovative solutions and contribute effectively to dynamic, collaborative teams.",
+    "readFullVersion": "Read full version",
+    "full": "Hello! My name is Nguyen Minh Quan (Kintaro). I am a student pursuing a career in software development with a focus on web technologies, responsive UI engineering, and scalable backend architecture. I love combining design aesthetics with robust functional code to deliver memorable user experiences."
+  },
+  "Stack": {
+    "title": "Tech Stack",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "database": "Database",
+    "tools": "Tools & Infrastructure"
+  },
+  "Projects": {
+    "title": "Projects",
+    "intro": "A collection of web applications, experiments, and interactive experiences I've built.",
+    "scrollText": "Scroll to explore",
+    "endText": "More Coming Soon",
+    "items": [
+      {
+        "id": "portfolio-v2",
+        "title": "Kintaro Portfolio",
+        "category": "Web Development",
+        "year": "2026",
+        "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, and Tailwind CSS.",
+        "image": "/hero-slider/kintaro-1.webp",
+        "demo": "https://github.com/LOQ-burh",
+        "repo": "https://github.com/LOQ-burh/kuanngyn.portfolio",
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
+      }
+    ]
+  },
+  "Roadmap": {
+    "title": "Roadmap",
+    "description": "Key milestones in my growth as a developer and continuous learning journey.",
+    "items": [
+      {
+        "id": "01",
+        "year": "2023",
+        "description": "Started university journey in Computer Science and mastered HTML, CSS, JavaScript fundamentals.",
+        "stack": ["HTML5", "CSS3", "JavaScript"]
+      },
+      {
+        "id": "02",
+        "year": "2024",
+        "description": "Expanded into modern frontend development with React, TypeScript, and Tailwind CSS.",
+        "stack": ["React", "TypeScript", "Tailwind CSS"]
+      },
+      {
+        "id": "03",
+        "year": "2025",
+        "description": "Built full-stack applications using Next.js App Router, ExpressJS, NestJS, and PostgreSQL.",
+        "stack": ["Next.js", "ExpressJS", "NestJS", "PostgreSQL"]
+      },
+      {
+        "id": "04",
+        "year": "2026",
+        "description": "Refining architecture, UI animations, internationalization, and contributing to open source.",
+        "stack": ["Next.js", "Atomic Design", "next-intl", "Framer Motion"]
+      }
+    ]
+  },
+  "Contact": {
+    "title": "Contact Me",
+    "introText": "Interested in working together or have a question? Feel free to reach out anytime!",
+    "sendEmail": "Send Email",
+    "directLine": "Direct Line",
+    "allRightsReserved": "All rights reserved."
+  },
+  "Modals": {
+    "aboutTitle": "About Me",
+    "contactTitle": "Contact Me",
+    "contactDescription": "Reach out directly via email, phone, or connect on my social channels.",
+    "projectDetails": "Project details for",
+    "aboutProject": "About Project",
+    "technologies": "Technologies Used",
+    "liveDemo": "Live Demo",
+    "sourceCode": "Source Code"
+  },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "Please double-check the browser address bar or use navigation to go to a known page.",
+    "goHome": "Go to home"
+  }
+}

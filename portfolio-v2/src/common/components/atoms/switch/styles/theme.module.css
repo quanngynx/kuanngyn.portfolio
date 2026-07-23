@@ -1,0 +1,20 @@
+.light-mode {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 250vw;
+    height: 250vw;
+    border-radius: 50%;
+    /* background: rgb(253,251,251); */
+    /* background: linear-gradient(120deg, rgba(253,251,251,1) 0%, rgba(235,237,238,1) 100%); */
+    transform: scale(0);
+    transition: 1000ms ease-in-out;
+    display: flex;  
+    flex: 0 0 auto;
+}
+
+.light-mode.active {
+    transform: scale(1);
+    transition: 1000ms ease-in-out;
+}
