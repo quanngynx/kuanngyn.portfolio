@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useTranslations, useMessages } from "next-intl";
 import { cn } from "@/common/utils/ui";
 import { BlurReveal } from "@/common/components/effects/blur-reveal";
+import { StoryModal, StoryItem } from "@/common/components/molecules/modals/story-modal";
 
 export type RoadmapItem = {
     id: string;
@@ -13,12 +14,65 @@ export type RoadmapItem = {
     stack: string[];
 };
 
+const STORY_MOCK_MAP: Record<string, Partial<StoryItem>> = {
+    "01": {
+        title: "Foundation & Computer Science Journey",
+        category: "Milestone 2023",
+        image: "/hero-slider/amncu2ytwgk1u3entffj.webp",
+        repo: "https://github.com/quanngynx",
+        demo: "https://github.com/quanngynx",
+    },
+    "02": {
+        title: "Modern Frontend & UI Engineering",
+        category: "Milestone 2024",
+        image: "/hero-slider/cosirjjoqyzvjq7v0lf5.webp",
+        repo: "https://github.com/quanngynx",
+        demo: "https://github.com/quanngynx",
+    },
+    "03": {
+        title: "Full-Stack Web & Ecosystem Scalability",
+        category: "Milestone 2025",
+        image: "/hero-slider/mjcsiedxyrnajenusw2t.webp",
+        repo: "https://github.com/quanngynx",
+        demo: "https://github.com/quanngynx",
+    },
+    "04": {
+        title: "Architecture, i18n & Agentic AI Systems",
+        category: "Milestone 2026",
+        image: "/main_logo.png",
+        repo: "https://github.com/quanngynx",
+        demo: "https://github.com/quanngynx",
+    },
+};
+
+const getStoryItemFromRoadmapNode = (item: RoadmapItem): StoryItem => {
+    const mock = STORY_MOCK_MAP[item.id] || {};
+    return {
+        id: item.id,
+        title: mock.title || `Year ${item.year} - Milestone ${item.id}`,
+        category: mock.category || `Milestone ${item.year}`,
+        year: item.year,
+        description: item.description,
+        image: mock.image || "/main_logo.png",
+        demo: mock.demo,
+        repo: mock.repo,
+        stack: item.stack,
+    };
+};
+
 export default function Roadmap() {
     const t = useTranslations('Roadmap');
     const messages = useMessages() as unknown as { Roadmap?: { items?: RoadmapItem[] } };
     const roadmapItems: RoadmapItem[] = messages.Roadmap?.items || [];
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const [selectedStory, setSelectedStory] = useState<StoryItem | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenStory = (item: RoadmapItem) => {
+        setSelectedStory(getStoryItemFromRoadmapNode(item));
+        setIsModalOpen(true);
+    };
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -83,16 +137,31 @@ export default function Roadmap() {
                                 key={item.id}
                                 item={item}
                                 isEven={index % 2 === 0}
+                                onSelect={handleOpenStory}
                             />
                         ))}
                     </div>
                 </div>
             </div>
+
+            <StoryModal
+                open={isModalOpen}
+                onOpenChange={setIsModalOpen}
+                project={selectedStory}
+            />
         </section>
     );
 }
 
-const TimelineNode = ({ item, isEven }: { item: RoadmapItem, isEven: boolean }) => {
+const TimelineNode = ({
+    item,
+    isEven,
+    onSelect,
+}: {
+    item: RoadmapItem;
+    isEven: boolean;
+    onSelect: (item: RoadmapItem) => void;
+}) => {
     return (
         <div className={cn("relative flex items-center justify-between w-full", isEven ? "flex-row" : "flex-row-reverse")}>
 
@@ -108,11 +177,14 @@ const TimelineNode = ({ item, isEven }: { item: RoadmapItem, isEven: boolean }) 
                 )}
             >
                 <BlurReveal>
-                    <div className={cn(
-                        "relative p-8 md:p-10 border border-border/50 bg-secondary/5 backdrop-blur-md overflow-hidden transition-all duration-700 ease-out",
-                        "hover:bg-secondary/20 hover:border-border hover:shadow-2xl",
-                        isEven ? "md:text-right" : "md:text-left"
-                    )}>
+                    <div
+                        onClick={() => onSelect(item)}
+                        className={cn(
+                            "relative p-8 md:p-10 border border-border/50 bg-secondary/5 backdrop-blur-md overflow-hidden transition-all duration-700 ease-out cursor-pointer",
+                            "hover:bg-secondary/20 hover:border-border hover:shadow-2xl hover:-translate-y-1",
+                            isEven ? "md:text-right" : "md:text-left"
+                        )}
+                    >
 
                         <span className={cn(
                             "max-sm:hidden text-xs font-mono tracking-widest text-muted-foreground uppercase flex mb-4",
