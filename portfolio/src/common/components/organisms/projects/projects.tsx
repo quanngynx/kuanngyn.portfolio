@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useTranslations, useMessages } from "next-intl";
 import { useMediaQuery, BREAKPOINTS } from "@/common/hooks/use-media-query";
@@ -11,7 +11,7 @@ import { ProjectItem, ProjectModal } from "@/common/components/molecules/modals/
 export default function Projects() {
     const t = useTranslations('Projects');
     const messages = useMessages() as unknown as { Projects?: { items?: ProjectItem[] } };
-    const projectItems: ProjectItem[] = messages.Projects?.items || [];
+    const projectItems: ProjectItem[] = useMemo(() => messages.Projects?.items || [], [messages]);
 
     const isDesktop = useMediaQuery(BREAKPOINTS.xl);
 

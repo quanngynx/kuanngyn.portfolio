@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { NavigationLink } from './navigationLink';
+import { NavigationLink } from './navigation-link';
 
 export function Navigation() {
     const t = useTranslations('Navigation');

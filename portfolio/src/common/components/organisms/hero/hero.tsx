@@ -3,12 +3,11 @@
 import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useScroll, useTransform, useMotionTemplate, motion } from "framer-motion";
-import { ArrowRight, Mouse } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ContactModal } from "@/common/components/molecules/modals/contact-modal";
 import { InteractiveParticles } from "@/common/components/effects/interactive-particles";
 import { ButtonWithVideo } from "../../atoms/button/button.video";
-import Link from "next/link";
 
 const TRACK_1 = [
     "/hero-slider/amncu2ytwgk1u3entffj.webp",

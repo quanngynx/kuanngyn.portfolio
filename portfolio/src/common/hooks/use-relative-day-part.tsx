@@ -6,11 +6,8 @@ import { timeInMs } from '@/common/utils/time';
  * useRelativeDayPart
  * -----------------------------------------------------------------------------------------------*/
 
-const dayParts = ['morning', 'afternoon', 'evening', 'night'] as const;
-const dayPartPhases = ['early', 'mid', 'late'] as const;
-
-type DayPart = (typeof dayParts)[number];
-type DayPartPhase = (typeof dayPartPhases)[number];
+type DayPart = 'morning' | 'afternoon' | 'evening' | 'night';
+type DayPartPhase = 'early' | 'mid' | 'late';
 
 interface DayPartDefinition {
   startAt: number;
