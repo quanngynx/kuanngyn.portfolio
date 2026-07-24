@@ -1,85 +1,100 @@
-import fs from 'fs/promises';
-import matter from 'gray-matter';
-import path from 'path';
-import { findRepeatingElements } from '../utils/array';
+import fs from 'fs/promises'
+import matter from 'gray-matter'
+import path from 'path'
+import { findRepeatingElements } from '../utils/array'
 
-export const contentTypes = ['article', 'youtube-video', 'talk'] as const;
-export type ContentType = (typeof contentTypes)[number];
+export const contentTypes = ['article', 'youtube-video', 'talk'] as const
+export type ContentType = (typeof contentTypes)[number]
 
 export interface Content {
-  type: ContentType;
-  title: string;
-  description: string;
-  thumbnail: string;
-  slug: string;
-  date: string;
-  tags: string[];
-  body: string;
-  published: boolean;
+  type: ContentType
+  title: string
+  description: string
+  thumbnail: string
+  slug: string
+  date: string
+  tags: string[]
+  body: string
+  published: boolean
+}
+
+const CONTENT_SUBDIRS: Record<ContentType, string> = {
+  article: 'articles',
+  'youtube-video': 'youtube-videos',
+  talk: 'talks',
 }
 
 const getContent = async <T extends Content>(
-  dirPath: string,
+  subDir: string,
   type: ContentType
 ): Promise<T[]> => {
-  const contentPath = path.resolve(process.cwd(), dirPath);
-  const content = await fs.readdir(contentPath);
+  const contentPath = path.join(process.cwd(), 'src', 'lib', 'content', subDir)
 
-  return Promise.all(
-    content
-      .filter((file) => path.extname(file) === '.mdx')
-      .map(async (file) => {
-        const filePath = `${contentPath}/${file}`;
-        const [fileName] = file.split('.');
-        const fileContent = await fs.readFile(filePath, 'utf8');
-        const { data, content } = matter(fileContent);
+  try {
+    const content = await fs.readdir(contentPath)
 
-        return {
-          ...data,
-          body: content,
-          slug: fileName,
-          type,
-        } as T;
-      })
-  );
-};
+    return await Promise.all(
+      content
+        .filter((file) => path.extname(file) === '.mdx')
+        .map(async (file) => {
+          const filePath = path.join(contentPath, file)
+          const [fileName] = file.split('.')
+          const fileContent = await fs.readFile(filePath, 'utf8')
+          const { data, content } = matter(fileContent)
 
-const CONTENT_DIR_PATH = 'src/lib/content';
-const contentPaths: Record<ContentType, string> = {
-  article: `${CONTENT_DIR_PATH}/articles`,
-  'youtube-video': `${CONTENT_DIR_PATH}/youtube-videos`,
-  talk: `${CONTENT_DIR_PATH}/talks`,
-};
+          return {
+            ...data,
+            body: content,
+            slug: fileName,
+            type,
+          } as T
+        })
+    )
+  } catch (error: unknown) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      (error as { code: string }).code === 'ENOENT'
+    ) {
+      return []
+    }
+    throw error
+  }
+}
 
 export class NonUniqueSlugsError extends Error {
   constructor(nonUniqueSlugs: string[]) {
     super(
       `All content slugs must be unique. Found ${nonUniqueSlugs.length} non-unique slugs: ${nonUniqueSlugs.toString()}`
-    );
-    this.name = 'NonUniqueSlugsError';
+    )
+    this.name = 'NonUniqueSlugsError'
   }
 }
-export const getAllContent = async () => {
-  const content = (
-    await Promise.all(
-      Object.entries(contentPaths).map(([contentType, contentPath]) =>
-        getContent(contentPath, contentType as ContentType)
-      )
-    )
-  ).flat();
 
-  const nonUniqueSlugs = findRepeatingElements(content, (entry) => entry.slug);
+export const getAllContent = async (): Promise<Content[]> => {
+  const contentEntries = await Promise.all(
+    Object.entries(CONTENT_SUBDIRS).map(([contentType, subDir]) =>
+      getContent(subDir, contentType as ContentType)
+    )
+  )
+  const content = contentEntries.flat()
+
+  const nonUniqueSlugs = findRepeatingElements(content, (entry) => entry.slug)
   if (nonUniqueSlugs.length) {
-    throw new NonUniqueSlugsError(nonUniqueSlugs);
+    throw new NonUniqueSlugsError(nonUniqueSlugs)
   }
 
   return content.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-};
+  )
+}
 
-export const getContentEntry = async (slug: string) => {
-  const content = await getAllContent();
+export const getContentEntry = async (
+  slug: string
+): Promise<Content | undefined> => {
+  const content = await getAllContent()
 
-  return content.find((content) => content.slug === slug);
-};
+  return content.find((item) => item.slug === slug)
+}
+
