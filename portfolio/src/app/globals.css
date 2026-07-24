@@ -60,6 +60,16 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 /* shadcn-ui only */
 @theme inline {
@@ -173,13 +183,12 @@
 }
 
 @layer components {
-
   .title {
-    @apply text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tighter text-foreground uppercase leading-none;
+    @apply text-4xl leading-none font-bold tracking-tighter text-foreground uppercase lg:text-5xl xl:text-6xl;
   }
 
   .title-counter {
-    @apply text-sm md:text-base font-bold tracking-[0.2em] text-muted-foreground uppercase;
+    @apply text-sm font-bold tracking-[0.2em] text-muted-foreground uppercase md:text-base;
   }
 
   .container-void {
@@ -190,7 +199,8 @@
     opacity: 0 !important;
     pointer-events: none !important;
     transform: translateY(-100%) !important;
-    transition: opacity 0.3s ease, transform 0.3s ease !important;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease !important;
   }
-
 }

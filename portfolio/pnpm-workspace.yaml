@@ -1,0 +1,10 @@
+packages:
+  - .
+
+minimumReleaseAge: 10080
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "@tailwindcss/oxide"
+  - critters
+  - msw
+  - sharp
