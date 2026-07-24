@@ -1,13 +1,13 @@
-import { HTMLMotionProps, motion } from 'framer-motion';
-import { forwardRef } from 'react';
+import { HTMLMotionProps, m } from "framer-motion";
+import { forwardRef } from "react";
 
-import { cn } from '@/common/utils/ui';
+import { cn } from "@/common/utils/ui";
 
 /* -------------------------------------------------------------------------------------------------
  * Video
  * -----------------------------------------------------------------------------------------------*/
 
-interface VideoProps extends Omit<HTMLMotionProps<'video'>, 'src'> {
+interface VideoProps extends Omit<HTMLMotionProps<"video">, "src"> {
   fileName: string;
   disableLinkFallback?: boolean;
 }
@@ -17,10 +17,10 @@ const Video = forwardRef<HTMLVideoElement, VideoProps>(
     {
       fileName,
       className,
-      width = '426',
-      height = '240',
+      width = "426",
+      height = "240",
       controls = false,
-      preload = 'auto',
+      preload = "auto",
       playsInline = true,
       autoPlay = true,
       loop = true,
@@ -28,13 +28,13 @@ const Video = forwardRef<HTMLVideoElement, VideoProps>(
       disableLinkFallback,
       ...rest
     },
-    ref
+    ref,
   ) => (
-    <motion.video
+    <m.video
       ref={ref}
       className={cn(
-        'absolute left-0 top-0 h-full w-full object-cover',
-        className
+        "absolute top-0 left-0 h-full w-full object-cover",
+        className,
       )}
       width={width}
       height={height}
@@ -47,8 +47,8 @@ const Video = forwardRef<HTMLVideoElement, VideoProps>(
       poster={`/videos/${fileName}.webp`}
       {...rest}
     >
-      <source src={`/videos/${fileName}.webm`} type='video/webm' />
-      <source src={`/videos/${fileName}.mp4`} type='video/mp4' />
+      <source src={`/videos/${fileName}.webm`} type="video/webm" />
+      <source src={`/videos/${fileName}.mp4`} type="video/mp4" />
       <p>
         Your browser doesn&apos;t support HTML video.
         {disableLinkFallback ? null : (
@@ -56,16 +56,16 @@ const Video = forwardRef<HTMLVideoElement, VideoProps>(
             Here is a
             <a href={`/videos/${fileName}.mp4`} download={`${fileName}.mp4`}>
               link to the video
-            </a>{' '}
+            </a>{" "}
             instead.
           </>
         )}
       </p>
-    </motion.video>
-  )
+    </m.video>
+  ),
 );
 
-Video.displayName = 'Video';
+Video.displayName = "Video";
 
 /* -----------------------------------------------------------------------------------------------*/
 

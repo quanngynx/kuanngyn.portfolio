@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { domAnimation, LazyMotion, MotionConfig } from "framer-motion";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 export function ThemeProvider({
@@ -12,7 +13,9 @@ export function ThemeProvider({
       {...props}
       scriptProps={{ async: true, suppressHydrationWarning: true }}
     >
-      {children}
+      <LazyMotion features={domAnimation}>
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      </LazyMotion>
     </NextThemesProvider>
   );
 }

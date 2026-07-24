@@ -14,24 +14,29 @@ const DEFAULT_MANIFESTO = [
   "Framer Motion",
 ];
 
-export default function ManifestoFlow({ reverse = false }: { reverse?: boolean }) {
+export default function ManifestoFlow({
+  reverse = false,
+}: {
+  reverse?: boolean;
+}) {
   const manifestoItems = DEFAULT_MANIFESTO;
 
   return (
-    <div className="relative w-full overflow-hidden border-y border-border/50 py-10 select-none pointer-events-none bg-background/50 backdrop-blur-sm">
+    <div className="pointer-events-none relative w-full overflow-hidden border-y border-border/50 bg-background/50 py-10 backdrop-blur-sm select-none">
+      <div className="pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-24 bg-linear-to-r from-background to-transparent md:w-40" />
 
-      <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-linear-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="pointer-events-none absolute top-0 right-0 bottom-0 z-10 w-24 bg-linear-to-l from-background to-transparent md:w-40" />
 
-      <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-linear-to-l from-background to-transparent z-10 pointer-events-none" />
-
-      <div className="flex w-full overflow-hidden marquee-track pointer-events-auto">
-
-        <div className={`animate-scroll flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? 'direction-reverse' : ''}`}>
-          {manifestoItems.map((item: string, index: number) => (
-            <div key={`t1-${index}`} className="flex items-center gap-8 xl:gap-16">
-              <span
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold uppercase text-foreground/25 whitespace-nowrap"
-              >
+      <div className="marquee-track pointer-events-auto flex w-full overflow-hidden">
+        <div
+          className={`flex min-w-full shrink-0 animate-scroll items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? "direction-reverse" : ""}`}
+        >
+          {manifestoItems.map((item: string) => (
+            <div
+              key={`t1-${item}`}
+              className="flex items-center gap-8 xl:gap-16"
+            >
+              <span className="text-4xl font-bold whitespace-nowrap text-foreground/25 uppercase sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                 {item}
               </span>
               <Separator />
@@ -39,21 +44,22 @@ export default function ManifestoFlow({ reverse = false }: { reverse?: boolean }
           ))}
         </div>
 
-        <div className={`animate-scroll flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? 'direction-reverse' : ''}`}>
-          {manifestoItems.map((item: string, index: number) => (
-            <div key={`t2-${index}`} className="flex items-center gap-8 xl:gap-16">
-              <span
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold uppercase text-foreground/25 whitespace-nowrap"
-              >
+        <div
+          className={`flex min-w-full shrink-0 animate-scroll items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? "direction-reverse" : ""}`}
+        >
+          {manifestoItems.map((item: string) => (
+            <div
+              key={`t2-${item}`}
+              className="flex items-center gap-8 xl:gap-16"
+            >
+              <span className="text-4xl font-bold whitespace-nowrap text-foreground/25 uppercase sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
                 {item}
               </span>
               <Separator />
             </div>
           ))}
         </div>
-
       </div>
-
     </div>
   );
 }
