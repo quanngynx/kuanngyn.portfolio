@@ -1,13 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { timeInMs } from '@/common/utils/time';
+import { timeInMs } from "@/common/utils/time";
 
 /* -------------------------------------------------------------------------------------------------
  * useRelativeDayPart
  * -----------------------------------------------------------------------------------------------*/
 
-type DayPart = 'morning' | 'afternoon' | 'evening' | 'night';
-type DayPartPhase = 'early' | 'mid' | 'late';
+type DayPart = "morning" | "afternoon" | "evening" | "night";
+type DayPartPhase = "early" | "mid" | "late";
 
 interface DayPartDefinition {
   startAt: number;
@@ -22,26 +22,26 @@ interface RelativeDayPart extends DayPartDefinition {
 const getHourPhaseForDayPart = (
   hour: number,
   partStartAt: number,
-  partEndAt: number
+  partEndAt: number,
 ): DayPartPhase => {
   const partDuration = (partEndAt || 24) - partStartAt;
   const partCompletionPercentage =
     Math.floor((hour - partStartAt) / partDuration) * 100;
 
   if (partCompletionPercentage > 80) {
-    return 'late';
+    return "late";
   }
   if (partCompletionPercentage > 20) {
-    return 'mid';
+    return "mid";
   }
-  return 'early';
+  return "early";
 };
 
 const startHoursDescending = [
-  { startAt: 18, part: 'evening' },
-  { startAt: 12, part: 'afternoon' },
-  { startAt: 6, part: 'morning' },
-  { startAt: 0, part: 'night' },
+  { startAt: 18, part: "evening" },
+  { startAt: 12, part: "afternoon" },
+  { startAt: 6, part: "morning" },
+  { startAt: 0, part: "night" },
 ] satisfies { part: DayPart; startAt: number }[];
 
 const dayPartsInfoDescending = startHoursDescending.map(
@@ -52,7 +52,7 @@ const dayPartsInfoDescending = startHoursDescending.map(
       ]?.startAt;
 
     if (endAt === undefined) {
-      throw new Error('Cannot find endAt hour');
+      throw new Error("Cannot find endAt hour");
     }
 
     return {
@@ -60,7 +60,7 @@ const dayPartsInfoDescending = startHoursDescending.map(
       part,
       endAt,
     } satisfies DayPartDefinition;
-  }
+  },
 );
 
 /* -----------------------------------------------------------------------------------------------*/
@@ -73,36 +73,34 @@ const generateLatestTimestamp = () => {
 
 const useRelativeDayPart = (refreshDelay = DEFAULT_REFRESH_DELAY) => {
   const [latestTimestamp, setLatestTimestamp] = useState(
-    generateLatestTimestamp()
+    generateLatestTimestamp,
   );
 
   useEffect(() => {
     const intervalId = setInterval(
       () => setLatestTimestamp(generateLatestTimestamp()),
-      refreshDelay
+      refreshDelay,
     );
 
     return () => clearInterval(intervalId);
   }, [refreshDelay]);
 
-  return useMemo<RelativeDayPart>(() => {
-    const date = new Date(latestTimestamp);
-    const hour = date.getHours();
+  const date = new Date(latestTimestamp);
+  const hour = date.getHours();
 
-    const info = dayPartsInfoDescending.find(({ startAt }) => startAt <= hour);
-    if (!info) {
-      throw new Error(
-        'Cannot find information about the current part of the day'
-      );
-    }
+  const info = dayPartsInfoDescending.find(({ startAt }) => startAt <= hour);
+  if (!info) {
+    throw new Error(
+      "Cannot find information about the current part of the day",
+    );
+  }
 
-    const phase = getHourPhaseForDayPart(hour, info.startAt, info.endAt);
+  const phase = getHourPhaseForDayPart(hour, info.startAt, info.endAt);
 
-    return { ...info, phase };
-  }, [latestTimestamp]);
+  return { ...info, phase } satisfies RelativeDayPart;
 };
 
-useRelativeDayPart.displayName = 'useRelativeDayPart';
+useRelativeDayPart.displayName = "useRelativeDayPart";
 
 /* -----------------------------------------------------------------------------------------------*/
 
