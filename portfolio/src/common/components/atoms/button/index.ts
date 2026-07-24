@@ -1,2 +1,1 @@
-export * from './button.submit';
-export * from './button.shine';
+export * from "./button.shine";
