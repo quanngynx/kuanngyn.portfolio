@@ -58,7 +58,7 @@
         "category": "EdTech Platform (Freelance)",
         "year": "2025",
         "description": "Internal IELTS e-learning platform featuring AI-powered feedback and personalized learning suggestions. Implemented 15+ responsive UI screens, TanStack Query caching, Redux Toolkit state management, SSR/CSR optimizations, and 20+ NestJS REST API integrations.",
-        "image": "/projects/readi.png",
+        "image": "/projects/readi.webp",
         "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
       },
       {
@@ -67,7 +67,7 @@
         "category": "Internal Management (Quoc Bao Software)",
         "year": "2024 - 2025",
         "description": "Internal management system for household appliance after-sales service. Features inventory tracking, warranty activation, BigShop/partner account registration, user group management, and role-based permission control.",
-        "image": "/projects/cores.png",
+        "image": "/projects/cores.webp",
         "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
