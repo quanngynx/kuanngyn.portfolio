@@ -85,7 +85,8 @@ export default function Stack() {
                               alt={item.name}
                               width={20}
                               height={20}
-                              unoptimized={item.icon.endsWith(".svg")}
+                              style={{ width: 'auto', height: 'auto' }}
+                              unoptimized={item.icon.endsWith('.svg')}
                             />
                           </div>
                           <span className="text-sm tracking-wide text-muted-foreground transition-colors duration-500 ease-out group-hover:text-foreground">
@@ -107,8 +108,9 @@ export default function Stack() {
                             alt={item.name}
                             width={36}
                             height={36}
-                            className="drop-shadow-lg"
-                            unoptimized={item.icon.endsWith(".svg")}
+                            className='drop-shadow-lg'
+                            style={{ width: 'auto', height: 'auto' }}
+                            unoptimized={item.icon.endsWith('.svg')}
                           />
                         </div>
                         <div className="z-10 flex flex-col items-center justify-center gap-1">
