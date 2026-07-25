@@ -58,7 +58,7 @@
         "category": "Nền tảng Giáo dục (Freelance)",
         "year": "2025",
         "description": "Nền tảng học trực tuyến IELTS nội bộ tích hợp phản hồi tự động bằng AI và gợi ý lộ trình học cá nhân hóa. Phát triển 15+ màn hình UI responsive, quản lý cache với TanStack Query, Redux Toolkit, tối ưu SSR/CSR và tích hợp 20+ REST API từ NestJS.",
-        "image": "/projects/readi.png",
+        "image": "/projects/readi.webp",
         "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
       },
       {
@@ -67,7 +67,7 @@
         "category": "Quản lý Nội bộ (Phần mềm Quốc Bảo)",
         "year": "2024 - 2025",
         "description": "Hệ thống quản lý nội bộ dịch vụ hậu mãi thiết bị gia dụng tại Công ty Phần mềm Quốc Bảo. Hỗ trợ theo dõi tồn kho, kích hoạt bảo hành, đăng ký tài khoản BigShop/đối tác và phân quyền theo vai trò.",
-        "image": "/projects/cores.png",
+        "image": "/projects/cores.webp",
         "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
