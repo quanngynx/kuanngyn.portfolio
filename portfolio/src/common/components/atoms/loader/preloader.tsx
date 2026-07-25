@@ -95,11 +95,12 @@ export function Preloader() {
               <div className="absolute inset-3 rounded-full border border-border/50 bg-secondary/5 backdrop-blur-md" />
 
               <Image
-                src="/main_logo.png"
-                alt="Logo"
+                src='/main_logo.png'
+                alt='Logo'
                 width={56}
                 height={56}
-                className="z-10 object-contain"
+                className='z-10 object-contain'
+                style={{ width: '56px', height: '56px' }}
                 priority
               />
             </div>

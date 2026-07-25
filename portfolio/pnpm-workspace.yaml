@@ -2,9 +2,12 @@ packages:
   - .
 
 minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - eslint-import-resolver-typescript@3.10.1
+  - semver@6.3.1
 onlyBuiltDependencies:
   - "@parcel/watcher"
   - "@tailwindcss/oxide"
-  - critters
   - msw
   - sharp

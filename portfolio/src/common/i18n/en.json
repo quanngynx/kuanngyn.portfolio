@@ -14,10 +14,10 @@
   },
   "About": {
     "title": "About Me",
-    "intro": "I'm a full-stack developer passionate about building modern web experiences.",
-    "description": "I have strong hands-on experience in Front-end development using React, TypeScript, and atomic design methodology. Additionally, I've used ExpressJS and NestJS with NodeJS runtime for Back-end development. With a solid background in Agile projects, I'm passionate about using my skills to drive innovative solutions and contribute effectively to dynamic, collaborative teams.",
+    "intro": "A dynamic web developer and aspiring Solution Architect with hands-on experience building internal business operation systems.",
+    "description": "Experienced in developing management dashboards, warranty workflows, inventory modules, permission-based systems, and AI-assisted operation tools. Comfortable working across frontend and backend, integrating REST APIs, collaborating with PMs and stakeholders, and translating operational requirements into maintainable software features.",
     "readFullVersion": "Read full version",
-    "full": "Hello! My name is Nguyen Minh Quan (Quanngynx). I am a student pursuing a career in software development with a focus on web technologies, responsive UI engineering, and scalable backend architecture. I love combining design aesthetics with robust functional code to deliver memorable user experiences."
+    "full": "Hello! My name is Nguyen Minh Quan (Quanngynx), a Software Engineer and Bachelor of Software Engineering student at Ho Chi Minh City University of Foreign Languages – Information Technology (HUFLIT). I have hands-on experience developing internal business operation systems at Quoc Bao Software Company, after-sales & warranty management platforms for LocknLock ASC operations, household appliance platforms for CORES, AI-powered IELTS e-learning systems, and agentic AI warranty operation tools (Servexa Warranty AI). My long-term goal is to become a Solution Architect capable of designing reliable, scalable, and business-aligned systems."
   },
   "Stack": {
     "title": "Tech Stack",
@@ -28,88 +28,88 @@
   },
   "Projects": {
     "title": "Projects",
-    "intro": "A collection of web applications, experiments, and interactive experiences I've built.",
+    "intro": "A collection of web applications, enterprise systems, and AI-assisted platforms I've built.",
     "scrollText": "Scroll to explore",
     "endText": "More Coming Soon",
     "items": [
       {
         "id": "servexa-warranty-ai",
         "title": "Servexa Warranty AI",
-        "category": "AI agents & Cloud Platform",
+        "category": "Agentic AI & Cloud Platform",
         "year": "2026",
-        "description": "Agentic AI warranty operation platform for home appliance service centers, featuring RAG-based knowledge retrieval, AI copilot assistance, and Human-in-the-loop approval workflows.",
+        "description": "Agentic AI warranty operation platform for home appliance service centers. Features repair case management, RAG knowledge retrieval (PostgreSQL/pgvector), AI copilot assistance, and Human-in-the-loop approval workflows.",
         "image": "/main_logo.png",
         "demo": "https://servxa.io.vn",
-        "repo": "https://github.com/quanngynx/GDGO-2026.Servexa-Warranty-AI",
-        "stack": ["React", "Express", "FastAPI", "PostgreSQL", "pgvector", "gRPC", "LangGraph", "GCP"]
+        "repo": "https://github.com/quanngynx/servexa-warranty-ai",
+        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"]
       },
       {
-        "id": "quanngynx-portfolio",
-        "title": "Quanngynx Portfolio",
-        "category": "Web Development",
-        "year": "2026",
-        "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, and Tailwind CSS.",
-        "image": "/main_logo.png",
-        "demo": "https://github.com/quanngynx",
-        "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
-      },
-      {
-        "id": "asc",
-        "title": "Customer Service & Warranty Management Platform",
-        "category": "Enterprise System",
+        "id": "locknlock-asc",
+        "title": "Customer Service & Warranty Platform",
+        "category": "Enterprise System (Quoc Bao Software)",
         "year": "2025",
-        "description": "After-sales service management system for LocknLock ASC operations, supporting repair case workflows, accessory inventory, warehouse coordination, and custom reports.",
+        "description": "Internal after-sales service management system for LocknLock ASC operations. Supports repair case workflows, warranty processing, accessory inventory tracking, warehouse coordination, role-based permission control, and Excel/PDF reports.",
         "image": "/main_logo.png",
         "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
       },
       {
         "id": "readdi-ielts",
-        "title": "READDI IELTS Platform",
-        "category": "EdTech Platform",
+        "title": "AI-powered IELTS E-learning Platform",
+        "category": "EdTech Platform (Freelance)",
         "year": "2025",
-        "description": "Internal IELTS e-learning platform with AI-powered feedback, personalized learning suggestions, test practice, result review, and learning dashboards.",
+        "description": "Internal IELTS e-learning platform featuring AI-powered feedback and personalized learning suggestions. Implemented 15+ responsive UI screens, TanStack Query caching, Redux Toolkit state management, SSR/CSR optimizations, and 20+ NestJS REST API integrations.",
         "image": "/main_logo.png",
-        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis"]
+        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
       },
       {
         "id": "cores-after-sales",
-        "title": "Home Appliance After-Sales Service Platform",
-        "category": "Internal Management System",
+        "title": "Home Appliance After-Sales Platform",
+        "category": "Internal Management (Quoc Bao Software)",
         "year": "2024 - 2025",
-        "description": "Internal management system for household appliance after-sales service, supporting inventory tracking, warranty activation, partner registration, and role-based access control.",
+        "description": "Internal management system for household appliance after-sales service. Features inventory tracking, warranty activation, BigShop/partner account registration, user group management, and role-based permission control.",
         "image": "/main_logo.png",
         "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
+      },
+      {
+        "id": "quanngynx-portfolio",
+        "title": "Quanngynx Portfolio",
+        "category": "Web Engineering",
+        "year": "2026",
+        "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, next-intl i18n, and Tailwind CSS.",
+        "image": "/main_logo.png",
+        "demo": "https://github.com/quanngynx",
+        "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"]
       }
     ]
   },
   "Roadmap": {
     "title": "Roadmap",
-    "description": "Key milestones in my growth as a developer and continuous learning journey.",
+    "description": "Key milestones in my growth as a Software Engineer and continuous learning journey.",
     "items": [
       {
         "id": "01",
-        "year": "2023",
-        "description": "Started university journey in Computer Science and mastered HTML, CSS, JavaScript fundamentals.",
-        "stack": ["HTML5", "CSS3", "JavaScript"]
+        "year": "2022 - 2023",
+        "description": "Started Bachelor of Software Engineering at HUFLIT University, mastering HTML, CSS, JavaScript, and programming fundamentals.",
+        "stack": ["HTML5", "CSS3", "JavaScript", "Python"]
       },
       {
         "id": "02",
         "year": "2024",
-        "description": "Expanded into modern frontend development with React, TypeScript, and Tailwind CSS.",
-        "stack": ["React", "TypeScript", "Tailwind CSS"]
+        "description": "Joined Quoc Bao Software Company as Web Developer. Built Home Appliance After-Sales Service Platform (BigShop module, warranty activation, inventory tracking).",
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
         "id": "03",
         "year": "2025",
-        "description": "Built full-stack applications using Next.js App Router, ExpressJS, NestJS, and PostgreSQL.",
-        "stack": ["Next.js", "ExpressJS", "NestJS", "PostgreSQL"]
+        "description": "Developed LocknLock ASC Warranty Management System at Quoc Bao Software and built AI-powered IELTS E-learning Platform as a Freelance project.",
+        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"]
       },
       {
         "id": "04",
         "year": "2026",
-        "description": "Refining architecture, UI animations, internationalization, and contributing to open source.",
-        "stack": ["Next.js", "Atomic Design", "next-intl", "Framer Motion"]
+        "description": "Developed Servexa Warranty AI agentic platform (FastAPI, LangGraph, gRPC, pgvector, GCP) and completing Software Engineering degree at HUFLIT.",
+        "stack": ["FastAPI", "LangGraph", "gRPC", "pgvector", "GCP", "Docker"]
       }
     ]
   },

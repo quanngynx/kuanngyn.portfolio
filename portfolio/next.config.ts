@@ -55,7 +55,6 @@ const nextConfig: NextConfig = {
         ...experimental,
         authInterrupts: true,
         inlineCss: true,
-        optimizeCss: true,
         optimizeServerReact: true,
         scrollRestoration: true,
 
