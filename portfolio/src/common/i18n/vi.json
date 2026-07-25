@@ -39,9 +39,9 @@
         "year": "2026",
         "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng. Tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG (PostgreSQL/pgvector), trợ lý AI copilot và quy trình phê duyệt Human-in-the-loop cho các thao tác do AI tạo.",
         "image": "/projects/servexa-warranty-ai.svg",
-        "demo": "https://servxa.io.vn",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
-        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"]
+        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"],
+        "deepwiki": "https://deepwiki.com/quanngynx/servexa-warranty-ai"
       },
       {
         "id": "locknlock-asc",
@@ -79,7 +79,8 @@
         "image": "/main_logo.png",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"]
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"],
+        "deepwiki": "https://deepwiki.com/quanngynx/kuanngyn.portfolio"
       }
     ]
   },
@@ -130,7 +131,8 @@
     "aboutProject": "Về dự án",
     "technologies": "Công nghệ sử dụng",
     "liveDemo": "Xem trực tiếp",
-    "sourceCode": "Mã nguồn"
+    "sourceCode": "Mã nguồn",
+    "deepwikiDocs": "DeepWiki"
   },
   "NotFound": {
     "title": "Không tìm thấy trang",

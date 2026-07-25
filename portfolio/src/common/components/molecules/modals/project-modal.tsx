@@ -11,6 +11,7 @@ import { useLenisModal } from "@/common/hooks/use-lenis-modal";
 import { GitBranch, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { ShineButton } from "@/common/components/atoms/button/button.shine";
+import { DeepWikiLogo } from "../../atoms/icons/deepwiki";
 
 export type ProjectItem = {
     id: string;
@@ -21,6 +22,7 @@ export type ProjectItem = {
     image: string;
     demo?: string;
     repo?: string;
+    deepwiki?: string;
     stack?: string[];
 };
 
@@ -40,7 +42,7 @@ export function ProjectModal({ open, onOpenChange, project }: ProjectModalProps)
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 showCloseButton={true}
-                className="flex flex-col sm:max-w-[800px] w-[95vw] max-h-[90vh] p-0 gap-0 border-border/50 bg-background/95 backdrop-blur-xl shrink-0"
+                className="flex flex-col sm:max-w-200 w-[95vw] max-h-[90vh] p-0 gap-0 border-border/50 bg-background/95 backdrop-blur-xl shrink-0"
             >
                 <DialogHeader className="sr-only">
                     <DialogTitle>{project.title}</DialogTitle>
@@ -126,6 +128,19 @@ export function ProjectModal({ open, onOpenChange, project }: ProjectModalProps)
                                         <span className="relative z-10 flex items-center gap-2 text-xs sm:text-sm font-medium tracking-widest uppercase">
                                             {tModals('sourceCode')}
                                             <GitBranch className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" />
+                                        </span>
+                                    </ShineButton>
+                                )}
+
+                                {project.repo && (
+                                    <ShineButton
+                                        href={project.deepwiki ?? ''}
+                                        className="h-12 bg-secondary/10 backdrop-blur-md px-6 sm:px-8 text-foreground hover:bg-foreground hover:text-background shadow-sm hover:-translate-y-1"
+                                        shineClassName="w-8 bg-foreground/10 dark:bg-background/20"
+                                    >
+                                        <span className="relative z-10 flex items-center gap-2 text-xs sm:text-sm font-medium tracking-widest uppercase">
+                                            {tModals('deepwikiDocs')}
+                                            <DeepWikiLogo className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" />
                                         </span>
                                     </ShineButton>
                                 )}

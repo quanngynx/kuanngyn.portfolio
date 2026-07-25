@@ -39,9 +39,9 @@
         "year": "2026",
         "description": "Agentic AI warranty operation platform for home appliance service centers. Features repair case management, RAG knowledge retrieval (PostgreSQL/pgvector), AI copilot assistance, and Human-in-the-loop approval workflows.",
         "image": "/projects/servexa-warranty-ai.svg",
-        "demo": "https://servxa.io.vn",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
-        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"]
+        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"],
+        "deepwiki": "https://deepwiki.com/quanngynx/servexa-warranty-ai"
       },
       {
         "id": "locknlock-asc",
@@ -55,7 +55,7 @@
       {
         "id": "readdi-ielts",
         "title": "AI-powered IELTS E-learning Platform",
-        "category": "EdTech Platform (Freelance)",
+        "category": "EdTech Platform (Freelance Project)",
         "year": "2025",
         "description": "Internal IELTS e-learning platform featuring AI-powered feedback and personalized learning suggestions. Implemented 15+ responsive UI screens, TanStack Query caching, Redux Toolkit state management, SSR/CSR optimizations, and 20+ NestJS REST API integrations.",
         "image": "/projects/readi.webp",
@@ -79,7 +79,8 @@
         "image": "/secondary_logo.svg",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"]
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"],
+        "deepwiki": "https://deepwiki.com/quanngynx/kuanngyn.portfolio"
       }
     ]
   },
@@ -130,7 +131,8 @@
     "aboutProject": "About Project",
     "technologies": "Technologies Used",
     "liveDemo": "Live Demo",
-    "sourceCode": "Source Code"
+    "sourceCode": "Source Code",
+    "deepwikiDocs": "DeepWiki Documents"
   },
   "NotFound": {
     "title": "Page Not Found",
