@@ -14,10 +14,10 @@
   },
   "About": {
     "title": "Giới thiệu",
-    "intro": "Tôi là một lập trình viên Full-stack đam mê xây dựng các trải nghiệm web hiện đại.",
-    "description": "Tôi có kinh nghiệm thực tế trong phát triển Front-end sử dụng React, TypeScript và phương pháp thiết kế Atomic Design. Bên cạnh đó, tôi đã sử dụng ExpressJS và NestJS trên môi trường NodeJS cho phát triển Back-end. Với nền tảng vững chắc trong các dự án Agile, tôi đam mê áp dụng kỹ năng của mình để tạo ra giải pháp sáng tạo và đóng góp hiệu quả cho đội ngũ năng động.",
+    "intro": "Lập trình viên Web năng động và Định hướng Solution Architect với kinh nghiệm thực tế phát triển các hệ thống vận hành doanh nghiệp nội bộ.",
+    "description": "Có kinh nghiệm phát triển dashboard quản lý, quy trình bảo hành, phân hệ tồn kho, hệ thống phân quyền và các công cụ vận hành ứng dụng AI. Làm việc thành thạo trên cả Frontend & Backend, tích hợp REST API, phối hợp cùng PM và đối tác kinh doanh để chuyển hóa yêu cầu vận hành thành tính năng phần mềm dễ bảo trì.",
     "readFullVersion": "Xem bản đầy đủ",
-    "full": "Xin chào! Tôi là Nguyễn Minh Quân (Quanngynx). Tôi là sinh viên đang theo đuổi sự nghiệp phát triển phần mềm với trọng tâm là công nghệ web, thiết kế giao diện tương thích và kiến trúc backend có thể mở rộng. Tôi yêu thích việc kết hợp thẩm mỹ thiết kế với mã nguồn vững chắc để mang đến trải nghiệm người dùng ấn tượng."
+    "full": "Xin chào! Tôi là Nguyễn Minh Quân (Quanngynx), Lập trình viên Phần mềm và Sinh viên chuyên ngành Kỹ thuật Phần mềm tại Trường Đại học Ngoại ngữ – Tin học TP.HCM (HUFLIT). Tôi có kinh nghiệm thực tế phát triển các hệ thống vận hành nội bộ tại Công ty Phần mềm Quốc Bảo, nền tảng quản lý dịch vụ hậu mãi & bảo hành LocknLock ASC, hệ thống thiết bị gia dụng CORES, nền tảng học IELTS trực tuyến ứng dụng AI và công cụ vận hành bảo hành AI agentic (Servexa Warranty AI). Mục tiêu dài hạn của tôi là trở thành Solution Architect có khả năng thiết kế các hệ thống tin cậy, mở rộng và bám sát nhu cầu kinh doanh."
   },
   "Stack": {
     "title": "Công nghệ",
@@ -28,7 +28,7 @@
   },
   "Projects": {
     "title": "Dự án",
-    "intro": "Bộ sưu tập các ứng dụng web, thử nghiệm và sản phẩm tương tác tôi đã xây dựng.",
+    "intro": "Bộ sưu tập các ứng dụng web, hệ thống doanh nghiệp và nền tảng ứng dụng AI tôi đã phát triển.",
     "scrollText": "Cuộn để khám phá",
     "endText": "Sắp ra mắt thêm",
     "items": [
@@ -37,79 +37,79 @@
         "title": "Servexa Warranty AI",
         "category": "Nền tảng AI & Cloud",
         "year": "2026",
-        "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng, tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG, trợ lý AI Copilot và quy trình phê duyệt Human-in-the-loop.",
+        "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng. Tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG (PostgreSQL/pgvector), trợ lý AI copilot và quy trình phê duyệt Human-in-the-loop cho các thao tác do AI tạo.",
         "image": "/main_logo.png",
         "demo": "https://servxa.io.vn",
-        "repo": "https://github.com/quanngynx/GDGO-2026.Servexa-Warranty-AI",
-        "stack": ["React", "Express", "FastAPI", "PostgreSQL", "pgvector", "gRPC", "LangGraph", "GCP"]
+        "repo": "https://github.com/quanngynx/servexa-warranty-ai",
+        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"]
+      },
+      {
+        "id": "locknlock-asc",
+        "title": "Hệ thống Quản lý LocknLock ASC",
+        "category": "Hệ thống Doanh nghiệp (Phần mềm Quốc Bảo)",
+        "year": "2025",
+        "description": "Hệ thống quản lý dịch vụ hậu mãi nội bộ cho vận hành LocknLock ASC tại Công ty Phần mềm Quốc Bảo. Hỗ trợ quy trình sửa chữa, bảo hành, quản lý tồn kho linh kiện, điều phối kho, phân quyền người dùng và xuất báo cáo Excel/PDF.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
+      },
+      {
+        "id": "readdi-ielts",
+        "title": "Nền tảng Học IELTS Ứng dụng AI",
+        "category": "Nền tảng Giáo dục (Freelance)",
+        "year": "2025",
+        "description": "Nền tảng học trực tuyến IELTS nội bộ tích hợp phản hồi tự động bằng AI và gợi ý lộ trình học cá nhân hóa. Phát triển 15+ màn hình UI responsive, quản lý cache với TanStack Query, Redux Toolkit, tối ưu SSR/CSR và tích hợp 20+ REST API từ NestJS.",
+        "image": "/main_logo.png",
+        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
+      },
+      {
+        "id": "cores-after-sales",
+        "title": "Hệ thống Hậu mãi Thiết bị Gia dụng",
+        "category": "Quản lý Nội bộ (Phần mềm Quốc Bảo)",
+        "year": "2024 - 2025",
+        "description": "Hệ thống quản lý nội bộ dịch vụ hậu mãi thiết bị gia dụng tại Công ty Phần mềm Quốc Bảo. Hỗ trợ theo dõi tồn kho, kích hoạt bảo hành, đăng ký tài khoản BigShop/đối tác và phân quyền theo vai trò.",
+        "image": "/main_logo.png",
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
         "id": "quanngynx-portfolio",
         "title": "Quanngynx Portfolio",
         "category": "Phát triển Web",
         "year": "2026",
-        "description": "Trang web cá nhân tương tác hiện đại được xây dựng với Next.js App Router, Framer Motion, Lenis scroll và Tailwind CSS.",
+        "description": "Trang web cá nhân tương tác hiện đại được xây dựng với Next.js App Router, Framer Motion, Lenis scroll, next-intl i18n và Tailwind CSS.",
         "image": "/main_logo.png",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"]
-      },
-      {
-        "id": "locknlock-asc",
-        "title": "Hệ thống Quản lý LocknLock ASC",
-        "category": "Hệ thống Doanh nghiệp",
-        "year": "2025",
-        "description": "Hệ thống quản lý dịch vụ hậu mãi cho vận hành LocknLock ASC, hỗ trợ quy trình sửa chữa, bảo hành, quản lý kho linh kiện, điều phối kho và xuất báo cáo.",
-        "image": "/main_logo.png",
-        "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
-      },
-      {
-        "id": "readdi-ielts",
-        "title": "Nền tảng Nâng cao IELTS READDI",
-        "category": "Nền tảng Giáo dục",
-        "year": "2025",
-        "description": "Nền tảng học trực tuyến IELTS nội bộ tích hợp chấm điểm và phản hồi tự động bằng AI, gợi ý lộ trình học cá nhân hóa sau khi làm bài kiểm tra.",
-        "image": "/main_logo.png",
-        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis"]
-      },
-      {
-        "id": "cores-after-sales",
-        "title": "Hệ thống Hậu mãi CORES",
-        "category": "Hệ thống Quản lý Nội bộ",
-        "year": "2024 - 2025",
-        "description": "Hệ thống quản lý nội bộ dịch vụ hậu mãi thiết bị gia dụng, hỗ trợ theo dõi tồn kho, kích hoạt bảo hành, đăng ký đối tác và phân quyền người dùng.",
-        "image": "/main_logo.png",
-        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
+        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"]
       }
     ]
   },
   "Roadmap": {
     "title": "Lộ trình",
-    "description": "Các mốc quan trọng trong quá trình phát triển và hành trình học tập liên tục của tôi.",
+    "description": "Các mốc quan trọng trong quá trình phát triển sự nghiệp Kỹ thuật Phần mềm và học tập liên tục.",
     "items": [
       {
         "id": "01",
-        "year": "2023",
-        "description": "Bắt đầu hành trình đại học ngành Khoa học Máy tính và làm chủ kiến thức cơ bản về HTML, CSS, JavaScript.",
-        "stack": ["HTML5", "CSS3", "JavaScript"]
+        "year": "2022 - 2023",
+        "description": "Bắt đầu chương trình Cử nhân Kỹ thuật Phần mềm tại Đại học HUFLIT, làm chủ nền tảng HTML, CSS, JavaScript và lập trình.",
+        "stack": ["HTML5", "CSS3", "JavaScript", "Python"]
       },
       {
         "id": "02",
         "year": "2024",
-        "description": "Mở rộng sang phát triển frontend hiện đại với React, TypeScript và Tailwind CSS.",
-        "stack": ["React", "TypeScript", "Tailwind CSS"]
+        "description": "Gia nhập Công ty Phần mềm Quốc Bảo với vị trí Web Developer. Xây dựng Hệ thống Hậu mãi Thiết bị Gia dụng (phân hệ BigShop, kích hoạt bảo hành, quản lý kho).",
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
         "id": "03",
         "year": "2025",
-        "description": "Xây dựng ứng dụng full-stack với Next.js App Router, ExpressJS, NestJS và PostgreSQL.",
-        "stack": ["Next.js", "ExpressJS", "NestJS", "PostgreSQL"]
+        "description": "Phát triển Nền tảng Bảo hành LocknLock ASC tại Công ty Phần mềm Quốc Bảo & Xây dựng Nền tảng Học IELTS Ứng dụng AI (Freelance).",
+        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"]
       },
       {
         "id": "04",
         "year": "2026",
-        "description": "Tối ưu hóa kiến trúc, hiệu ứng UI, đa ngôn ngữ (i18n) và đóng góp cho nguồn mở.",
-        "stack": ["Next.js", "Atomic Design", "next-intl", "Framer Motion"]
+        "description": "Phát triển nền tảng Servexa Warranty AI agentic (FastAPI, LangGraph, gRPC, pgvector, GCP) và hoàn thành bằng Cử nhân Kỹ thuật Phần mềm tại HUFLIT.",
+        "stack": ["FastAPI", "LangGraph", "gRPC", "pgvector", "GCP", "Docker"]
       }
     ]
   },
