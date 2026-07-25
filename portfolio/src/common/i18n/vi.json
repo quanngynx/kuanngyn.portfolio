@@ -38,7 +38,7 @@
         "category": "Nền tảng AI & Cloud",
         "year": "2026",
         "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng. Tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG (PostgreSQL/pgvector), trợ lý AI copilot và quy trình phê duyệt Human-in-the-loop cho các thao tác do AI tạo.",
-        "image": "/main_logo.png",
+        "image": "/projects/servexa-warranty-ai.svg",
         "demo": "https://servxa.io.vn",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
         "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"]
@@ -49,7 +49,7 @@
         "category": "Hệ thống Doanh nghiệp (Phần mềm Quốc Bảo)",
         "year": "2025",
         "description": "Hệ thống quản lý dịch vụ hậu mãi nội bộ cho vận hành LocknLock ASC tại Công ty Phần mềm Quốc Bảo. Hỗ trợ quy trình sửa chữa, bảo hành, quản lý tồn kho linh kiện, điều phối kho, phân quyền người dùng và xuất báo cáo Excel/PDF.",
-        "image": "/main_logo.png",
+        "image": "/projects/customer-service-warranty-platform.png",
         "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
       },
       {
@@ -58,7 +58,7 @@
         "category": "Nền tảng Giáo dục (Freelance)",
         "year": "2025",
         "description": "Nền tảng học trực tuyến IELTS nội bộ tích hợp phản hồi tự động bằng AI và gợi ý lộ trình học cá nhân hóa. Phát triển 15+ màn hình UI responsive, quản lý cache với TanStack Query, Redux Toolkit, tối ưu SSR/CSR và tích hợp 20+ REST API từ NestJS.",
-        "image": "/main_logo.png",
+        "image": "/projects/readi.png",
         "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
       },
       {
@@ -67,7 +67,7 @@
         "category": "Quản lý Nội bộ (Phần mềm Quốc Bảo)",
         "year": "2024 - 2025",
         "description": "Hệ thống quản lý nội bộ dịch vụ hậu mãi thiết bị gia dụng tại Công ty Phần mềm Quốc Bảo. Hỗ trợ theo dõi tồn kho, kích hoạt bảo hành, đăng ký tài khoản BigShop/đối tác và phân quyền theo vai trò.",
-        "image": "/main_logo.png",
+        "image": "/projects/cores.png",
         "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
