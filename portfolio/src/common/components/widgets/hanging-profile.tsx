@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { User } from "lucide-react";
+import { FaviconLogo } from "@/common/components/atoms/icons/favicon";
 
 export function HangingProfile() {
   const boxRef = useRef<HTMLDivElement>(null);
@@ -166,15 +166,15 @@ export function HangingProfile() {
           touchAction: "none"
         }}
       >
-        <div className="w-20 h-20 rounded-full overflow-hidden border border-foreground/20 mb-3 bg-foreground/5 flex items-center justify-center pointer-events-none group-hover:border-foreground/40 transition-colors duration-300">
-          <User className="w-10 h-10 text-foreground/40 group-hover:text-foreground/70 transition-colors duration-300" />
+        <div className="w-20 h-20 rounded-full overflow-hidden border border-foreground/20 mb-3 bg-foreground flex items-center justify-center pointer-events-none group-hover:border-foreground/40 transition-colors duration-300">
+          <FaviconLogo className="w-12 h-12 text-amber-300 opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
         <div className="flex flex-col items-center gap-1 pointer-events-none">
           <span className="text-xs font-bold tracking-[0.2em] text-foreground/80">
             NGUYEN MINH QUAN
           </span>
           <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            Developer
+            Software Engineer
           </span>
         </div>
 

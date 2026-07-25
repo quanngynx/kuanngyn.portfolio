@@ -17,11 +17,12 @@ export async function generateSitemaps() {
 export default async function sitemap({
   id,
 }: {
-  id: number;
+  id: Promise<string>;
 }): Promise<MetadataRoute.Sitemap> {
   const data = await getAllContent();
+  const resolvedId = Number(await id);
 
-  const start = id * GOOGLE_SITEMAP_LIMIT;
+  const start = resolvedId * GOOGLE_SITEMAP_LIMIT;
   const end = start + GOOGLE_SITEMAP_LIMIT;
   const content = data.slice(start, end);
 

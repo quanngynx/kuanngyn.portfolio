@@ -100,7 +100,7 @@ export function Preloader() {
                 width={56}
                 height={56}
                 className='z-10 object-contain'
-                style={{ width: 'auto', height: 'auto' }}
+                style={{ width: '56px', height: '56px' }}
                 priority
               />
             </div>

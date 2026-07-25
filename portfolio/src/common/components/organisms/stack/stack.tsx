@@ -85,7 +85,7 @@ export default function Stack() {
                               alt={item.name}
                               width={20}
                               height={20}
-                              style={{ width: 'auto', height: 'auto' }}
+                              style={{ width: '20px', height: '20px' }}
                               unoptimized={item.icon.endsWith('.svg')}
                             />
                           </div>
@@ -108,8 +108,8 @@ export default function Stack() {
                             alt={item.name}
                             width={36}
                             height={36}
-                            className='drop-shadow-lg'
-                            style={{ width: 'auto', height: 'auto' }}
+                            className='h-9 w-9 object-contain drop-shadow-lg'
+                            style={{ width: '36px', height: '36px' }}
                             unoptimized={item.icon.endsWith('.svg')}
                           />
                         </div>
