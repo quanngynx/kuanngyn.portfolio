@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { ContactModal } from "@/common/components/molecules/modals/contact-modal";
 import { InteractiveParticles } from "@/common/components/effects/interactive-particles";
 import { ButtonWithVideo } from "../../atoms/button/button.video";
+import { cn } from "@/common/utils";
 
 const TRACK_1 = [
   "/hero-slider/amncu2ytwgk1u3entffj.webp",
@@ -74,7 +75,12 @@ export default function Hero() {
 
       <m.div
         style={{ opacity }}
-        className="pointer-events-none absolute top-0 right-6 bottom-0 z-5 flex h-full w-55 gap-3 overflow-hidden px-2 opacity-[0.22] mix-blend-luminosity select-none sm:right-12 sm:w-65 sm:gap-4 md:right-16 md:w-85 lg:right-24 lg:w-100 xl:right-36 xl:w-110 2xl:right-48 2xl:w-120 dark:opacity-[0.28]"
+        className={cn(
+          "flex top-0 right-6 bottom-0 h-full w-55 gap-3 px-2 z-5 ",
+          "sm:right-12 sm:w-65 sm:gap-4 md:right-16 md:w-85 lg:right-24 lg:w-100 xl:right-36 xl:w-110 2xl:right-48 2xl:w-120",
+          "pointer-events-none absolute overflow-hidden opacity-[0.22] mix-blend-luminosity select-none",
+          "dark:opacity-[1.28]"
+        )}
       >
         <div className="relative h-full flex-1 overflow-hidden max-md:hidden">
           <m.div

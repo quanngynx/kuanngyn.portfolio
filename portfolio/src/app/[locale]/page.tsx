@@ -14,7 +14,7 @@ export default function Home() {
 
             <main className="bg-background relative">
 
-                <div className="bg-[#1f2937] mt-[1rem] mx-[1rem] mb-[2rem] rounded-[2rem]">
+                <div className="bg-[#1f2937] mt-4 mx-4 mb-8 rounded-[2rem]">
                     <Hero />
                 </div>
 

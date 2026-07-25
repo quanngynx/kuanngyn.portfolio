@@ -38,7 +38,7 @@
         "category": "Agentic AI & Cloud Platform",
         "year": "2026",
         "description": "Agentic AI warranty operation platform for home appliance service centers. Features repair case management, RAG knowledge retrieval (PostgreSQL/pgvector), AI copilot assistance, and Human-in-the-loop approval workflows.",
-        "image": "/main_logo.png",
+        "image": "/projects/servexa-warranty-ai.svg",
         "demo": "https://servxa.io.vn",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
         "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"]
@@ -49,7 +49,7 @@
         "category": "Enterprise System (Quoc Bao Software)",
         "year": "2025",
         "description": "Internal after-sales service management system for LocknLock ASC operations. Supports repair case workflows, warranty processing, accessory inventory tracking, warehouse coordination, role-based permission control, and Excel/PDF reports.",
-        "image": "/main_logo.png",
+        "image": "/projects/customer-service-warranty-platform.png",
         "stack": ["Next.js", "Express", "Prisma", "PostgreSQL", "Redis"]
       },
       {
@@ -58,7 +58,7 @@
         "category": "EdTech Platform (Freelance)",
         "year": "2025",
         "description": "Internal IELTS e-learning platform featuring AI-powered feedback and personalized learning suggestions. Implemented 15+ responsive UI screens, TanStack Query caching, Redux Toolkit state management, SSR/CSR optimizations, and 20+ NestJS REST API integrations.",
-        "image": "/main_logo.png",
+        "image": "/projects/readi.png",
         "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
       },
       {
@@ -67,7 +67,7 @@
         "category": "Internal Management (Quoc Bao Software)",
         "year": "2024 - 2025",
         "description": "Internal management system for household appliance after-sales service. Features inventory tracking, warranty activation, BigShop/partner account registration, user group management, and role-based permission control.",
-        "image": "/main_logo.png",
+        "image": "/projects/cores.png",
         "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
       },
       {
@@ -76,7 +76,7 @@
         "category": "Web Engineering",
         "year": "2026",
         "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, next-intl i18n, and Tailwind CSS.",
-        "image": "/main_logo.png",
+        "image": "/secondary_logo.svg",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
         "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"]
