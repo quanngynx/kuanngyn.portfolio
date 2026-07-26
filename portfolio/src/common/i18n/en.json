@@ -90,27 +90,119 @@
     "items": [
       {
         "id": "01",
-        "year": "2022 - 2023",
-        "description": "Started Bachelor of Software Engineering at HUFLIT University, mastering HTML, CSS, JavaScript, and programming fundamentals.",
-        "stack": ["HTML5", "CSS3", "JavaScript", "Python"]
+        "year": "2022",
+        "description": "Started my software engineering journey at Ho Chi Minh City University of Foreign Languages - Information Technology (HUFLIT), building a solid foundation in programming languages and software development principles.",
+        "stack": ["Foundation", "W3C Standard", "DotNet MVC", "MERN Stack", "Polyglot Monorepo"],
+        "stories": {
+          "items": [
+            {
+              "id": "huflit-foundation-2022",
+              "title": "Software Engineering Foundations @ HUFLIT",
+              "descriptions": [
+                "Began academic journey in Software Engineering at HUFLIT",
+                "Mastered core OOP paradigms, algorithms, and software development methodologies",
+                "Built initial web and desktop application prototypes using C#, JS, and modern web standards"
+              ],
+              "categories": ["Academic", "Foundation", "HUFLIT"],
+              "timeline": "2022 - 2026",
+              "thumbnail": "/stories/huflit_logos.webp",
+              "video": ""
+            }
+          ]
+        }
       },
       {
         "id": "02",
         "year": "2024",
         "description": "Joined Quoc Bao Software Company as Web Developer. Built Home Appliance After-Sales Service Platform (BigShop module, warranty activation, inventory tracking).",
-        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"],
+        "stories": {
+          "items": [
+            {
+              "id": "quocbao-webdev-2024",
+              "title": "Web Developer @ Quoc Bao Software",
+              "descriptions": [
+                "Developed core internal enterprise operational modules for household appliance partners",
+                "Engineered the BigShop module, warranty activation flows, and warehouse inventory tracking",
+                "Integrated role-based permission control (RBAC) and high-performance TanStack Query caching"
+              ],
+              "categories": ["Enterprise System", "Web Engineering", "Quoc Bao Software"],
+              "timeline": "2024",
+              "thumbnail": "/stories/modern-architecture-black-and-white.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+            }
+          ]
+        }
       },
       {
         "id": "03",
         "year": "2025",
         "description": "Developed LocknLock ASC Warranty Management System at Quoc Bao Software and built AI-powered IELTS E-learning Platform as a Freelance project.",
-        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"]
+        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"],
+        "stories": {
+          "items": [
+            {
+              "id": "locknlock-asc-2025",
+              "title": "LocknLock ASC Customer Service Platform",
+              "descriptions": [
+                "Architected internal after-sales & warranty operations system for LocknLock ASC",
+                "Built repair case workflows, accessory inventory tracking, and warehouse coordination",
+                "Delivered automated Excel/PDF report generation with NestJS REST APIs and PostgreSQL"
+              ],
+              "categories": ["Enterprise System", "ASC Operation", "LocknLock"],
+              "timeline": "2025",
+              "thumbnail": "/stories/product-design-minimalist-black-and-white.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+            },
+            {
+              "id": "readdi-ielts-2025",
+              "title": "AI-powered IELTS E-Learning Platform",
+              "descriptions": [
+                "Developed scalable EdTech e-learning platform with AI essay feedback",
+                "Implemented 15+ responsive screens with SSR/CSR optimization using Next.js App Router",
+                "Integrated 20+ NestJS APIs with Redux Toolkit and Redis caching layers"
+              ],
+              "categories": ["EdTech", "AI Integration", "Freelance"],
+              "timeline": "2025",
+              "thumbnail": "/stories/red-lips-artistic-closeup.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+            }
+          ]
+        }
       },
       {
         "id": "04",
         "year": "2026",
         "description": "Developed Servexa Warranty AI agentic platform (FastAPI, LangGraph, gRPC, pgvector, GCP) and completing Software Engineering degree at HUFLIT.",
-        "stack": ["FastAPI", "LangGraph", "gRPC", "pgvector", "GCP", "Docker"]
+        "stack": ["FastAPI", "LangGraph", "gRPC", "pgvector", "GCP", "Docker"],
+        "stories": {
+          "items": [
+            {
+              "id": "aabw-2026",
+              "title": "Participant & Builder @ Agentic AI Build Week",
+              "descriptions": [
+                "Joined Agentic AI Build Week (AABW) as part of Team IntentOS",
+                "Built ShopWise, an AI decision support solution for the Phong Vu challenge, designed to help customers understand their needs, compare products, and make informed purchasing decisions.",
+                "Reached Round 2 (the final round) of the competition, successfully presenting the project in English."
+              ],
+              "categories": ["GenAI", "Agentic AI", "Hackathon", "Pitching", "ShopWise"],
+              "timeline": "2026",
+              "thumbnail": "/stories/aabw_thumbnail.webp"
+            },
+            {
+              "id": "servexa-warranty-ai-2026",
+              "title": "Servexa Warranty AI Agentic Platform",
+              "descriptions": [
+                "Engineered agentic AI warranty workflow platform using LangGraph & pgvector RAG",
+                "Integrated gRPC microservices, Redis queues, and human-in-the-loop approval system",
+                "Deployed enterprise cloud infrastructure on GCP with Docker containerization"
+              ],
+              "categories": ["Agentic AI", "Cloud Architecture", "RAG"],
+              "timeline": "2026",
+              "thumbnail": "/stories/hqshrpeiosoubyxypm4y.webp"
+            }
+          ]
+        }
       }
     ]
   },
@@ -128,7 +220,7 @@
     "contactTitle": "Contact Me",
     "contactDescription": "Reach out directly via email, phone, or connect on my social channels.",
     "projectDetails": "Project details for",
-    "aboutProject": "About Project",
+    "aboutProject": "About",
     "technologies": "Technologies Used",
     "liveDemo": "Live Demo",
     "sourceCode": "Source Code",

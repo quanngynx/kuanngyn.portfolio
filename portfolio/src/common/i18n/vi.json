@@ -92,25 +92,117 @@
         "id": "01",
         "year": "2022 - 2023",
         "description": "Bắt đầu chương trình Cử nhân Kỹ thuật Phần mềm tại Đại học HUFLIT, làm chủ nền tảng HTML, CSS, JavaScript và lập trình.",
-        "stack": ["HTML5", "CSS3", "JavaScript", "Python"]
+        "stack": ["HTML5", "CSS3", "JavaScript", "Python"],
+        "stories": {
+          "items": [
+            {
+              "id": "huflit-foundation-2022",
+              "title": "Nền tảng Kỹ thuật Phần mềm @ HUFLIT",
+              "descriptions": [
+                "Bắt đầu hành trình học tập chuyên ngành Kỹ thuật Phần mềm tại HUFLIT",
+                "Làm chủ tư duy OOP, giải thuật và các phương pháp luận phát triển phần mềm",
+                "Xây dựng các sản phẩm ứng dụng web và desktop đầu tiên bằng C#, JS và tiêu chuẩn web modern"
+              ],
+              "categories": ["Học tập", "Nền tảng", "HUFLIT"],
+              "timeline": "2022 - 2023",
+              "thumbnail": "/stories/fashion-model-black-and-white.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+            }
+          ]
+        }
       },
       {
         "id": "02",
         "year": "2024",
         "description": "Gia nhập Công ty Phần mềm Quốc Bảo với vị trí Web Developer. Xây dựng Hệ thống Hậu mãi Thiết bị Gia dụng (phân hệ BigShop, kích hoạt bảo hành, quản lý kho).",
-        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"]
+        "stack": ["React", "TanStack Query", "Chakra UI", "Redux", ".NET Core"],
+        "stories": {
+          "items": [
+            {
+              "id": "quocbao-webdev-2024",
+              "title": "Lập trình viên Web @ Công ty Phần mềm Quốc Bảo",
+              "descriptions": [
+                "Phát triển các phân hệ vận hành doanh nghiệp nội bộ cho đối tác thiết bị gia dụng",
+                "Phát triển phân hệ BigShop, quy trình kích hoạt bảo hành và theo dõi tồn kho linh kiện",
+                "Tích hợp phân quyền theo vai trò (RBAC) và cơ chế lưu cache hiệu năng cao với TanStack Query"
+              ],
+              "categories": ["Hệ thống Doanh nghiệp", "Phát triển Web", "Phần mềm Quốc Bảo"],
+              "timeline": "2024",
+              "thumbnail": "/stories/modern-architecture-black-and-white.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+            }
+          ]
+        }
       },
       {
         "id": "03",
         "year": "2025",
         "description": "Phát triển Nền tảng Bảo hành LocknLock ASC tại Công ty Phần mềm Quốc Bảo & Xây dựng Nền tảng Học IELTS Ứng dụng AI (Freelance).",
-        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"]
+        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"],
+        "stories": {
+          "items": [
+            {
+              "id": "locknlock-asc-2025",
+              "title": "Hệ thống Quản lý LocknLock ASC",
+              "descriptions": [
+                "Thiết kế kiến trúc hệ thống dịch vụ hậu mãi & vận hành bảo hành cho LocknLock ASC",
+                "Xây dựng quy trình xử lý ca sửa chữa, quản lý tồn kho linh kiện và điều phối kho",
+                "Cung cấp tính năng xuất báo cáo tự động dạng Excel/PDF kết hợp NestJS REST API & PostgreSQL"
+              ],
+              "categories": ["Hệ thống Doanh nghiệp", "Vận hành ASC", "LocknLock"],
+              "timeline": "2025",
+              "thumbnail": "/stories/product-design-minimalist-black-and-white.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+            },
+            {
+              "id": "readdi-ielts-2025",
+              "title": "Nền tảng Học IELTS Ứng dụng AI",
+              "descriptions": [
+                "Phát triển nền tảng học trực tuyến IELTS với tính năng đánh giá bài viết bằng AI",
+                "Xây dựng 15+ màn hình UI responsive với tối ưu hóa SSR/CSR trên Next.js App Router",
+                "Tích hợp 20+ REST API NestJS với Redux Toolkit và bộ nhớ đệm Redis"
+              ],
+              "categories": ["Giáo dục", "Tích hợp AI", "Freelance"],
+              "timeline": "2025",
+              "thumbnail": "/stories/red-lips-artistic-closeup.jpg",
+              "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+            }
+          ]
+        }
       },
       {
         "id": "04",
         "year": "2026",
         "description": "Phát triển nền tảng Servexa Warranty AI agentic (FastAPI, LangGraph, gRPC, pgvector, GCP) và hoàn thành bằng Cử nhân Kỹ thuật Phần mềm tại HUFLIT.",
-        "stack": ["FastAPI", "LangGraph", "gRPC", "pgvector", "GCP", "Docker"]
+        "stack": ["FastAPI", "LangGraph", "gRPC", "pgvector", "GCP", "Docker"],
+        "stories": {
+          "items": [
+            {
+              "id": "aabw-2026",
+              "title": "Participant & Builder @ Agentic AI Build Week",
+              "descriptions": [
+                "Tham gia Agentic AI Build Week (AABW) trong đội thi Team IntentOS",
+                "Xây dựng ShopWise - giải pháp AI hỗ trợ ra quyết định mua sắm cho thử thách Phong Vũ, giúp khách hàng thấu hiểu nhu cầu, so sánh sản phẩm và đưa ra quyết định tối ưu.",
+                "Xuất sắc lọt vào Vòng 2 (Vòng Chung kết) và thuyết trình dự án bằng Tiếng Anh thành công."
+              ],
+              "categories": ["GenAI", "Agentic AI", "Hackathon", "Pitching", "ShopWise"],
+              "timeline": "2026",
+              "thumbnail": "/stories/aabw_thumbnail.webp"
+            },
+            {
+              "id": "servexa-warranty-ai-2026",
+              "title": "Nền tảng Servexa Warranty AI Agentic",
+              "descriptions": [
+                "Phát triển nền tảng quy trình vận hành bảo hành bằng Agentic AI với LangGraph & pgvector RAG",
+                "Tích hợp microservices gRPC, hàng đợi Redis và quy trình phê duyệt Human-in-the-loop",
+                "Triển khai hạ tầng điện toán đám mây doanh nghiệp trên GCP với giải pháp container Docker"
+              ],
+              "categories": ["Agentic AI", "Kiến trúc Cloud", "RAG"],
+              "timeline": "2026",
+              "thumbnail": "/stories/hqshrpeiosoubyxypm4y.webp"
+            }
+          ]
+        }
       }
     ]
   },
@@ -128,7 +220,7 @@
     "contactTitle": "Liên hệ với tôi",
     "contactDescription": "Kết nối trực tiếp qua email, điện thoại hoặc các mạng xã hội bên dưới.",
     "projectDetails": "Chi tiết dự án",
-    "aboutProject": "Về dự án",
+    "aboutProject": "Về công việc",
     "technologies": "Công nghệ sử dụng",
     "liveDemo": "Xem trực tiếp",
     "sourceCode": "Mã nguồn",

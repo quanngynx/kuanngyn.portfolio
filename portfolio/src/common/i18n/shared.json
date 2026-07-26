@@ -114,6 +114,10 @@
             {
                 "name": "Amazon Web Services",
                 "icon": "/stack/aws.svg"
+            },
+            {
+                "name": "Infrastructure as a Service",
+                "icon": "/stack/infrastructure-as-a-service_icon.svg"
             }
         ]
     }
