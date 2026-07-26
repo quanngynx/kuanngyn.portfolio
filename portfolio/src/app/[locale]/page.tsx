@@ -1,56 +1,54 @@
-import ManifestoFlow from "@/common/components/effects/manifesto-flow";
-import { Hero } from "@/common/components/organisms/hero";
-import { About } from "@/common/components/organisms/about";
-import { Stack } from "@/common/components/organisms/stack";
-import { Projects } from "@/common/components/organisms/projects";
-import { Roadmap } from "@/common/components/organisms/roadmap";
-import { Contact } from "@/common/components/organisms/contact";
-import { ScrollProgress } from "@/common/components/atoms/scroll/scroll-progress";
+import ManifestoFlow from '@/common/components/effects/manifesto-flow'
+import { Hero } from '@/common/components/organisms/hero'
+import { About } from '@/common/components/organisms/about'
+import { Stack } from '@/common/components/organisms/stack'
+import { Projects } from '@/common/components/organisms/projects'
+import { Roadmap } from '@/common/components/organisms/roadmap'
+import { Contact } from '@/common/components/organisms/contact'
+import { ScrollProgress } from '@/common/components/atoms/scroll/scroll-progress'
+import { WorksGallery } from '@/common/components/molecules/galleries/gallery-work'
 
 export default function Home() {
-    return (
-        <>
-            <ScrollProgress />
+  return (
+    <>
+      <ScrollProgress />
 
-            <main className="bg-background relative">
+      <main className="bg-background relative">
+        <div className="bg-[#1f2937] mt-4 mx-4 mb-8 rounded-[2rem]">
+          <Hero />
+        </div>
 
-                <div className="bg-[#1f2937] mt-4 mx-4 mb-8 rounded-[2rem]">
-                    <Hero />
-                </div>
+        <div className="relative z-10 bg-background border-t border-border">
+          <section id="about">
+            <About />
+          </section>
 
-                <div className="relative z-10 bg-background border-t border-border">
+          <ManifestoFlow />
 
-                    <section id="about">
-                        <About />
-                    </section>
+          <section id="stack">
+            <Stack />
+          </section>
 
-                    <ManifestoFlow />
+          <ManifestoFlow reverse />
 
-                    <section id="stack">
-                        <Stack />
-                    </section>
+          <section id="projects">
+            <Projects />
+          </section>
 
-                    <ManifestoFlow reverse />
+          <ManifestoFlow />
 
-                    <section id="projects">
-                        <Projects />
-                    </section>
+          <section id="roadmap">
+            <Roadmap />
+          </section>
 
-                    <ManifestoFlow />
+          <ManifestoFlow reverse />
 
-                    <section id="roadmap">
-                        <Roadmap />
-                    </section>
-
-                    <ManifestoFlow reverse />
-
-                    <section id="contact">
-                        <Contact />
-                    </section>
-
-                </div>
-
-            </main >
-        </>
-    );
+          <section id="contact">
+            <Contact />
+          </section>
+        </div>
+      </main>
+    </>
+  )
 }
+
