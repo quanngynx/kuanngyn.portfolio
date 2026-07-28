@@ -61,7 +61,6 @@ The existing `gray-matter`-based provider is narrowed into a server-only blog co
 - `getAllPosts(locale)` reads only direct `*.mdx` children of `content/blog/<locale>`, never scans recursively, validates each file, excludes production drafts, and sorts by `publishedAt` descending.
 - `getPost(locale, slug)` accepts already validated inputs, reads exactly one localized file, and returns `undefined` only when that file does not exist or is a production draft.
 - `getPostLocales(slug)` returns only supported locales with a visible file for that slug.
-- `getAllPostParams()` returns the union of visible `{ locale, slug }` pairs.
 
 Route code rejects unsupported locales and slugs that do not match `/^[a-z0-9]+(?:-[a-z0-9]+)*$/` before calling the loader or touching the filesystem. Filesystem paths are then built from the fixed content root and validated values, so no request-controlled value can escape the content directory.
 
@@ -102,7 +101,7 @@ The blog index retains the existing portfolio navigation. Its home-section links
 
 Both the locale layout and article page reject unsupported locales with `notFound()`. The article page also calls `notFound()` when the localized MDX file is absent.
 
-`generateStaticParams()` returns the union of all visible locale-and-slug pairs. A post does not need a matching translation to be generated.
+The existing `[locale]` layout generates supported parent locale parameters. The article's child `generateStaticParams({ params })` reads posts for that validated parent locale and returns its visible slugs. Across both parent calls, the resulting build set is the union of all available locale-and-slug pairs without duplicates. A post does not need a matching translation to be generated.
 
 ## Metadata, Alternates, and Sitemap
 
