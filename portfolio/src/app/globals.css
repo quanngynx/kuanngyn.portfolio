@@ -183,6 +183,35 @@
   ::selection {
     @apply bg-primary text-primary-foreground;
   }
+
+  .article-content figure[data-rehype-pretty-code-figure] pre {
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--muted-foreground) transparent;
+    -ms-overflow-style: auto !important;
+  }
+
+  .article-content
+    figure[data-rehype-pretty-code-figure]
+    pre::-webkit-scrollbar {
+    display: block !important;
+    width: auto !important;
+    height: 0.65rem !important;
+  }
+
+  .article-content
+    figure[data-rehype-pretty-code-figure]
+    pre::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .article-content
+    figure[data-rehype-pretty-code-figure]
+    pre::-webkit-scrollbar-thumb {
+    border: 0.2rem solid transparent;
+    border-radius: 999px;
+    background: var(--muted-foreground);
+    background-clip: padding-box;
+  }
 }
 
 @layer components {
@@ -205,5 +234,85 @@
     transition:
       opacity 0.3s ease,
       transform 0.3s ease !important;
+  }
+
+  .article-content figure[data-rehype-pretty-code-figure] {
+    margin-block: 2rem;
+  }
+
+  .article-content [data-rehype-pretty-code-title] {
+    border: 1px solid var(--border);
+    border-bottom: 0;
+    border-radius: 0.75rem 0.75rem 0 0;
+    background: var(--muted);
+    padding: 0.65rem 1.25rem;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      monospace;
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+  }
+
+  .article-content figure[data-rehype-pretty-code-figure] pre {
+    max-width: 100%;
+    margin: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--muted);
+    padding-block: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .article-content
+    figure[data-rehype-pretty-code-figure]
+    [data-rehype-pretty-code-title]
+    + pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .article-content figure[data-rehype-pretty-code-figure] code {
+    display: grid;
+    width: max-content;
+    min-width: 100%;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      monospace;
+  }
+
+  .article-content figure[data-rehype-pretty-code-figure] [data-line] {
+    border-left: 2px solid transparent;
+    padding-inline: 1.25rem;
+  }
+
+  .article-content [data-highlighted-line] {
+    border-left-color: var(--tertiary) !important;
+    background: color-mix(in oklab, var(--tertiary) 18%, transparent);
+  }
+
+  .article-content code[data-theme*=" "],
+  .article-content code[data-theme*=" "] span {
+    color: var(--shiki-light);
+  }
+
+  .dark .article-content code[data-theme*=" "],
+  .dark .article-content code[data-theme*=" "] span {
+    color: var(--shiki-dark);
+  }
+
+  .article-content :not(pre) > code {
+    border-radius: 0.3rem;
+    background: var(--muted);
+    padding: 0.15em 0.35em;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      monospace;
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
   }
 }
