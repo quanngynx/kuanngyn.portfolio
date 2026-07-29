@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { useTranslations, useMessages } from "next-intl";
+import { useLocale, useMessages, useTranslations } from "next-intl";
 import { BlurReveal } from "@/common/components/effects/blur-reveal";
 import { sanitizePhone } from "@/common/utils/number";
 import { ShineButton } from "@/common/components/atoms/button/button.shine";
@@ -19,6 +19,7 @@ type SharedContactMessages = {
 
 export default function Contact() {
   const t = useTranslations("Contact");
+  const locale = useLocale();
   const messages = useMessages() as unknown as SharedContactMessages;
 
   const contactInfo = messages.contact || { email: "", phone: "" };
@@ -96,7 +97,8 @@ export default function Contact() {
             {socialLinks.map((link: { label: string; href: string }) => (
               <BlurReveal key={link.label}>
                 <ShineButton
-                  href={link.href}
+                  href={link.href.replace("[locale]", locale)}
+                  target={link.href.startsWith("/") ? "_self" : "_blank"}
                   className="h-14 px-8"
                   shineClassName="w-6 bg-background/20 dark:bg-background/20"
                 >
