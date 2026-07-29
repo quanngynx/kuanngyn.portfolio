@@ -40,7 +40,18 @@
         "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng. Tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG (PostgreSQL/pgvector), trợ lý AI copilot và quy trình phê duyệt Human-in-the-loop cho các thao tác do AI tạo.",
         "image": "/projects/servexa-warranty-ai.svg",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
-        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"],
+        "stack": [
+          "React",
+          "Express",
+          "PostgreSQL",
+          "pgvector",
+          "Redis",
+          "FastAPI",
+          "gRPC",
+          "LangGraph",
+          "Docker",
+          "GCP"
+        ],
         "deepwiki": "https://deepwiki.com/quanngynx/servexa-warranty-ai"
       },
       {
@@ -59,7 +70,15 @@
         "year": "2025",
         "description": "Nền tảng học trực tuyến IELTS nội bộ tích hợp phản hồi tự động bằng AI và gợi ý lộ trình học cá nhân hóa. Phát triển 15+ màn hình UI responsive, quản lý cache với TanStack Query, Redux Toolkit, tối ưu SSR/CSR và tích hợp 20+ REST API từ NestJS.",
         "image": "/projects/readi.webp",
-        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
+        "stack": [
+          "Next.js",
+          "TanStack Query",
+          "Redux Toolkit",
+          "NestJS",
+          "PostgreSQL",
+          "Redis",
+          "Docker"
+        ]
       },
       {
         "id": "cores-after-sales",
@@ -79,7 +98,14 @@
         "image": "/main_logo.png",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"],
+        "stack": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "Framer Motion",
+          "next-intl"
+        ],
         "deepwiki": "https://deepwiki.com/quanngynx/kuanngyn.portfolio"
       }
     ]
@@ -126,7 +152,11 @@
                 "Phát triển phân hệ BigShop, quy trình kích hoạt bảo hành và theo dõi tồn kho linh kiện",
                 "Tích hợp phân quyền theo vai trò (RBAC) và cơ chế lưu cache hiệu năng cao với TanStack Query"
               ],
-              "categories": ["Hệ thống Doanh nghiệp", "Phát triển Web", "Phần mềm Quốc Bảo"],
+              "categories": [
+                "Hệ thống Doanh nghiệp",
+                "Phát triển Web",
+                "Phần mềm Quốc Bảo"
+              ],
               "timeline": "2024",
               "thumbnail": "/stories/modern-architecture-black-and-white.jpg",
               "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
@@ -138,7 +168,14 @@
         "id": "03",
         "year": "2025",
         "description": "Phát triển Nền tảng Bảo hành LocknLock ASC tại Công ty Phần mềm Quốc Bảo & Xây dựng Nền tảng Học IELTS Ứng dụng AI (Freelance).",
-        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"],
+        "stack": [
+          "Next.js",
+          "Express",
+          "NestJS",
+          "Prisma",
+          "PostgreSQL",
+          "Redis"
+        ],
         "stories": {
           "items": [
             {
@@ -149,7 +186,11 @@
                 "Xây dựng quy trình xử lý ca sửa chữa, quản lý tồn kho linh kiện và điều phối kho",
                 "Cung cấp tính năng xuất báo cáo tự động dạng Excel/PDF kết hợp NestJS REST API & PostgreSQL"
               ],
-              "categories": ["Hệ thống Doanh nghiệp", "Vận hành ASC", "LocknLock"],
+              "categories": [
+                "Hệ thống Doanh nghiệp",
+                "Vận hành ASC",
+                "LocknLock"
+              ],
               "timeline": "2025",
               "thumbnail": "/stories/product-design-minimalist-black-and-white.jpg",
               "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
@@ -185,7 +226,13 @@
                 "Xây dựng ShopWise - giải pháp AI hỗ trợ ra quyết định mua sắm cho thử thách Phong Vũ, giúp khách hàng thấu hiểu nhu cầu, so sánh sản phẩm và đưa ra quyết định tối ưu.",
                 "Xuất sắc lọt vào Vòng 2 (Vòng Chung kết) và thuyết trình dự án bằng Tiếng Anh thành công."
               ],
-              "categories": ["GenAI", "Agentic AI", "Hackathon", "Pitching", "ShopWise"],
+              "categories": [
+                "GenAI",
+                "Agentic AI",
+                "Hackathon",
+                "Pitching",
+                "ShopWise"
+              ],
               "timeline": "2026",
               "thumbnail": "/stories/aabw_thumbnail.webp"
             },
@@ -230,5 +277,11 @@
     "title": "Không tìm thấy trang",
     "description": "Vui lòng kiểm tra lại địa chỉ trình duyệt hoặc quay lại trang chủ.",
     "goHome": "Về trang chủ"
+  },
+  "Blog": {
+    "title": "Bài viết",
+    "description": "Ghi chú về kỹ thuật phần mềm, kiến trúc và quá trình xây dựng các dự án.",
+    "empty": "Chưa có bài viết tiếng Việt nào được xuất bản.",
+    "minuteRead": "{minutes} phút đọc"
   }
 }

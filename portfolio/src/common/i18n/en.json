@@ -40,7 +40,18 @@
         "description": "Agentic AI warranty operation platform for home appliance service centers. Features repair case management, RAG knowledge retrieval (PostgreSQL/pgvector), AI copilot assistance, and Human-in-the-loop approval workflows.",
         "image": "/projects/servexa-warranty-ai.svg",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
-        "stack": ["React", "Express", "PostgreSQL", "pgvector", "Redis", "FastAPI", "gRPC", "LangGraph", "Docker", "GCP"],
+        "stack": [
+          "React",
+          "Express",
+          "PostgreSQL",
+          "pgvector",
+          "Redis",
+          "FastAPI",
+          "gRPC",
+          "LangGraph",
+          "Docker",
+          "GCP"
+        ],
         "deepwiki": "https://deepwiki.com/quanngynx/servexa-warranty-ai"
       },
       {
@@ -59,7 +70,15 @@
         "year": "2025",
         "description": "Internal IELTS e-learning platform featuring AI-powered feedback and personalized learning suggestions. Implemented 15+ responsive UI screens, TanStack Query caching, Redux Toolkit state management, SSR/CSR optimizations, and 20+ NestJS REST API integrations.",
         "image": "/projects/readi.webp",
-        "stack": ["Next.js", "TanStack Query", "Redux Toolkit", "NestJS", "PostgreSQL", "Redis", "Docker"]
+        "stack": [
+          "Next.js",
+          "TanStack Query",
+          "Redux Toolkit",
+          "NestJS",
+          "PostgreSQL",
+          "Redis",
+          "Docker"
+        ]
       },
       {
         "id": "cores-after-sales",
@@ -79,7 +98,14 @@
         "image": "/secondary_logo.svg",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion", "next-intl"],
+        "stack": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "Framer Motion",
+          "next-intl"
+        ],
         "deepwiki": "https://deepwiki.com/quanngynx/kuanngyn.portfolio"
       }
     ]
@@ -92,7 +118,13 @@
         "id": "01",
         "year": "2022",
         "description": "Started my software engineering journey at Ho Chi Minh City University of Foreign Languages - Information Technology (HUFLIT), building a solid foundation in programming languages and software development principles.",
-        "stack": ["Foundation", "W3C Standard", "DotNet MVC", "MERN Stack", "Polyglot Monorepo"],
+        "stack": [
+          "Foundation",
+          "W3C Standard",
+          "DotNet MVC",
+          "MERN Stack",
+          "Polyglot Monorepo"
+        ],
         "stories": {
           "items": [
             {
@@ -126,7 +158,11 @@
                 "Engineered the BigShop module, warranty activation flows, and warehouse inventory tracking",
                 "Integrated role-based permission control (RBAC) and high-performance TanStack Query caching"
               ],
-              "categories": ["Enterprise System", "Web Engineering", "Quoc Bao Software"],
+              "categories": [
+                "Enterprise System",
+                "Web Engineering",
+                "Quoc Bao Software"
+              ],
               "timeline": "2024",
               "thumbnail": "/stories/modern-architecture-black-and-white.jpg",
               "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
@@ -138,7 +174,14 @@
         "id": "03",
         "year": "2025",
         "description": "Developed LocknLock ASC Warranty Management System at Quoc Bao Software and built AI-powered IELTS E-learning Platform as a Freelance project.",
-        "stack": ["Next.js", "Express", "NestJS", "Prisma", "PostgreSQL", "Redis"],
+        "stack": [
+          "Next.js",
+          "Express",
+          "NestJS",
+          "Prisma",
+          "PostgreSQL",
+          "Redis"
+        ],
         "stories": {
           "items": [
             {
@@ -185,7 +228,13 @@
                 "Built ShopWise, an AI decision support solution for the Phong Vu challenge, designed to help customers understand their needs, compare products, and make informed purchasing decisions.",
                 "Reached Round 2 (the final round) of the competition, successfully presenting the project in English."
               ],
-              "categories": ["GenAI", "Agentic AI", "Hackathon", "Pitching", "ShopWise"],
+              "categories": [
+                "GenAI",
+                "Agentic AI",
+                "Hackathon",
+                "Pitching",
+                "ShopWise"
+              ],
               "timeline": "2026",
               "thumbnail": "/stories/aabw_thumbnail.webp"
             },
@@ -230,5 +279,11 @@
     "title": "Page Not Found",
     "description": "Please double-check the browser address bar or use navigation to go to a known page.",
     "goHome": "Go to home"
+  },
+  "Blog": {
+    "title": "Writing",
+    "description": "Notes on software engineering, architecture, and the work behind the projects.",
+    "empty": "No articles have been published in English yet.",
+    "minuteRead": "{minutes} min read"
   }
 }

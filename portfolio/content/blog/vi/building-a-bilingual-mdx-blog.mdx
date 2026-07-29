@@ -1,0 +1,279 @@
+---
+title: "Xây dựng Blog MDX Song ngữ"
+subtitle: "Cách tôi thiết kế nội dung độc lập theo locale, render MDX trên server và static generation đáng tin cậy trong portfolio Next.js"
+description: "Case study về cách xây dựng blog MDX song ngữ được quản lý trong repository, với bản dịch độc lập, static route, metadata và server-only rendering."
+author: "Nguyễn Minh Quân"
+publishedAt: "2026-07-28"
+updatedAt: "2026-07-29"
+image: "/blog/building-a-bilingual-mdx-blog/vi-index-desktop.webp"
+imageAlt: "Trang danh sách bài viết tiếng Việt hiển thị bài MDX song ngữ, ngày xuất bản và thời gian đọc ước tính"
+draft: false
+---
+
+Tôi muốn blog trong portfolio hoạt động như hai ấn phẩm độc lập cùng sử dụng một ứng dụng. Một bài tiếng Anh chỉ xuất hiện khi tệp MDX tiếng Anh tồn tại. Bài tiếng Việt cũng tuân theo quy tắc đó. Hai tệp có cùng tên được xem là bản dịch của nhau, nhưng không ngôn ngữ nào được âm thầm mượn nội dung từ ngôn ngữ còn lại.
+
+Thoạt nhìn, đây chỉ là quyết định về cấu trúc thư mục. Trên thực tế, nó tác động đến routing, quyền sở hữu layout, static generation, metadata, chính sách draft và mô hình bảo mật của trình biên dịch MDX. Phần khó không phải là hiển thị Markdown lên trang. Phần khó là làm cho mọi lớp trong hệ thống thống nhất về những trang bản địa hóa nào thực sự tồn tại.
+
+Đây là cách tôi xây dựng sự thống nhất đó, lý do thiết kế static generation đầu tiên thất bại và vì sao implementation cuối cùng sinh trực tiếp toàn bộ tập hợp locale và slug.
+
+## Bài toán lớn hơn việc render MDX
+
+Portfolio đã sử dụng Next.js App Router, React Server Components, `next-intl` và các route có tiền tố locale. Navbar chính của portfolio cũng được render trong locale layout. Khi thêm blog, tôi gặp một nhóm yêu cầu không thể giải quyết gọn gàng chỉ bằng một component đọc MDX.
+
+Tôi cần nội dung được kiểm soát trong repository thay vì database hoặc CMS. Mỗi bản dịch phải có lịch phát hành riêng. Khi thiếu bản dịch, route tương ứng phải trả về 404 thay vì fallback. Draft có thể hữu ích trong quá trình viết ở môi trường development, nhưng không được xuất hiện trong index, static route, metadata hay sitemap của production. Trang bài viết cũng cần một layout yên tĩnh hơn, không có navbar của portfolio.
+
+Những yêu cầu đó khiến trạng thái nội dung trên filesystem trở thành nguồn dữ liệu chuẩn. Filesystem phải quyết định việc khám phá bài viết, sinh route, tạo language alternate và sitemap. Nếu mỗi trang tự triển khai logic này, các kết quả sẽ sớm mâu thuẫn. Vì vậy, mục tiêu kiến trúc đầu tiên là tạo một ranh giới nội dung server-only duy nhất để mọi nơi cùng sử dụng.
+
+## Những ràng buộc định hình kiến trúc
+
+Tôi chủ động giữ phiên bản đầu tiên ở quy mô nhỏ. Search, category, pagination, comment, reaction và RSS không giúp củng cố quy tắc quan trọng nhất: một trang bản địa hóa chỉ tồn tại khi tệp của locale đó tồn tại. Syntax highlighting được bổ sung sau như một cải tiến trình bày chạy trên server, khi quy tắc cốt lõi đã hoạt động ổn định.
+
+Tôi cũng loại bỏ một số phương án lớn hơn:
+
+- CMS hoặc database sẽ tạo thêm hạ tầng triển khai và ranh giới tin cậy mà một portfolio với số lượng nhỏ bài viết do chính tác giả quản lý chưa cần đến.
+- Một tệp MDX chứa cả hai ngôn ngữ sẽ buộc các bản dịch phải phát hành cùng lúc và khuyến khích fallback.
+- Fallback tự động sẽ khiến `/vi/blog/example` trông hợp lệ ngay cả khi chưa có bài tiếng Việt nào được review và xuất bản.
+- `next-mdx-remote/rsc` sẽ bổ sung một dependency mới trong khi repository của nó đã được lưu trữ; `@mdx-js/mdx` vẫn được duy trì và đã đủ cho việc biên dịch nội dung local đáng tin cậy.
+- Tích hợp MDX có sẵn của Next.js không thay thế được `gray-matter`, vì tôi vẫn cần parse và kiểm tra frontmatter một cách tường minh.
+
+Ranh giới cuối cùng vì thế khá đơn giản: tệp trực tiếp, validation thủ công, biên dịch chỉ trên server và production build sẽ thất bại khi nội dung không hợp lệ.
+
+Blog index hoàn thiện cũng thể hiện đúng sự tối giản đó: một danh sách theo locale với ngày xuất bản, thời gian đọc ước tính, tiêu đề và phụ đề.
+
+<ArticleImage
+  src="/blog/building-a-bilingual-mdx-blog/vi-index-desktop.webp"
+  alt="Trang danh sách bài viết tiếng Việt hiển thị bài MDX song ngữ, ngày xuất bản và thời gian đọc ước tính"
+  width={1440}
+  height={1000}
+/>
+
+## Một slug, hai tệp nội dung độc lập
+
+Tên tệp chính là slug. Thư mục locale tạo ra sự cô lập, còn slug trùng nhau tạo ra quan hệ dịch thuật. Mô hình nội dung không yêu cầu hai phía phải luôn tồn tại đồng thời.
+
+```text title="content/blog/"
+content/blog/
+├── en/
+│   └── building-a-bilingual-mdx-blog.mdx
+└── vi/
+    └── building-a-bilingual-mdx-blog.mdx
+
+---
+title: "Building a Bilingual MDX Blog"
+subtitle: "How I designed locale isolation..."
+description: "A case study of building..."
+author: "Nguyen Minh Quan"
+publishedAt: "2026-07-28"
+updatedAt: "2026-07-29"
+draft: false
+---
+```
+
+Loader chỉ đọc các tệp `*.mdx` trực tiếp trong thư mục locale và không quét đệ quy. Slug suy ra từ tên tệp phải khớp `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`. Locale và slug đến từ request được kiểm tra trước khi dùng để tạo đường dẫn filesystem.
+
+Các trường frontmatter bắt buộc gồm `title`, `subtitle`, `description`, `author` và `publishedAt`. Ngày tháng dùng định dạng `YYYY-MM-DD`, nhưng chỉ khớp biểu thức chính quy là chưa đủ: `2026-02-30` có hình dạng đúng nhưng không phải ngày có thật. Validator tạo ngày UTC rồi yêu cầu giá trị đó chuyển đổi ngược chính xác về chuỗi ban đầu. Khi có `image`, trường `imageAlt` trở thành bắt buộc.
+
+Những giá trị còn lại đều được suy ra. Loader sở hữu `slug`, `locale`, `body`, `sourcePath` và `readingMinutes`. Thời gian đọc được ước tính từ số từ phân tách bằng khoảng trắng, chia cho 200 từ mỗi phút, làm tròn lên và tối thiểu là một phút. Đây chỉ là ước tính, đặc biệt với tiếng Việt.
+
+## Pipeline tải và render chỉ chạy trên server
+
+`gray-matter` tách YAML frontmatter khỏi phần thân MDX. Validator chỉ chuẩn hóa các trường được hỗ trợ, vì vậy frontmatter lạ không tự động trở thành một phần của model ứng dụng. Việc khám phá bài viết, lọc draft và sắp xếp sau đó diễn ra trong cùng một module.
+
+```ts title="src/common/blog/content.ts"
+const entries = await readdir(localeDirectory, { withFileTypes: true });
+const posts = await Promise.all(
+  entries
+    .filter((entry) => entry.isFile() && path.extname(entry.name) === ".mdx")
+    .map(async (entry) => {
+      const slug = parseBlogSlug(path.basename(entry.name, ".mdx"));
+
+      if (!slug) {
+        throw new Error(
+          `${path.join(localeDirectory, entry.name)}: invalid blog slug`,
+        );
+      }
+
+      return loadPostFile(locale, slug);
+    }),
+);
+
+return posts
+  .filter((post): post is BlogPost => post !== undefined && isVisible(post))
+  .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+```
+
+`isVisible` giữ draft hiển thị ngoài production và loại bỏ chúng khi `NODE_ENV` là `production`. Vì index, static parameter generator, language-alternate lookup và sitemap đều gọi cùng một loader, tất cả kế thừa cùng quy tắc thay vì tự triển khai lại.
+
+Phần thân bài viết được biên dịch trong server-only component bằng `@mdx-js/mdx`. `rehype-pretty-code` và Shiki bổ sung token markup ngay trong bước evaluate đó, vì vậy trình duyệt nhận React output cùng màu token theo theme, không nhận trình biên dịch MDX hay syntax-highlighting runtime.
+
+```tsx title="src/common/components/organisms/blog/mdx-renderer.tsx"
+async function compileMdx({ source, sourcePath }: MdxRendererProps) {
+  try {
+    const result = await evaluate(
+      { value: source, path: sourcePath },
+      {
+        ...runtime,
+        baseUrl: import.meta.url,
+        rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+      },
+    );
+
+    return result.default;
+  } catch (error) {
+    throw new Error(`Failed to compile MDX file: ${sourcePath}`, {
+      cause: error,
+    });
+  }
+}
+
+export async function MdxRenderer(props: MdxRendererProps) {
+  // Repository-controlled MDX only. The component map is not a sandbox.
+  const Content = await compileMdx(props);
+
+  return <Content components={blogMdxComponents} />;
+}
+```
+
+Component map cung cấp cách hiển thị thống nhất cho heading, paragraph, link, list, blockquote, code, code block có thể cuộn ngang và `ArticleImage`. Đây là allowlist của những component do ứng dụng cung cấp, không phải JavaScript sandbox. `evaluate()` có thể thực thi JavaScript, nên mô hình an toàn phụ thuộc vào một quy tắc cứng: chỉ MDX được kiểm soát và review trong repository mới được đi vào pipeline. Nội dung do người dùng gửi lên tuyệt đối không được biên dịch theo cách này.
+
+## Loại bỏ navbar đòi hỏi thay đổi quyền sở hữu layout
+
+Locale layout ban đầu render navbar của portfolio phía trên mọi trang bản địa hóa. Một article layout lồng bên trong có thể thêm shell mới, nhưng không thể xóa markup đã được ancestor render.
+
+Giải pháp nằm ở quyền sở hữu route, không phải CSS:
+
+```text title="src/app/[locale]/"
+src/app/[locale]/
+├── layout.tsx                    # providers and locale validation
+├── (portfolio)/
+│   ├── layout.tsx               # navbar
+│   ├── page.tsx                 # /[locale]
+│   └── blog/page.tsx            # /[locale]/blog
+└── (article)/
+    └── blog/[slug]/
+        ├── layout.tsx            # editorial shell, no navbar
+        └── page.tsx              # /[locale]/blog/[slug]
+```
+
+Route group giữ nguyên public URL. Locale layout tiếp tục quản lý localization, theme, cursor, preloader, smooth scrolling và HTML dùng chung. Portfolio group sở hữu navbar. Article group chỉ sở hữu reading shell có chiều rộng hẹp.
+
+Thay đổi này cũng làm lộ ra một vấn đề navigation nhỏ hơn. Các link portfolio như `#about` hoạt động trên homepage, nhưng từ `/vi/blog` chúng cần điều hướng đến `/vi#about` rồi mới scroll. Navbar hiện phân biệt homepage với các route khác và giữ đúng locale khi tạo link.
+
+Trên mobile, article group vẫn giữ nguyên hierarchy đó mà không kế thừa navigation của portfolio.
+
+<ArticleImage
+  src="/blog/building-a-bilingual-mdx-blog/vi-article-mobile.webp"
+  alt="Trang bài viết tiếng Việt trên màn hình di động với tiêu đề lớn, metadata bản địa hóa và cột đọc hẹp"
+  width={390}
+  height={844}
+/>
+
+## Giả định về static generation đã thất bại
+
+Kế hoạch đầu tiên của tôi dựa trên mô hình top-down: segment cha `[locale]` sẽ sinh `en` và `vi`, sau đó segment bài viết con nhận locale hiện tại và trả về danh sách slug của locale đó.
+
+Code vượt qua typecheck và build hoàn tất, nhưng kết quả không đúng. Prerender manifest không chứa article path cụ thể cho tiếng Anh hoặc tiếng Việt. Với `dynamicParams = false`, production trả về 404 ngay cả cho tệp tiếng Anh chắc chắn đang tồn tại.
+
+Lỗi có hai nguyên nhân liên quan với nhau. Trong bản Next.js 16 đang được cài đặt, child generator không nhận parent locale theo cách kế hoạch giả định. Đồng thời, `next-intl` lấy message từ request context, khiến locale layout dùng chung vẫn ở trạng thái dynamic. Next.js vì thế không có parent locale context ổn định để materialize các article child.
+
+Đây là bước ngoặt quan trọng: static generation không thể phụ thuộc vào một quá trình truyền tham số ngầm mà output thực tế chứng minh là không xảy ra. Content loader đã biết đầy đủ những trang có thật, nên route generation cần hỏi trực tiếp loader.
+
+## Sinh đúng tập hợp locale và slug thực tế
+
+Generator cuối cùng duyệt qua các locale được hỗ trợ, tải những bài đang hiển thị của từng locale rồi trả về đầy đủ từng cặp. Sau khi locale được kiểm tra, parent layout gọi `setRequestLocale(locale)` trước khi `BaseLayout` lấy messages.
+
+```ts title="src/app/[locale]/(article)/blog/[slug]/page.tsx" {11-21,25}
+// Initial assumption: the child would receive a generated parent locale.
+export async function generateStaticParams({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  return (await getAllPosts(locale)).map((post) => ({ slug: post.slug }));
+}
+
+// Final implementation: generate the complete set explicitly.
+export async function generateStaticParams() {
+  const postsByLocale = await Promise.all(
+    routing.locales.map(async (locale) => ({
+      locale,
+      posts: await getAllPosts(locale),
+    })),
+  );
+
+  return postsByLocale.flatMap(({ locale, posts }) =>
+    posts.map((post) => ({ locale, slug: post.slug })),
+  );
+}
+
+// In the validated locale layout:
+setRequestLocale(locale);
+```
+
+Implementation này khớp trực tiếp với quy tắc sản phẩm. Tệp chỉ có tiếng Anh tạo ra một route tiếng Anh. Tệp chỉ có tiếng Việt tạo ra một route tiếng Việt. Hai tệp khớp nhau tạo ra hai route. Production draft không tạo route nào.
+
+Nó tường minh hơn một chút so với thiết kế đầu tiên, nhưng chính sự tường minh đó mang lại giá trị: toàn bộ build set nằm trong một function và có thể so sánh trực tiếp với index, alternate và sitemap output.
+
+## Metadata chỉ nên mô tả những trang thực sự tồn tại
+
+Metadata tuân theo cùng một quy tắc về tính khả dụng. Bài hiện tại lấy canonical URL từ locale và slug đã được kiểm tra. `getPostLocales(slug)` kiểm tra những tệp bản địa hóa đang hiển thị, và chỉ các locale đó trở thành `hreflang` alternate.
+
+```ts title="src/app/[locale]/(article)/blog/[slug]/page.tsx"
+const locales = await getPostLocales(post.slug);
+const canonical = articleUrl(post.locale, post.slug);
+
+return {
+  alternates: {
+    canonical,
+    languages: Object.fromEntries(
+      locales.map((locale) => [locale, articleUrl(locale, post.slug)]),
+    ),
+  },
+  openGraph: {
+    type: "article",
+    url: canonical,
+    publishedTime: new Date(`${post.publishedAt}T00:00:00.000Z`).toISOString(),
+    modifiedTime: post.updatedAt
+      ? new Date(`${post.updatedAt}T00:00:00.000Z`).toISOString()
+      : undefined,
+    images:
+      post.image && post.imageAlt
+        ? [
+            {
+              url: new URL(post.image, BASE_URL).toString(),
+              alt: post.imageAlt,
+            },
+          ]
+        : undefined,
+  },
+};
+```
+
+Việc resolve image path dựa trên production base URL rất quan trọng vì ảnh trong repository như `/blog/post/cover.webp` là đường dẫn tương đối, trong khi Open Graph consumer cần URL tuyệt đối.
+
+Website chỉ giữ một root sitemap. Sitemap này sinh URL cho homepage và blog index của từng locale, sau đó thêm một entry cho mỗi cặp locale và slug đang hiển thị. `lastModified` dùng `updatedAt ?? publishedAt`. Draft và bản dịch còn thiếu không xuất hiện vì sitemap sử dụng cùng production loader thay vì duy trì một danh sách nội dung riêng.
+
+## Verification trở thành hợp đồng nội dung
+
+Production build trở thành automated content check hữu ích nhất. Static parameter generation tải mọi bài đang hiển thị. Article prerendering biên dịch toàn bộ phần thân MDX đang hiển thị. Ngày không hợp lệ, thiếu trường bắt buộc, thiếu alt text cho ảnh, tên tệp sai và MDX bị lỗi đều dừng build với source path nằm gần lỗi.
+
+Tôi cũng kiểm tra những hành vi mà một build thành công chưa thể chứng minh:
+
+- Tạm thời xóa tệp tiếng Việt vẫn giữ bài tiếng Anh hoạt động, trả về 404 cho URL tiếng Việt, loại `vi` khỏi language alternate của bài tiếng Anh và loại static route tiếng Việt.
+- Thay `publishedAt` bằng `2026-02-30` khiến article build thất bại với source path tiếng Anh và trường ngày bị lỗi.
+- Thêm tạm một Open Graph image tương đối tạo ra URL tuyệt đối bắt đầu bằng `https://kuanngyn.io.vn/...`.
+- Hai index chỉ hiển thị bài thuộc locale tương ứng, còn root sitemap chỉ chứa các trang đang tồn tại.
+- Trang bài viết có một page-level title, reading column hẹp, link hiển thị focus rõ ràng, layout responsive và không có navbar của portfolio.
+- Desktop, mobile, light theme, dark theme, reduced motion và browser console đều được kiểm tra trên production server.
+
+Những kiểm tra này không chỉ là release checklist. Chúng mô tả hợp đồng của content system chính xác hơn một phát biểu chung chung như "blog hỗ trợ localization".
+
+## Đánh đổi, bài học và hướng phát triển
+
+Implementation chủ động để lộ một số giới hạn. Reading time dựa trên khoảng trắng có chi phí thấp và kết quả ổn định, nhưng cách phân tách từ tiếng Việt khiến nó chỉ mang tính ước lượng. Code block giờ nhận màu cú pháp được render trên server, vẫn cuộn ngang và không đưa highlighting runtime xuống trình duyệt. MDX linh hoạt vì có thể thực thi, và chính điều đó cũng có nghĩa nó phải luôn là nội dung đáng tin cậy trong repository.
+
+Bài học lớn nhất là cần kiểm tra generated output thay vì tin hoàn toàn vào một giả định kiến trúc. Thiết kế parent-child static generation ban đầu trông hợp lý, vượt qua typecheck nhưng vẫn không sinh article page nào. Kiểm tra prerender manifest và gọi production route đã làm lộ lỗi thật. Sinh trực tiếp toàn bộ locale-and-slug union khiến implementation vừa dễ quan sát hơn vừa gần với quy tắc sản phẩm hơn.
+
+Tôi chỉ thêm search hoặc RSS khi số lượng bài viết khiến việc điều hướng trở nên khó khăn. CMS chỉ hợp lý khi việc viết bài diễn ra bên ngoài repository; khi đó, MDX compilation cần một ranh giới bảo mật khác thay vì đơn giản chấp nhận remote input.
+
+Ở thời điểm hiện tại, hệ thống nhỏ này đã đủ: hai thư mục nội dung độc lập, một loader có validation, một server renderer, quyền sở hữu route tường minh và metadata không bao giờ hứa hẹn một bản dịch chưa được xuất bản.

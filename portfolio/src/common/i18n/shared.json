@@ -6,6 +6,10 @@
     },
     "social": [
         {
+            "label": "Blog",
+            "href": "/[locale]/blog"
+        },
+        {
             "label": "GitHub",
             "href": "https://github.com/quanngynx"
         },

@@ -16,7 +16,8 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { usePathname } from "@/common/i18n/routes";
 import { useLenis } from "@/common/providers/smooth-scroll-provider";
 import { ThemeSwitcher } from "@/common/components/widgets/theme-switcher";
 import { LanguageSwitcher } from "@/common/components/widgets/language-switcher";
@@ -26,6 +27,11 @@ import { cn } from "@/common/utils/ui";
 export function Navbar() {
   const t = useTranslations("Navigation");
   const lenis = useLenis();
+  const locale = useLocale();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+  const sectionHref = (hash: string) =>
+    isHomePage ? hash : `/${locale}${hash}`;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPastHero, setIsPastHero] = useState(false);
 
@@ -200,14 +206,20 @@ export function Navbar() {
         className="mx-auto flex w-full items-center justify-between px-container"
       >
         <Link
-          href="#home"
-          onClick={(e) => scrollToSection(e, "#home")}
+          href={sectionHref("#home")}
+          onClick={(event) => {
+            if (isHomePage) {
+              scrollToSection(event, "#home");
+            } else {
+              setIsMobileMenuOpen(false);
+            }
+          }}
           className="group relative z-110 flex items-center gap-2"
         >
           <SecondaryLogo
             className={cn(
               "h-6 w-auto transition-colors duration-300 group-hover:opacity-70 sm:h-12",
-              isPastHero ? "text-foreground" : "text-white",
+              !isHomePage || isPastHero ? "text-foreground" : "text-white",
             )}
           />
         </Link>
@@ -217,8 +229,14 @@ export function Navbar() {
             {navLinks.map((link) => (
               <li key={link.name}>
                 <Link
-                  href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href)}
+                  href={sectionHref(link.href)}
+                  onClick={(event) => {
+                    if (isHomePage) {
+                      scrollToSection(event, link.href);
+                    } else {
+                      setIsMobileMenuOpen(false);
+                    }
+                  }}
                   className="group relative py-2 text-xs font-bold tracking-[0.2em] text-foreground/80 uppercase transition-colors duration-300 hover:text-foreground"
                 >
                   {link.name}
@@ -272,8 +290,14 @@ export function Navbar() {
                     }}
                   >
                     <Link
-                      href={link.href}
-                      onClick={(e) => scrollToSection(e, link.href)}
+                      href={sectionHref(link.href)}
+                      onClick={(event) => {
+                        if (isHomePage) {
+                          scrollToSection(event, link.href);
+                        } else {
+                          setIsMobileMenuOpen(false);
+                        }
+                      }}
                       className="group flex items-baseline"
                     >
                       <span className="text-4xl font-black tracking-tighter text-foreground uppercase transition-[transform,color] duration-300 group-hover:translate-x-4 group-hover:text-primary">

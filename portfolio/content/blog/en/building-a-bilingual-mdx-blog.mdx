@@ -1,0 +1,279 @@
+---
+title: "Building a Bilingual MDX Blog"
+subtitle: "How I designed locale isolation, server-only MDX, and reliable static generation in a Next.js portfolio"
+description: "A case study of building a repository-controlled bilingual MDX blog with independent translations, static routes, metadata, and server-only rendering."
+author: "Nguyen Minh Quan"
+publishedAt: "2026-07-28"
+updatedAt: "2026-07-29"
+image: "/blog/building-a-bilingual-mdx-blog/en-index-desktop.webp"
+imageAlt: "English blog index showing the bilingual MDX article, publication date, and estimated reading time"
+draft: false
+---
+
+I wanted the portfolio blog to behave like two independent publications that happen to share an application. An English article should appear only when its English MDX file exists. A Vietnamese article should follow the same rule. Matching filenames connect translations, but neither language should silently borrow content from the other.
+
+That sounds like a content-folder decision. In practice, it reached into routing, layout ownership, static generation, metadata, draft policy, and the security model of the MDX compiler. The difficult part was not getting Markdown onto a page. It was making every layer agree on which localized pages were real.
+
+This is how I built that agreement, where my first static-generation design failed, and why the final implementation generates the complete locale-and-slug set directly.
+
+## The problem was larger than rendering MDX
+
+The portfolio already used the Next.js App Router, React Server Components, `next-intl`, and locale-prefixed routes. It also had a global portfolio navbar in the locale layout. A blog added several requirements that did not fit neatly inside that structure.
+
+I needed repository-controlled writing rather than a database or CMS. Each translation needed its own release schedule. Missing translations had to return 404 instead of falling back. Drafts could be convenient during development but could not leak into production indexes, static routes, metadata, or the sitemap. Article pages also needed a quieter layout without the portfolio navbar.
+
+Those requirements made content availability the source of truth. The filesystem had to determine discovery, route generation, language alternates, and sitemap entries. Duplicating that logic in each page would eventually produce contradictions, so the first architectural goal was one server-only content boundary used everywhere.
+
+## Constraints that shaped the architecture
+
+I deliberately kept the first release small. Search, categories, pagination, comments, reactions, and RSS would not improve the core invariant: a localized page exists only when its localized file exists. Syntax highlighting followed as a server-rendered presentation enhancement after that invariant was working.
+
+I also rejected a few larger alternatives:
+
+- A CMS or database would add deployment and trust boundaries that a portfolio with a small number of author-controlled posts did not need.
+- A single bilingual MDX file would couple translation releases and encourage fallback logic.
+- Automatic fallback would make `/vi/blog/example` appear valid even when no Vietnamese article had been reviewed or published.
+- `next-mdx-remote/rsc` would add a new dependency whose repository was archived; the maintained `@mdx-js/mdx` package already covered trusted local compilation.
+- Next.js's built-in MDX integration did not replace `gray-matter`, because I still needed explicit frontmatter parsing and validation.
+
+The resulting boundary was intentionally boring: direct files, manual validation, server-only compilation, and a production build that fails when content is invalid.
+
+The finished index reflects that restraint: one localized list with the publication date, derived reading time, title, and subtitle.
+
+<ArticleImage
+  src="/blog/building-a-bilingual-mdx-blog/en-index-desktop.webp"
+  alt="English blog index showing the bilingual MDX article, publication date, and estimated reading time"
+  width={1440}
+  height={1000}
+/>
+
+## One slug, two independent content files
+
+The filename is the slug. Locale directories provide isolation, and matching slugs provide the translation relationship. The content model does not require symmetry.
+
+```text title="content/blog/"
+content/blog/
+├── en/
+│   └── building-a-bilingual-mdx-blog.mdx
+└── vi/
+    └── building-a-bilingual-mdx-blog.mdx
+
+---
+title: "Building a Bilingual MDX Blog"
+subtitle: "How I designed locale isolation..."
+description: "A case study of building..."
+author: "Nguyen Minh Quan"
+publishedAt: "2026-07-28"
+updatedAt: "2026-07-29"
+draft: false
+---
+```
+
+The loader accepts only direct `*.mdx` children. It does not recurse into nested folders, and filename-derived slugs must match `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`. Request locale and slug values are validated before they are used to construct a file path.
+
+The required frontmatter fields are `title`, `subtitle`, `description`, `author`, and `publishedAt`. Dates use `YYYY-MM-DD`, but matching a regular expression is not enough: `2026-02-30` has the right shape and is still not a real date. The validator constructs a UTC date and requires it to round-trip to the original value. When an image is provided, `imageAlt` becomes required.
+
+Everything else is derived. The loader owns `slug`, `locale`, `body`, `sourcePath`, and `readingMinutes`. Reading time uses whitespace-separated words, 200 words per minute, rounds upward, and never returns less than one minute. It is an estimate rather than editorial truth, especially for Vietnamese.
+
+## A server-only loading and rendering pipeline
+
+`gray-matter` separates YAML frontmatter from the raw MDX body. The validator normalizes only supported fields, so unknown frontmatter does not quietly become part of the application model. Discovery, draft filtering, and ordering then happen in one module.
+
+```ts title="src/common/blog/content.ts"
+const entries = await readdir(localeDirectory, { withFileTypes: true });
+const posts = await Promise.all(
+  entries
+    .filter((entry) => entry.isFile() && path.extname(entry.name) === ".mdx")
+    .map(async (entry) => {
+      const slug = parseBlogSlug(path.basename(entry.name, ".mdx"));
+
+      if (!slug) {
+        throw new Error(
+          `${path.join(localeDirectory, entry.name)}: invalid blog slug`,
+        );
+      }
+
+      return loadPostFile(locale, slug);
+    }),
+);
+
+return posts
+  .filter((post): post is BlogPost => post !== undefined && isVisible(post))
+  .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+```
+
+`isVisible` keeps drafts visible outside production and removes them when `NODE_ENV` is `production`. Because the index, static parameter generator, language-alternate lookup, and sitemap all call the same loader, they inherit the same rule instead of reimplementing it.
+
+The body is compiled in a server-only component with `@mdx-js/mdx`. `rehype-pretty-code` and Shiki add token markup during that evaluation, so the browser receives rendered React output and theme-aware token colors, not an MDX compiler or syntax-highlighting runtime.
+
+```tsx title="src/common/components/organisms/blog/mdx-renderer.tsx"
+async function compileMdx({ source, sourcePath }: MdxRendererProps) {
+  try {
+    const result = await evaluate(
+      { value: source, path: sourcePath },
+      {
+        ...runtime,
+        baseUrl: import.meta.url,
+        rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
+      },
+    );
+
+    return result.default;
+  } catch (error) {
+    throw new Error(`Failed to compile MDX file: ${sourcePath}`, {
+      cause: error,
+    });
+  }
+}
+
+export async function MdxRenderer(props: MdxRendererProps) {
+  // Repository-controlled MDX only. The component map is not a sandbox.
+  const Content = await compileMdx(props);
+
+  return <Content components={blogMdxComponents} />;
+}
+```
+
+The component map supplies consistent headings, paragraphs, links, lists, quotes, code, horizontal code scrolling, and `ArticleImage`. It is an allowlist of components supplied by the application, not a JavaScript sandbox. `evaluate()` can execute JavaScript, so the safety model depends on a firm rule: only reviewed, repository-controlled MDX may enter this pipeline. User-submitted content must never be compiled this way.
+
+## Removing the navbar meant changing route ownership
+
+The original locale layout rendered the portfolio navbar above every localized page. Adding a nested article layout could add another shell, but it could not remove markup that an ancestor had already rendered.
+
+The fix was route ownership, not CSS:
+
+```text title="src/app/[locale]/"
+src/app/[locale]/
+├── layout.tsx                    # providers and locale validation
+├── (portfolio)/
+│   ├── layout.tsx               # navbar
+│   ├── page.tsx                 # /[locale]
+│   └── blog/page.tsx            # /[locale]/blog
+└── (article)/
+    └── blog/[slug]/
+        ├── layout.tsx            # editorial shell, no navbar
+        └── page.tsx              # /[locale]/blog/[slug]
+```
+
+Route groups keep the public URLs unchanged. The locale layout retains localization, theme, cursor, preloader, smooth scrolling, and shared HTML. The portfolio group owns the navbar. The article group owns only the narrow reading shell.
+
+This also exposed a smaller navigation issue. Portfolio links such as `#about` worked on the homepage, but from `/en/blog` they needed to navigate to `/en#about` before scrolling. The navbar now distinguishes the homepage from other routes and preserves the active locale when it builds those links.
+
+On mobile, the article group keeps the same hierarchy without inheriting the portfolio navigation.
+
+<ArticleImage
+  src="/blog/building-a-bilingual-mdx-blog/en-article-mobile.webp"
+  alt="English article page on a mobile viewport with a large title, localized metadata, and a narrow reading column"
+  width={390}
+  height={844}
+/>
+
+## The static-generation assumption that failed
+
+My first plan followed a top-down mental model: the parent `[locale]` segment would generate `en` and `vi`, then the child article segment would receive the current locale and return that locale's slugs.
+
+The code type-checked and the build completed, but the result was wrong. The prerender manifest contained no concrete English or Vietnamese article paths. With `dynamicParams = false`, production returned 404 even for the English file that clearly existed.
+
+The failure had two connected causes. In the installed Next.js 16 build, the child generator was not receiving the parent locale in the way the plan assumed. Separately, `next-intl` was resolving messages from request context, which kept the shared locale layout dynamic. Next.js therefore had no stable parent locale context from which to materialize the article children.
+
+That was the useful turning point: static generation could not depend on an implicit handoff that the output proved was not happening. The content loader already knew the complete set of real pages, so route generation should ask it directly.
+
+## Generating the actual locale-and-slug union
+
+The final generator enumerates supported locales, loads visible posts for each locale, and returns full pairs. After locale validation, the parent layout calls `setRequestLocale(locale)` before `BaseLayout` resolves messages.
+
+```ts title="src/app/[locale]/(article)/blog/[slug]/page.tsx" {11-21,25}
+// Initial assumption: the child would receive a generated parent locale.
+export async function generateStaticParams({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  return (await getAllPosts(locale)).map((post) => ({ slug: post.slug }));
+}
+
+// Final implementation: generate the complete set explicitly.
+export async function generateStaticParams() {
+  const postsByLocale = await Promise.all(
+    routing.locales.map(async (locale) => ({
+      locale,
+      posts: await getAllPosts(locale),
+    })),
+  );
+
+  return postsByLocale.flatMap(({ locale, posts }) =>
+    posts.map((post) => ({ locale, slug: post.slug })),
+  );
+}
+
+// In the validated locale layout:
+setRequestLocale(locale);
+```
+
+This implementation matches the product rule exactly. An English-only file creates one English route. A Vietnamese-only file creates one Vietnamese route. Matching files create two routes. Production drafts create none.
+
+It is slightly more explicit than the original design, but that explicitness is valuable: the build set is visible in one function and can be compared directly with indexes, alternates, and sitemap output.
+
+## Metadata should describe only pages that exist
+
+Metadata follows the same availability rule. The current article gets its canonical URL from its validated locale and slug. `getPostLocales(slug)` checks which visible localized files exist, and only those locales become `hreflang` alternates.
+
+```ts title="src/app/[locale]/(article)/blog/[slug]/page.tsx"
+const locales = await getPostLocales(post.slug);
+const canonical = articleUrl(post.locale, post.slug);
+
+return {
+  alternates: {
+    canonical,
+    languages: Object.fromEntries(
+      locales.map((locale) => [locale, articleUrl(locale, post.slug)]),
+    ),
+  },
+  openGraph: {
+    type: "article",
+    url: canonical,
+    publishedTime: new Date(`${post.publishedAt}T00:00:00.000Z`).toISOString(),
+    modifiedTime: post.updatedAt
+      ? new Date(`${post.updatedAt}T00:00:00.000Z`).toISOString()
+      : undefined,
+    images:
+      post.image && post.imageAlt
+        ? [
+            {
+              url: new URL(post.image, BASE_URL).toString(),
+              alt: post.imageAlt,
+            },
+          ]
+        : undefined,
+  },
+};
+```
+
+Resolving image paths against the production base URL matters because a repository image such as `/blog/post/cover.webp` is relative while Open Graph consumers need an absolute URL.
+
+The site keeps one root sitemap. It emits localized home and blog-index URLs, then appends one entry for every visible locale-and-slug pair. `lastModified` uses `updatedAt ?? publishedAt`. Drafts and missing translations are absent because the sitemap consumes the same production loader rather than maintaining another content inventory.
+
+## Verification became the content contract
+
+The production build became the most useful automated content check. Static parameter generation loads every visible post. Article prerendering compiles every visible MDX body. Invalid dates, missing required fields, missing image alt text, invalid filenames, and malformed MDX stop the build with the source path close to the error.
+
+I also tested behavior that a successful build alone could not prove:
+
+- Temporarily removing the Vietnamese file left the English article available, returned 404 for the Vietnamese URL, removed `vi` from English language alternates, and removed the Vietnamese static route.
+- Replacing `publishedAt` with `2026-02-30` failed the article build with the English source path and date field.
+- Adding a temporary relative Open Graph image produced an absolute `https://kuanngyn.io.vn/...` URL.
+- Both indexes displayed only their locale's posts, and the root sitemap contained only visible pages.
+- Article pages had one page-level title, a narrow reading column, keyboard-visible links, responsive layouts, and no portfolio navbar.
+- Desktop, mobile, light theme, dark theme, reduced motion, and browser-console behavior were checked against the production server.
+
+These checks are not merely a release checklist. They describe the contract of the content system more precisely than a generic statement such as "the blog supports localization."
+
+## Tradeoffs, lessons, and next steps
+
+The implementation intentionally leaves some ceilings visible. Whitespace-based reading time is cheap and predictable, but Vietnamese segmentation makes it approximate. Code blocks now receive server-rendered syntax colors and remain horizontally scrollable without shipping a highlighting runtime to the browser. MDX is flexible because it is executable, which also means it must remain trusted repository content.
+
+The largest lesson was to verify generated output rather than trust an architectural assumption. The original parent-child static-generation design looked reasonable, passed type checking, and still generated no article pages. Inspecting the prerender manifest and probing the production route exposed the real failure. Generating the full locale-and-slug union made the implementation both simpler to observe and closer to the product rule.
+
+I would add search or RSS only after the number of posts makes navigation difficult. A CMS would make sense only if authorship moves outside the repository; at that point, MDX compilation would need a different security boundary rather than simply accepting remote input.
+
+For now, the small system is enough: two independent content directories, one validated loader, one server renderer, explicit route ownership, and metadata that never promises a translation that has not been published.
