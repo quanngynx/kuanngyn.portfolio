@@ -518,7 +518,7 @@ export const blogMdxComponents: MDXComponents = {
   ),
   code: (props) => (
     <code
-      className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm"
+      className="rounded-b bg-muted px-1.5 py-0.5 font-mono text-sm"
       {...props}
     />
   ),

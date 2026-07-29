@@ -14,7 +14,7 @@ The first release includes:
 - Build-time frontmatter validation, reading-time calculation, metadata, language alternates, and sitemap entries.
 - A header-free article experience with a large title, subtitle, author/date/read-time metadata, generous whitespace, and a narrow reading column.
 
-The first release does not include a CMS, user-authored content, translation fallback, search, categories, tags, pagination, likes, view counts, comments, an RSS feed, or syntax-highlighting plugins.
+The first release does not include a CMS, user-authored content, translation fallback, search, categories, tags, pagination, likes, view counts, comments, or an RSS feed.
 
 ## Content Model
 
@@ -68,13 +68,21 @@ Drafts remain visible in development for authoring. They are excluded from produ
 
 ## MDX Rendering and Security
 
-The renderer is a server-only component using `evaluate` from `@mdx-js/mdx` with React's automatic JSX runtime. It receives only the body already extracted by `gray-matter`.
+The renderer is a server-only component using `evaluate` from `@mdx-js/mdx` with React's automatic JSX runtime. It receives only the body already extracted by `gray-matter`. `rehype-pretty-code` and Shiki transform fenced code during evaluation with `github-light` and `github-dark`; the browser receives rendered token markup and CSS variables rather than a syntax-highlighting runtime.
 
 The component map is an explicit allowlist. The initial allowlist contains styled intrinsic elements plus `ArticleImage`; additional components are added only when a post needs them. MDX files do not import application modules directly.
 
-The allowlist controls which rendering components the application supplies; it is not a JavaScript sandbox. `evaluate` executes JavaScript and is therefore limited to repository-controlled files committed with the application. The system never accepts, stores, compiles, or renders user-submitted MDX. This trust boundary is documented beside the renderer.
+The allowlist controls which rendering components the application supplies; it is not a JavaScript sandbox. Syntax highlighting does not change that limitation. `evaluate` executes JavaScript and is therefore limited to repository-controlled files committed with the application. The system never accepts, stores, compiles, or renders user-submitted MDX. This trust boundary is documented beside the renderer.
 
-No client-side compiler or compiled source is shipped to the browser.
+No client-side compiler, compiled source, or syntax-highlighting runtime is shipped to the browser.
+
+### Code authoring
+
+- Add a bundled Shiki language identifier such as `tsx`, `typescript`, `javascript`, `json`, `bash`, `css`, or `text` after the opening fence when highlighting is expected.
+- A fence without a language uses plaintext. An unsupported identifier also preserves the original code as plaintext rather than hiding content or failing the build.
+- Add `title="path/to/file.ts"` after the language to render a visible code-block title.
+- Add a numeric range such as `{2,4-6}` to mark highlighted lines. Highlighting is supplementary; prose must still identify the important behavior.
+- Inline backtick code is styled independently and is not passed through Shiki.
 
 ## Routing and Layouts
 
@@ -127,7 +135,7 @@ The reference establishes hierarchy rather than a pixel-for-pixel target:
 - A large responsive title followed by a quieter subtitle.
 - Author, publication date, optional updated date, and derived reading time grouped above the body.
 - A readable body column around 680-720 pixels wide.
-- Clear heading rhythm, comfortable paragraph line-height, visible keyboard focus, underlined links, responsive images, code blocks that scroll horizontally, and light/dark theme support.
+- Clear heading rhythm, comfortable paragraph line-height, visible keyboard focus, underlined links, responsive images, server-highlighted code blocks with visible horizontal scrolling, and light/dark theme support.
 
 The blog index uses the same editorial language: a simple heading and a chronological list of title, subtitle, date, and reading time. No filters or featured-content system are added.
 
@@ -153,6 +161,7 @@ Before completion:
 5. Manually verify English-only, Vietnamese-only, and translated slugs.
 6. Verify missing translations return 404, drafts are absent from the production build, language alternates contain only existing translations, and the navbar is absent on article pages.
 7. Check desktop/mobile layouts, keyboard focus, reduced motion, both themes, both locales, and browser console errors.
+8. Verify supported, unlabelled, and unsupported code fences; inline code; titles; highlighted lines; long-line overflow; and absence of Shiki or the MDX compiler from client chunks.
 
 ## Success Criteria
 
