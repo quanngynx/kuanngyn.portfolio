@@ -132,7 +132,11 @@ export default async function ArticlePage(props: ArticlePageProps) {
         </div>
       </header>
 
-      <MdxRenderer source={post.body} sourcePath={post.sourcePath} />
+      <MdxRenderer
+        locale={post.locale}
+        source={post.body}
+        sourcePath={post.sourcePath}
+      />
     </article>
   );
 }

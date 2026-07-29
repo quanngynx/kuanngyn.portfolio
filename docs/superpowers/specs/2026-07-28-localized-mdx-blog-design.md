@@ -76,6 +76,12 @@ The allowlist controls which rendering components the application supplies; it i
 
 No client-side compiler, compiled source, or syntax-highlighting runtime is shipped to the browser.
 
+### Article outline
+
+The same server-only MDX compilation pass collects top-level `h2` headings into a serializable article outline. A local Remark plugin extracts each heading's plain-text title, assigns a normalized deterministic ID, suffixes duplicate IDs, and captures a short excerpt from the first meaningful paragraph before the next `h2`. The generated heading ID and outline item come from the same syntax tree, so navigation targets cannot drift from rendered content.
+
+Only `{ id, title, excerpt? }` reaches the client-side navigator. The MDX source, compiler, and plugin remain server-only, and outline extraction does not change the repository-controlled content trust boundary.
+
 ### Code authoring
 
 - Add a bundled Shiki language identifier such as `tsx`, `typescript`, `javascript`, `json`, `bash`, `css`, or `text` after the opening fence when highlighting is expected.
@@ -136,6 +142,7 @@ The reference establishes hierarchy rather than a pixel-for-pixel target:
 - Author, publication date, optional updated date, and derived reading time grouped above the body.
 - A readable body column around 680-720 pixels wide.
 - Clear heading rhythm, comfortable paragraph line-height, visible keyboard focus, underlined links, responsive images, server-highlighted code blocks with visible horizontal scrolling, and light/dark theme support.
+- On desktop widths, a segmented navigator stays fixed at the viewport's left center. One tick represents each `h2`; the active tick expands, hover or keyboard focus reveals the localized title and excerpt, and activation updates the URL hash and scrolls to the heading. The navigator is hidden below the `xl` breakpoint and respects reduced-motion preferences.
 
 The blog index uses the same editorial language: a simple heading and a chronological list of title, subtitle, date, and reading time. No filters or featured-content system are added.
 

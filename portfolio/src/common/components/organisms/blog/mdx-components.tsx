@@ -8,7 +8,10 @@ export const blogMdxComponents = {
     <h2 className="mt-14 text-3xl font-bold tracking-tight" {...props} />
   ),
   h2: (props: ComponentProps<"h2">) => (
-    <h2 className="mt-14 text-3xl font-bold tracking-tight" {...props} />
+    <h2
+      className="mt-14 scroll-mt-24 text-3xl font-bold tracking-tight"
+      {...props}
+    />
   ),
   h3: (props: ComponentProps<"h3">) => (
     <h3 className="mt-10 text-2xl font-semibold tracking-tight" {...props} />
