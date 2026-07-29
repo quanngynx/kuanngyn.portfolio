@@ -41,7 +41,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Atomic design
 
-![Atomic](atomic-design.png)
+![Atomic](static/atomic-design.png)
 
 1. Atoms: The most basic UI elements, such as buttons, text inputs, headings, colors, and typography. Atoms don’t have meaning on their own but serve as building blocks for more complex components.
 2. Molecules: Combinations of atoms forming larger components, like simple forms, small navbars, or info cards.
