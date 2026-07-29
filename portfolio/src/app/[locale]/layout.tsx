@@ -5,6 +5,7 @@ import { setRequestLocale } from "next-intl/server";
 import "../globals.css";
 
 import { BaseLayout } from "@/common/components/templates";
+import { BASE_URL } from "@/common/constants";
 import { isSupportedLocale, routing } from "@/common/i18n/routes";
 import { ThemeProvider } from "@/common/providers/theme-provider";
 import { CustomCursor } from "@/common/components/atoms/cursor";
@@ -17,6 +18,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: "Quanngynx",
   description: "Creative Developer Portfolio",
+  alternates: {
+    types: {
+      "application/rss+xml": `${BASE_URL}/rss.xml`,
+    },
+  },
 };
 
 export const viewport: Viewport = {
