@@ -32,4 +32,8 @@ export const routing = defineRouting({
 export type Pathnames = keyof typeof routing.pathnames;
 export type Locale = (typeof routing.locales)[number];
 
+export function isSupportedLocale(value: string): value is Locale {
+  return routing.locales.includes(value as Locale);
+}
+
 export const { usePathname, useRouter } = createNavigation(routing);
