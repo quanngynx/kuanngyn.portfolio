@@ -1,50 +1,40 @@
-import { ContentType } from "../providers/provider";
+export const BASE_URL = "https://kuanngyn.io.vn";
 
-export const BASE_URL =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000'
-    : 'https://kawka.me';
-
-export const BLOG_PATH = '/blog';
-export const BLOG_PATH_WITH_CATEGORY = (category: ContentType) =>
-  `${BLOG_PATH}?content=${category}`;
-
-export const GOOGLE_CODE_IN_ARTICLE_PATH = `${BLOG_PATH}/winning-google-code-in-2018`;
+export const BLOG_PATH = "/blog";
 
 export const SOCIALS = {
   telegram: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   mail: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   linkedin: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   github: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   twitter: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   youtube: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   stackoverflow: {
-    url: '',
-    handle: '',
+    url: "",
+    handle: "",
   },
   reddit: {
-    url: '',
-    handle: '@letelete0000',
+    url: "",
+    handle: "",
   },
 };
 
-export const PORTFOLIO_GITHUB_REPOSITORY_URL =
-  '';
+export const PORTFOLIO_GITHUB_REPOSITORY_URL = "";
