@@ -2,8 +2,11 @@ import type { ComponentProps, ElementType } from "react";
 
 import { ArticleImage } from "@/common/components/atoms/article-image";
 
+import { ResponsiveTable } from "./responsive-table";
+
 export const blogMdxComponents = {
   ArticleImage,
+  ResponsiveTable,
   h1: (props: ComponentProps<"h1">) => (
     <h2 className="mt-14 text-3xl font-bold tracking-tight" {...props} />
   ),
