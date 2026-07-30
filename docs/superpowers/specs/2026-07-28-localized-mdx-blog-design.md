@@ -143,6 +143,7 @@ The reference establishes hierarchy rather than a pixel-for-pixel target:
 - A readable body column around 680-720 pixels wide.
 - Clear heading rhythm, comfortable paragraph line-height, visible keyboard focus, underlined links, responsive images, server-highlighted code blocks with visible horizontal scrolling, and light/dark theme support.
 - On desktop widths, a segmented navigator stays fixed at the viewport's left center. One tick represents each `h2`; the active tick expands, hover or keyboard focus reveals the localized title and excerpt, and activation updates the URL hash and scrolls to the heading. The navigator is hidden below the `xl` breakpoint and respects reduced-motion preferences.
+- Below the desktop navigator, localized controls copy the canonical article URL or open Facebook and X sharing intents. Copy success and failure are announced accessibly, shared URLs never include the active heading hash, and no platform SDK or credentials are loaded.
 
 The blog index uses the same editorial language: a simple heading and a chronological list of title, subtitle, date, and reading time. No filters or featured-content system are added.
 

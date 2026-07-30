@@ -92,6 +92,7 @@ function formatDate(value: string, locale: Locale): string {
 
 export default async function ArticlePage(props: ArticlePageProps) {
   const post = await resolvePost(props);
+  const canonicalUrl = articleUrl(post.locale, post.slug);
 
   return (
     <article className="article-content mx-auto max-w-180">
@@ -136,6 +137,8 @@ export default async function ArticlePage(props: ArticlePageProps) {
         locale={post.locale}
         source={post.body}
         sourcePath={post.sourcePath}
+        articleUrl={canonicalUrl}
+        articleTitle={post.title}
       />
     </article>
   );
