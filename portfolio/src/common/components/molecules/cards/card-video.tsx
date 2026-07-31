@@ -1,23 +1,23 @@
-'use client'
+"use client";
 
-import { cn } from '@/common/utils/ui'
-import { useState, useRef, useEffect } from 'react'
+import { cn } from "@/common/utils/ui";
+import { useState, useRef, useEffect } from "react";
 
 export interface VideoCardProject {
-  id: string | number
-  title: string
-  category: string
-  year: string
-  thumbnail?: string
-  video?: string
+  id: string | number;
+  title: string;
+  category: string;
+  year: string;
+  thumbnail?: string;
+  video?: string;
 }
 
 interface VideoCardProps {
-  project: VideoCardProject
-  isHovered: boolean
-  isSelected?: boolean
-  onHoverChange: (hovered: boolean) => void
-  onClick?: () => void
+  project: VideoCardProject;
+  isHovered: boolean;
+  isSelected?: boolean;
+  onHoverChange: (hovered: boolean) => void;
+  onClick?: () => void;
 }
 
 export function VideoCard({
@@ -25,30 +25,32 @@ export function VideoCard({
   isHovered,
   isSelected = false,
   onHoverChange,
-  onClick
+  onClick,
 }: VideoCardProps) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [, setIsVideoLoaded] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
     if (isHovered && videoRef.current && project.video) {
-      videoRef.current.currentTime = 0
-      videoRef.current.play().catch(() => {})
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
     } else if (videoRef.current) {
-      videoRef.current.pause()
-      videoRef.current.currentTime = 0
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
     }
-  }, [isHovered, project.video])
+  }, [isHovered, project.video]);
 
-  const isActive = isHovered || isSelected
+  const isActive = isHovered || isSelected;
 
   return (
-    <div
+    <button
+      type="button"
+      aria-pressed={isSelected}
       className={cn(
-        'group relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-out h-80 sm:h-96 min-w-56 sm:min-w-[16rem]',
+        "group relative h-80 min-w-56 cursor-pointer overflow-hidden rounded-3xl text-left transition-all duration-700 ease-out focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none sm:h-96 sm:min-w-[16rem]",
         isActive
-          ? 'flex-2 shadow-2xl ring-2 ring-primary/60'
-          : 'flex-1 opacity-80 hover:opacity-100'
+          ? "flex-2 shadow-2xl ring-2 ring-primary/60"
+          : "flex-1 opacity-80 hover:opacity-100",
       )}
       onMouseEnter={() => onHoverChange(true)}
       onMouseLeave={() => onHoverChange(false)}
@@ -57,16 +59,19 @@ export function VideoCard({
       {/* Thumbnail Image */}
       <div
         className={cn(
-          'absolute inset-0 transition-opacity duration-700',
-          isActive && project.video ? 'opacity-0' : 'opacity-100'
+          "absolute inset-0 transition-opacity duration-700",
+          isActive && project.video ? "opacity-0" : "opacity-100",
         )}
       >
         <img
-          src={project.thumbnail || '/stories/modern-architecture-black-and-white.jpg'}
+          src={
+            project.thumbnail ||
+            "/stories/modern-architecture-black-and-white.jpg"
+          }
           alt={project.title}
           className={cn(
-            'w-full h-full object-cover transition-all duration-700',
-            !isActive && 'grayscale brightness-75'
+            "h-full w-full object-cover transition-all duration-700",
+            !isActive && "brightness-75 grayscale",
           )}
         />
       </div>
@@ -75,13 +80,13 @@ export function VideoCard({
       {project.video && (
         <div
           className={cn(
-            'absolute inset-0 transition-opacity duration-700',
-            isActive ? 'opacity-100' : 'opacity-0'
+            "absolute inset-0 transition-opacity duration-700",
+            isActive ? "opacity-100" : "opacity-0",
           )}
         >
           <video
             ref={videoRef}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             loop
             muted
             playsInline
@@ -93,32 +98,31 @@ export function VideoCard({
         </div>
       )}
 
-      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
 
       <div
         className={cn(
-          'absolute bottom-0 left-0 right-0 p-4 sm:p-6 transition-all duration-500',
-          isActive ? 'opacity-100 translate-y-0' : 'opacity-90 translate-y-2'
+          "absolute right-0 bottom-0 left-0 p-4 transition-all duration-500 sm:p-6",
+          isActive ? "translate-y-0 opacity-100" : "translate-y-2 opacity-90",
         )}
       >
-        <div className="relative backdrop-blur-xl bg-black/40 rounded-xl p-4 border border-white/10 shadow-xl space-y-1">
-          <h3 className="text-white font-mono text-xs sm:text-sm tracking-widest uppercase font-semibold line-clamp-1">
+        <div className="relative space-y-1 rounded-xl border border-white/10 bg-black/40 p-4 shadow-xl backdrop-blur-xl">
+          <h3 className="line-clamp-1 font-mono text-xs font-semibold tracking-widest text-white uppercase sm:text-sm">
             {project.title}
           </h3>
-          <p className="text-white/80 font-mono text-[10px] sm:text-xs tracking-wider uppercase">
+          <p className="font-mono text-[10px] tracking-wider text-white/80 uppercase sm:text-xs">
             {project.category}
           </p>
-          <div className="pt-2 mt-2 border-t border-white/10 flex justify-between items-center text-white/60 font-mono text-[10px]">
+          <div className="mt-2 flex items-center justify-between border-t border-white/10 pt-2 font-mono text-[10px] text-white/60">
             <span>{project.year}</span>
             {isSelected && (
-              <span className="px-2 py-0.5 rounded-full bg-primary/30 text-primary-foreground text-[9px] font-sans">
+              <span className="rounded-full bg-primary/30 px-2 py-0.5 font-sans text-[9px] text-primary-foreground">
                 Active
               </span>
             )}
           </div>
         </div>
       </div>
-    </div>
-  )
+    </button>
+  );
 }
-
