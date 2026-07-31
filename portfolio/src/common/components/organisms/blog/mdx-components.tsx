@@ -22,11 +22,13 @@ export const blogMdxComponents = {
   p: (props: ComponentProps<"p">) => (
     <p className="mt-6 text-lg leading-8 text-foreground/85" {...props} />
   ),
-  a: (props: ComponentProps<"a">) => (
+  a: ({ children, ...props }: ComponentProps<"a">) => (
     <a
       className="underline decoration-foreground/40 underline-offset-4 transition-colors hover:decoration-foreground focus-visible:outline-2 focus-visible:outline-offset-4"
       {...props}
-    />
+    >
+      {children}
+    </a>
   ),
   blockquote: (props: ComponentProps<"blockquote">) => (
     <blockquote
