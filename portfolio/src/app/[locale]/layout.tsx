@@ -2,12 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Syne } from "next/font/google";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import "../globals.css";
-
 import { BaseLayout } from "@/common/components/templates";
 import { BASE_URL } from "@/common/constants";
 import { isSupportedLocale, routing } from "@/common/i18n/routes";
-import { ThemeProvider } from "@/common/providers/theme-provider";
 import { CustomCursor } from "@/common/components/atoms/cursor";
 import { Preloader } from "@/common/components/atoms/loader/preloader";
 import SmoothScroll from "@/common/providers/smooth-scroll-provider";
@@ -58,20 +55,13 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <BaseLayout locale={locale}>
+    <BaseLayout>
       <div
         className={`${inter.variable} ${syne.variable} bg-background font-sans text-foreground antialiased`}
-        suppressHydrationWarning
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-        >
-          <CustomCursor />
-          <Preloader />
-          <SmoothScroll>{children}</SmoothScroll>
-        </ThemeProvider>
+        <CustomCursor />
+        <Preloader />
+        <SmoothScroll>{children}</SmoothScroll>
       </div>
     </BaseLayout>
   );
