@@ -207,6 +207,7 @@ export function Navbar() {
       >
         <Link
           href={sectionHref("#home")}
+          aria-label={t("home")}
           onClick={(event) => {
             if (isHomePage) {
               scrollToSection(event, "#home");
