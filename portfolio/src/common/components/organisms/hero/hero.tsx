@@ -59,12 +59,9 @@ export default function Hero() {
   const blurValue = useTransform(scrollY, [0, 800], [0, 10]);
   const filter = useTransform(blurValue, (value) => `blur(${value}px)`);
 
-  const scrollToProjects = useCallback(() => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
+  const navigateToResume = () => {
+    window.open("https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing", "_blank", "noopener noreferrer");
+  };
 
   return (
     <section
@@ -205,25 +202,13 @@ export default function Hero() {
             <ButtonWithVideo
               className="group relative flex h-12 w-fit cursor-pointer items-center justify-center rounded-full border border-border bg-secondary px-6 text-muted-foreground backdrop-blur-sm transition-[color,background-color,border-color] duration-500 hover:border-border/30 hover:bg-secondary/15 hover:text-white sm:border-transparent xl:h-16 xl:px-10"
               videoFileName="header-button-home"
-              onClick={scrollToProjects}
+              onClick={navigateToResume}
               asChild
-            >
-              <span className="z-10 flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase xl:gap-3 xl:text-base">
-                {tHero("exploreProjects")}
-              </span>
-            </ButtonWithVideo>
-
-            <ShineButton
-              href="https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-12 w-fit px-6 text-muted-foreground xl:h-16 xl:px-10"
             >
               <span className="relative z-10 flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase xl:gap-3 xl:text-base">
                 {tHero("viewResume")}
-                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1 xl:h-5 xl:w-5" />
               </span>
-            </ShineButton>
+            </ButtonWithVideo>
           </div>
         </div>
       </m.div>
