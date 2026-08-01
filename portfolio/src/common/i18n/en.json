@@ -100,6 +100,7 @@
         "image": "/secondary_logo.svg",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
+        "caseStudy": "/en/blog/building-a-bilingual-mdx-blog",
         "stack": [
           "Next.js",
           "React",
@@ -275,6 +276,7 @@
     "technologies": "Technologies Used",
     "liveDemo": "Live Demo",
     "sourceCode": "Source Code",
+    "readCaseStudy": "Read case study",
     "deepwikiDocs": "DeepWiki Documents"
   },
   "NotFound": {

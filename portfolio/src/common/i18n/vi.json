@@ -100,6 +100,7 @@
         "image": "/main_logo.png",
         "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
+        "caseStudy": "/vi/blog/building-a-bilingual-mdx-blog",
         "stack": [
           "Next.js",
           "React",
@@ -273,6 +274,7 @@
     "technologies": "Công nghệ sử dụng",
     "liveDemo": "Xem trực tiếp",
     "sourceCode": "Mã nguồn",
+    "readCaseStudy": "Đọc case study",
     "deepwikiDocs": "DeepWiki"
   },
   "NotFound": {

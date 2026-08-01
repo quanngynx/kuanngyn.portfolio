@@ -274,6 +274,8 @@ The implementation intentionally leaves some ceilings visible. Whitespace-based 
 
 The largest lesson was to verify generated output rather than trust an architectural assumption. The original parent-child static-generation design looked reasonable, passed type checking, and still generated no article pages. Inspecting the prerender manifest and probing the production route exposed the real failure. Generating the full locale-and-slug union made the implementation both simpler to observe and closer to the product rule.
 
-I would add search or RSS only after the number of posts makes navigation difficult. A CMS would make sense only if authorship moves outside the repository; at that point, MDX compilation would need a different security boundary rather than simply accepting remote input.
+RSS is now generated from the same validated loader, so it inherits locale availability and production draft filtering without another content index. I would add search only after the number of posts makes navigation difficult. A CMS would make sense only if authorship moves outside the repository; at that point, MDX compilation would need a different security boundary rather than simply accepting remote input.
 
 For now, the small system is enough: two independent content directories, one validated loader, one server renderer, explicit route ownership, and metadata that never promises a translation that has not been published.
+
+[View this portfolio project](/en#quanngynx-portfolio)
