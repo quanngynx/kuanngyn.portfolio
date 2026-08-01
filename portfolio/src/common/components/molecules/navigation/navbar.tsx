@@ -17,7 +17,7 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname } from "@/common/i18n/routes";
+import { type Locale, usePathname } from "@/common/i18n/routes";
 import { useLenis } from "@/common/providers/smooth-scroll-provider";
 import { ThemeSwitcher } from "@/common/components/widgets/theme-switcher";
 import { LanguageSwitcher } from "@/common/components/widgets/language-switcher";
@@ -32,7 +32,7 @@ import {
 export function Navbar() {
   const t = useTranslations("Navigation");
   const lenis = useLenis();
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
