@@ -17,21 +17,24 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname } from "@/common/i18n/routes";
+import { type Locale, usePathname } from "@/common/i18n/routes";
 import { useLenis } from "@/common/providers/smooth-scroll-provider";
 import { ThemeSwitcher } from "@/common/components/widgets/theme-switcher";
 import { LanguageSwitcher } from "@/common/components/widgets/language-switcher";
 import { SecondaryLogo } from "@/common/components/atoms/icons/brand";
 import { cn } from "@/common/utils/ui";
 
+import {
+  type NavigationTarget,
+  resolveNavigationHref,
+} from "./navigation-href";
+
 export function Navbar() {
   const t = useTranslations("Navigation");
   const lenis = useLenis();
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const sectionHref = (hash: string) =>
-    isHomePage ? hash : `/${locale}${hash}`;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPastHero, setIsPastHero] = useState(false);
 
@@ -77,14 +80,16 @@ export function Navbar() {
   );
 
   const navLinks = useMemo(
-    () => [
-      { name: t("home"), href: "#home" },
-      { name: t("about"), href: "#about" },
-      { name: t("stack"), href: "#stack" },
-      { name: t("projects"), href: "#projects" },
-      { name: t("roadmap"), href: "#roadmap" },
-      { name: t("contact"), href: "#contact" },
-    ],
+    () =>
+      [
+        { name: t("home"), href: "#home" },
+        { name: t("about"), href: "#about" },
+        { name: t("stack"), href: "#stack" },
+        { name: t("projects"), href: "#projects" },
+        { name: t("roadmap"), href: "#roadmap" },
+        { name: t("blog"), href: "/blog" },
+        { name: t("contact"), href: "#contact" },
+      ] satisfies { name: string; href: NavigationTarget }[],
     [t],
   );
 
@@ -206,7 +211,7 @@ export function Navbar() {
         className="mx-auto flex w-full items-center justify-between px-container"
       >
         <Link
-          href={sectionHref("#home")}
+          href={resolveNavigationHref("#home", locale, isHomePage)}
           aria-label={t("home")}
           onClick={(event) => {
             if (isHomePage) {
@@ -230,9 +235,9 @@ export function Navbar() {
             {navLinks.map((link) => (
               <li key={link.name}>
                 <Link
-                  href={sectionHref(link.href)}
+                  href={resolveNavigationHref(link.href, locale, isHomePage)}
                   onClick={(event) => {
-                    if (isHomePage) {
+                    if (isHomePage && link.href.startsWith("#")) {
                       scrollToSection(event, link.href);
                     } else {
                       setIsMobileMenuOpen(false);
@@ -291,9 +296,13 @@ export function Navbar() {
                     }}
                   >
                     <Link
-                      href={sectionHref(link.href)}
+                      href={resolveNavigationHref(
+                        link.href,
+                        locale,
+                        isHomePage,
+                      )}
                       onClick={(event) => {
-                        if (isHomePage) {
+                        if (isHomePage && link.href.startsWith("#")) {
                           scrollToSection(event, link.href);
                         } else {
                           setIsMobileMenuOpen(false);

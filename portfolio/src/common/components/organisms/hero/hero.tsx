@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ContactModal } from "@/common/components/molecules/modals/contact-modal";
 import { InteractiveParticles } from "@/common/components/effects/interactive-particles";
+import { ShineButton } from "@/common/components/atoms/button/button.shine";
 import { ButtonWithVideo } from "../../atoms/button/button.video";
 import { cn } from "@/common/utils";
 
@@ -58,12 +59,9 @@ export default function Hero() {
   const blurValue = useTransform(scrollY, [0, 800], [0, 10]);
   const filter = useTransform(blurValue, (value) => `blur(${value}px)`);
 
-  const scrollToProjects = useCallback(() => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
+  const navigateToResume = () => {
+    window.open("https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing", "_blank", "noopener noreferrer");
+  };
 
   return (
     <section
@@ -76,10 +74,10 @@ export default function Hero() {
       <m.div
         style={{ opacity }}
         className={cn(
-          "flex top-0 right-6 bottom-0 h-full w-55 gap-3 px-2 z-5 ",
+          "top-0 right-6 bottom-0 z-5 flex h-full w-55 gap-3 px-2 ",
           "sm:right-12 sm:w-65 sm:gap-4 md:right-16 md:w-85 lg:right-24 lg:w-100 xl:right-36 xl:w-110 2xl:right-48 2xl:w-120",
           "pointer-events-none absolute overflow-hidden opacity-[0.22] mix-blend-luminosity select-none",
-          "dark:opacity-[1.28]"
+          "dark:opacity-[1.28]",
         )}
       >
         <div className="relative h-full flex-1 overflow-hidden max-md:hidden">
@@ -204,11 +202,11 @@ export default function Hero() {
             <ButtonWithVideo
               className="group relative flex h-12 w-fit cursor-pointer items-center justify-center rounded-full border border-border bg-secondary px-6 text-muted-foreground backdrop-blur-sm transition-[color,background-color,border-color] duration-500 hover:border-border/30 hover:bg-secondary/15 hover:text-white sm:border-transparent xl:h-16 xl:px-10"
               videoFileName="header-button-home"
-              onClick={scrollToProjects}
+              onClick={navigateToResume}
               asChild
             >
-              <span className="z-10 flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase xl:gap-3 xl:text-base">
-                {tHero("exploreProjects")}
+              <span className="relative z-10 flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase xl:gap-3 xl:text-base">
+                {tHero("viewResume")}
               </span>
             </ButtonWithVideo>
           </div>

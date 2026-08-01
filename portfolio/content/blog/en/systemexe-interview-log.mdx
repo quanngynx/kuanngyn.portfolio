@@ -1,0 +1,226 @@
+---
+title: "SystemEXE Interview Log"
+subtitle: "Preparing for the Fresher Training Program 2026 aptitude test, technical exercises, and group interview"
+description: "A structured log of my SystemEXE Vietnam Fresher 2026 recruitment process, including preparation, aptitude-test observations, database exercises, SQL questions, and lessons learned."
+author: "Nguyen Minh Quan"
+publishedAt: "2026-07-30"
+updatedAt: "2026-07-30"
+draft: true
+---
+
+I applied to the SystemEXE Vietnam Fresher 2026 program and started documenting the process while the details were still fresh. This log follows how I prepare, what I expect before each stage, what actually happens, and what I would change next time.
+
+At the time of this first draft, I have received an invitation to the entrance test but have not taken it yet. I will add test and interview observations only after completing those stages myself.
+
+> This article documents my experience with the 2026 recruitment process. Test formats, interview stages, and evaluation criteria may change in future recruitment cycles.
+
+## Why I Wrote This Log
+
+The Fresher 2026 opportunity matches my goal of starting a software career in an environment that values technical fundamentals and collaboration. I wanted a record that could be checked and updated instead of relying on disconnected memories after the process ends.
+
+The article serves three purposes: preserving a personal account, giving future student applicants a practical preparation reference, and demonstrating how I organize technical information under time pressure. Official instructions, previous-candidate reports, personal expectations, and direct observations will remain clearly separated.
+
+## Application and Invitation
+
+This is the timeline I can currently confirm:
+
+1. I submitted an application to the SystemEXE Vietnam Fresher 2026 program.
+2. I received an invitation to the entrance test.
+3. I began preparing for aptitude, database, SQL, pseudocode, and group-discussion tasks.
+4. The entrance test has not taken place, so I do not yet have direct observations to publish.
+
+I have intentionally omitted candidate identifiers, precise schedule and venue details, recruiter contact information, internal email addresses, and access codes. None of those details are necessary for explaining the preparation process.
+
+## What I Knew Before the Test
+
+### Official information
+
+The facts I can confirm from my application are the program name—**SystemEXE Vietnam Fresher 2026**—and my invitation to its entrance test. I am not publishing claims about the test structure, duration, delivery method, or evaluation criteria because I do not yet have suitable direct confirmation for those details.
+
+### Previous candidate reports
+
+A previous candidate reported that their process involved a timed logic assessment, an individual technical task, and a group database-design exercise. The topics they mentioned included quick arithmetic, number or letter sequences, relational design, pseudocode for filtering and aggregation, nested SQL, and explaining a group design.
+
+That account is secondhand information from an earlier recruitment cycle. It is neither an official description nor a guarantee that the 2026 process will follow the same format.
+
+### Personal expectations
+
+Before attending, I expect the aptitude portion to resemble Japanese-style assessments such as SPI in its emphasis on speed and basic quantitative reasoning. SystemEXE has not confirmed that label, so I do not describe the test as an official SPI assessment.
+
+I also expect the programming knowledge to remain fundamental rather than advanced, with more emphasis on reading conditions quickly, stating assumptions, and choosing a sufficiently correct solution under time pressure. If there is a group exercise, listening, constructive disagreement, and summarizing decisions may matter as much as the final schema.
+
+## How I Prepared
+
+This section describes the preparation plan I am currently using. It does not claim that I have completed every activity or the full schedule below.
+
+### Aptitude and logic
+
+I am prioritizing quick arithmetic, percentages, ratios, number sequences, letter sequences, logical conditions, and table reading. The goal is not only to solve questions, but also to recognize when skipping one protects time for the rest of the assessment.
+
+### Database design
+
+I am reviewing entities, primary and foreign keys, one-to-many and many-to-many relationships, junction tables, constraints, status fields, and timestamps. Before drawing a schema, I plan to state assumptions briefly and check the edge cases most likely to be overlooked.
+
+The following is a preparation example, not a SystemEXE exercise:
+
+```text title="Practice schema"
+users
+- id
+- name
+- email
+
+orders
+- id
+- user_id
+- status
+- created_at
+
+order_items
+- order_id
+- product_id
+- quantity
+- unit_price
+```
+
+### SQL
+
+I am reviewing `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, `JOIN`, `IN`, and `EXISTS`, followed by aggregates, subqueries, duplicate handling, and `NULL` behavior.
+
+This practice query finds customers with at least three completed orders:
+
+```sql title="Practice aggregate query"
+SELECT user_id, COUNT(*) AS completed_orders
+FROM orders
+WHERE status = 'completed'
+GROUP BY user_id
+HAVING COUNT(*) >= 3
+ORDER BY completed_orders DESC;
+```
+
+My approach is to identify the base records, aggregation requirement, and filtering stage before writing syntax. I use a subquery only when it clarifies the requirement or is genuinely necessary.
+
+### Pseudocode
+
+For each pseudocode problem, I plan to state the input, output, assumptions, algorithm, edge cases, and basic time complexity. This practice example filters and then aggregates records:
+
+```text title="Practice pseudocode"
+Initialize result as an empty map.
+
+For each record:
+  Skip records that do not satisfy the filter.
+  Use the requested key to identify the group.
+  Add the record value to the group total.
+
+Convert the map into a list.
+Sort the list.
+Return the result.
+```
+
+### Group communication
+
+I am preparing to state assumptions before designing, clarify ambiguous requirements, build on another candidate's suggestion, disagree politely, and reserve time to summarize the final model. A sound design without a clear explanation is still an incomplete answer.
+
+### Suggested seven-day schedule
+
+This is a **suggested schedule** for covering the main skills. It is not a claim that I completed all seven days exactly as written.
+
+<ResponsiveTable>
+  <thead>
+    <tr>
+      <th scope="col">Day</th>
+      <th scope="col">Focus</th>
+      <th scope="col">Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Day 1</td>
+      <td>Arithmetic and number sequences</td>
+      <td>One timed practice set</td>
+    </tr>
+    <tr>
+      <td>Day 2</td>
+      <td>Logic and letter patterns</td>
+      <td>An error log</td>
+    </tr>
+    <tr>
+      <td>Day 3</td>
+      <td>Database relationships</td>
+      <td>Two small schemas</td>
+    </tr>
+    <tr>
+      <td>Day 4</td>
+      <td>SQL aggregates and subqueries</td>
+      <td>Ten handwritten queries</td>
+    </tr>
+    <tr>
+      <td>Day 5</td>
+      <td>Pseudocode and explanation</td>
+      <td>Three structured solutions</td>
+    </tr>
+    <tr>
+      <td>Day 6</td>
+      <td>Mixed mock assessment</td>
+      <td>One timed simulation</td>
+    </tr>
+    <tr>
+      <td>Day 7</td>
+      <td>Light review and rest</td>
+      <td>Notes and a checklist</td>
+    </tr>
+  </tbody>
+</ResponsiveTable>
+
+### Original practice questions
+
+I wrote these examples around the skills I want to review. They are not copied from confidential material and are not presented as questions from the SystemEXE test.
+
+**Number sequence:** `3, 7, 15, 31, ?`
+
+Each value is the previous value multiplied by two, plus one. The answer is `63`.
+
+**Letter sequence:** `A, C, F, J, O, ?`
+
+The gaps increase by two, three, four, and five positions. The next gap is six positions, which gives `U`.
+
+**Quantitative estimation:** `What is 15% of 240?`
+
+`10%` is `24` and `5%` is `12`, so the answer is `36`.
+
+**Logical deduction:** An, Binh, and Chi present in different positions. An presents before Binh, and Chi is not first. Which order satisfies both rules?
+
+Chi cannot be first and An must remain before Binh, leaving **An → Chi → Binh** as the only valid order.
+
+## Preparation Checklist
+
+### Before the aptitude test
+
+- Practice without a calculator.
+- Use strict time limits.
+- Skip questions that exceed the planned time.
+- Review common sequence patterns.
+- Sleep adequately and arrive early for check-in.
+
+### Before the technical round
+
+- Review basic relational modeling.
+- Practice schemas containing two to four tables.
+- Write aggregate SQL by hand.
+- Review subqueries, joins, duplicates, and `NULL`.
+- Explain pseudocode aloud.
+- State assumptions before starting.
+
+### Before the group exercise
+
+- Contribute early.
+- Listen before rejecting an idea.
+- Keep the discussion tied to requirements.
+- Track unresolved decisions.
+- Reserve time to summarize the design.
+- Check the consistency of every relationship.
+
+## Application Status
+
+**Current status: Invited to the entrance test.**
+
+I have not completed the test or received a result for this stage. I will update the status only after direct participation or official confirmation. The article will remain a draft until its accuracy, privacy, and confidentiality have been reviewed.

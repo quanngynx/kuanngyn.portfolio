@@ -1,4 +1,5 @@
 ---
+kind: "case-study"
 title: "Building a Bilingual MDX Blog"
 subtitle: "How I designed locale isolation, server-only MDX, and reliable static generation in a Next.js portfolio"
 description: "A case study of building a repository-controlled bilingual MDX blog with independent translations, static routes, metadata, and server-only rendering."
@@ -216,17 +217,20 @@ It is slightly more explicit than the original design, but that explicitness is 
 
 ## Metadata should describe only pages that exist
 
-Metadata follows the same availability rule. The current article gets its canonical URL from its validated locale and slug. `getPostLocales(slug)` checks which visible localized files exist, and only those locales become `hreflang` alternates.
+Metadata follows the same availability rule. The current article gets its canonical URL from its validated locale, slug, and kind. `getPostLocales(slug, kind)` checks which visible localized files of the same kind exist, and only those locales become `hreflang` alternates.
 
 ```ts title="src/app/[locale]/(article)/blog/[slug]/page.tsx"
-const locales = await getPostLocales(post.slug);
-const canonical = articleUrl(post.locale, post.slug);
+const locales = await getPostLocales(post.slug, post.kind);
+const canonical = articleUrl(post.locale, post.slug, post.kind);
 
 return {
   alternates: {
     canonical,
     languages: Object.fromEntries(
-      locales.map((locale) => [locale, articleUrl(locale, post.slug)]),
+      locales.map((locale) => [
+        locale,
+        articleUrl(locale, post.slug, post.kind),
+      ]),
     ),
   },
   openGraph: {
@@ -274,6 +278,8 @@ The implementation intentionally leaves some ceilings visible. Whitespace-based 
 
 The largest lesson was to verify generated output rather than trust an architectural assumption. The original parent-child static-generation design looked reasonable, passed type checking, and still generated no article pages. Inspecting the prerender manifest and probing the production route exposed the real failure. Generating the full locale-and-slug union made the implementation both simpler to observe and closer to the product rule.
 
-I would add search or RSS only after the number of posts makes navigation difficult. A CMS would make sense only if authorship moves outside the repository; at that point, MDX compilation would need a different security boundary rather than simply accepting remote input.
+RSS is now generated from the same validated loader, so it inherits locale availability and production draft filtering without another content index. I would add search only after the number of posts makes navigation difficult. A CMS would make sense only if authorship moves outside the repository; at that point, MDX compilation would need a different security boundary rather than simply accepting remote input.
 
 For now, the small system is enough: two independent content directories, one validated loader, one server renderer, explicit route ownership, and metadata that never promises a translation that has not been published.
+
+[View this portfolio project](/en#quanngynx-portfolio)

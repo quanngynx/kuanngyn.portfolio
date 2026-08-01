@@ -5,12 +5,14 @@
     "stack": "Stack",
     "projects": "Projects",
     "roadmap": "Roadmap",
+    "blog": "Blog",
     "contact": "Contact"
   },
   "Hero": {
     "scrollDown": "Scroll Down",
     "contactMe": "Contact Me",
-    "exploreProjects": "Explore Projects"
+    "exploreProjects": "Explore Projects",
+    "viewResume": "View résumé"
   },
   "About": {
     "title": "About Me",
@@ -96,8 +98,8 @@
         "year": "2026",
         "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, next-intl i18n, and Tailwind CSS.",
         "image": "/secondary_logo.svg",
-        "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
+        "caseStudy": "/en/case-study/building-a-bilingual-mdx-blog",
         "stack": [
           "Next.js",
           "React",
@@ -273,6 +275,7 @@
     "technologies": "Technologies Used",
     "liveDemo": "Live Demo",
     "sourceCode": "Source Code",
+    "readCaseStudy": "Read case study",
     "deepwikiDocs": "DeepWiki Documents"
   },
   "NotFound": {

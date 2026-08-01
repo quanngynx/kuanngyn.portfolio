@@ -9,8 +9,14 @@ import { generateArticleMetadata } from "@/common/utils/metadata";
 export const dynamicParams = false;
 export const dynamic = "force-static";
 
+async function resolveCaseStudy(props: ArticlePageProps) {
+  const post = await resolvePost(props);
+  if (post.kind !== "case-study") notFound();
+  return post;
+}
+
 export async function generateMetadata(props: ArticlePageProps) {
-  return generateArticleMetadata(await resolvePost(props));
+  return generateArticleMetadata(await resolveCaseStudy(props));
 }
 
 export async function generateStaticParams() {
@@ -23,14 +29,11 @@ export async function generateStaticParams() {
 
   return postsByLocale.flatMap(({ locale, posts }) =>
     posts.flatMap((post) =>
-      post.kind === "blog" ? [{ locale, slug: post.slug }] : [],
+      post.kind === "case-study" ? [{ locale, slug: post.slug }] : [],
     ),
   );
 }
 
-export default async function BlogArticlePage(props: ArticlePageProps) {
-  const post = await resolvePost(props);
-  if (post.kind !== "blog") notFound();
-
-  return <ArticlePageContent post={post} />;
+export default async function CaseStudyPage(props: ArticlePageProps) {
+  return <ArticlePageContent post={await resolveCaseStudy(props)} />;
 }

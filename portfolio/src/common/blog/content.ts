@@ -9,6 +9,7 @@ import type { Locale } from "@/common/i18n/routes";
 import { routing } from "@/common/i18n/routes";
 
 import {
+  type ArticleKind,
   type BlogPost,
   type BlogSlug,
   estimateReadingMinutes,
@@ -95,7 +96,10 @@ export async function getPost(
   return post && isVisible(post) ? post : undefined;
 }
 
-export async function getPostLocales(slug: BlogSlug): Promise<Locale[]> {
+export async function getPostLocales(
+  slug: BlogSlug,
+  kind: ArticleKind,
+): Promise<Locale[]> {
   const localizedPosts = await Promise.all(
     routing.locales.map(async (locale) => ({
       locale,
@@ -103,7 +107,7 @@ export async function getPostLocales(slug: BlogSlug): Promise<Locale[]> {
     })),
   );
 
-  return localizedPosts
-    .filter(({ post }) => post !== undefined)
-    .map(({ locale }) => locale);
+  return localizedPosts.flatMap(({ locale, post }) =>
+    post?.kind === kind ? [locale] : [],
+  );
 }

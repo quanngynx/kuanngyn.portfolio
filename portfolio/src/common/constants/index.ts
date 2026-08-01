@@ -1,4 +1,4 @@
-export const BASE_URL = "https://kuanngyn.io.vn";
+export { BASE_URL } from "../utils/url";
 
 export const BLOG_PATH = "/blog";
 

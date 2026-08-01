@@ -203,9 +203,10 @@ function ProjectCard({
   return (
     <BlurReveal>
       <button
+        id={project.id}
         type="button"
         onClick={onClick}
-        className="group perspective-1000 relative aspect-4/3 w-full shrink-0 cursor-pointer text-left xl:mx-6 xl:w-[45vw]"
+        className="group perspective-1000 relative aspect-4/3 w-full shrink-0 cursor-pointer scroll-mt-24 text-left xl:mx-6 xl:w-[45vw]"
       >
         <div className="relative h-full w-full overflow-hidden border border-border/50 bg-muted transition-[border-color] duration-700 ease-out group-hover:border-foreground/20">
           <div className="absolute inset-0 z-0">

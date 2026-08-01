@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/common/blog/content";
 import { BASE_URL, BLOG_PATH } from "@/common/constants";
 import { routing } from "@/common/i18n/routes";
+import { articlePath } from "@/common/utils/url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postsByLocale = await Promise.all(
@@ -30,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const articleUrls: MetadataRoute.Sitemap = postsByLocale.flatMap(
     ({ locale, posts }) =>
       posts.map((post) => ({
-        url: `${BASE_URL}/${locale}${BLOG_PATH}/${post.slug}`,
+        url: `${BASE_URL}${articlePath(locale, post.slug, post.kind)}`,
         lastModified: post.updatedAt ?? post.publishedAt,
         changeFrequency: "monthly" as const,
         priority: 0.7,
