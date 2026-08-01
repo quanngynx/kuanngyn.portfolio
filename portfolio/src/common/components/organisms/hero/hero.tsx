@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ContactModal } from "@/common/components/molecules/modals/contact-modal";
 import { InteractiveParticles } from "@/common/components/effects/interactive-particles";
+import { ShineButton } from "@/common/components/atoms/button/button.shine";
 import { ButtonWithVideo } from "../../atoms/button/button.video";
 import { cn } from "@/common/utils";
 
@@ -76,10 +77,10 @@ export default function Hero() {
       <m.div
         style={{ opacity }}
         className={cn(
-          "flex top-0 right-6 bottom-0 h-full w-55 gap-3 px-2 z-5 ",
+          "top-0 right-6 bottom-0 z-5 flex h-full w-55 gap-3 px-2 ",
           "sm:right-12 sm:w-65 sm:gap-4 md:right-16 md:w-85 lg:right-24 lg:w-100 xl:right-36 xl:w-110 2xl:right-48 2xl:w-120",
           "pointer-events-none absolute overflow-hidden opacity-[0.22] mix-blend-luminosity select-none",
-          "dark:opacity-[1.28]"
+          "dark:opacity-[1.28]",
         )}
       >
         <div className="relative h-full flex-1 overflow-hidden max-md:hidden">
@@ -211,6 +212,18 @@ export default function Hero() {
                 {tHero("exploreProjects")}
               </span>
             </ButtonWithVideo>
+
+            <ShineButton
+              href="https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-12 w-fit px-6 text-muted-foreground xl:h-16 xl:px-10"
+            >
+              <span className="relative z-10 flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase xl:gap-3 xl:text-base">
+                {tHero("viewResume")}
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1 xl:h-5 xl:w-5" />
+              </span>
+            </ShineButton>
           </div>
         </div>
       </m.div>
