@@ -98,9 +98,8 @@
         "year": "2026",
         "description": "Modern interactive portfolio built with Next.js App Router, Framer Motion, Lenis smooth scroll, next-intl i18n, and Tailwind CSS.",
         "image": "/secondary_logo.svg",
-        "demo": "https://github.com/quanngynx",
         "repo": "https://github.com/quanngynx/kuanngyn.portfolio",
-        "caseStudy": "/en/blog/building-a-bilingual-mdx-blog",
+        "caseStudy": "/en/case-study/building-a-bilingual-mdx-blog",
         "stack": [
           "Next.js",
           "React",

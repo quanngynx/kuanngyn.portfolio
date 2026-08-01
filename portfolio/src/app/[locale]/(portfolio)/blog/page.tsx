@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { getAllPosts } from "@/common/blog/content";
 import { isSupportedLocale, type Locale } from "@/common/i18n/routes";
+import { articlePath } from "@/common/utils/url";
 
 interface BlogPageProps {
   params: Promise<{ locale: string }>;
@@ -54,7 +55,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
           {posts.map((post) => (
             <li key={post.slug}>
               <Link
-                href={`/${locale}/blog/${post.slug}`}
+                href={articlePath(locale, post.slug, post.kind)}
                 className="group block py-10 focus-visible:outline-2 focus-visible:outline-offset-4"
               >
                 <div className="flex flex-wrap gap-x-3 text-sm text-muted-foreground">

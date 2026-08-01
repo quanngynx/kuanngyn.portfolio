@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { articleUrl } from "./url";
 import { getPostLocales } from "../blog/content";
+import type { BlogPost } from "../blog/content-schema";
 import { BASE_URL } from "../constants";
-import { ArticlePageProps, resolvePost } from "../blog/resolve-post";
 
-export async function generateMetadata(
-  props: ArticlePageProps,
+export async function generateArticleMetadata(
+  post: BlogPost,
 ): Promise<Metadata> {
-  const post = await resolvePost(props);
-  const locales = await getPostLocales(post.slug);
-  const canonical = articleUrl(post.locale, post.slug);
+  const locales = await getPostLocales(post.slug, post.kind);
+  const canonical = articleUrl(post.locale, post.slug, post.kind);
 
   return {
     title: post.title,
@@ -17,7 +16,10 @@ export async function generateMetadata(
     alternates: {
       canonical,
       languages: Object.fromEntries(
-        locales.map((locale) => [locale, articleUrl(locale, post.slug)]),
+        locales.map((locale) => [
+          locale,
+          articleUrl(locale, post.slug, post.kind),
+        ]),
       ),
     },
     openGraph: {

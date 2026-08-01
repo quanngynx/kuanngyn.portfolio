@@ -1,78 +1,82 @@
 import type { NextConfig } from "next";
-import createNextIntlPlugin from 'next-intl/plugin';
-import createBundleAnalyzer from '@next/bundle-analyzer';
+import createNextIntlPlugin from "next-intl/plugin";
+import createBundleAnalyzer from "@next/bundle-analyzer";
 
 const withBundleAnalyzer = createBundleAnalyzer({
-    enabled: process.env.ANALYZE === 'true',
-})
+  enabled: process.env.ANALYZE === "true",
+});
 
-const withNextIntl = createNextIntlPlugin('./src/common/i18n/request.ts');
+const withNextIntl = createNextIntlPlugin("./src/common/i18n/request.ts");
 
 const sassOptions = {
-    additionalData: `
+  additionalData: `
     $var: red;
   `,
-}
+};
 
 const experimental = {
-    optimizePackageImports: [
-        '@gsap/react',
-        'gsap',
-        '@radix-ui/themes',
-        '@radix-ui/react-form',
-        '@radix-ui/colors'
-    ],
-    serverActions: {
-        allowedOrigins: []
-    }
-}
+  optimizePackageImports: [
+    "@gsap/react",
+    "gsap",
+    "@radix-ui/themes",
+    "@radix-ui/react-form",
+    "@radix-ui/colors",
+  ],
+  serverActions: {
+    allowedOrigins: [],
+  },
+};
 
-const compiler = {}
+const compiler = {};
 
-const onDemandEntries = {}
+const onDemandEntries = {};
 
 const nextConfig: NextConfig = {
-    images: {
-        formats: ["image/avif", "image/webp"],
-    },
-    cleanDistDir: true,
-    sassOptions: {
-        ...sassOptions,
-        implementation: 'sass-embedded',
-    },
-    turbopack: {},
-    compiler: {
-        ...compiler,
-        styledComponents: true,
-    },
-    productionBrowserSourceMaps: true,
-    onDemandEntries: {
-        ...onDemandEntries,
-        maxInactiveAge: 30 * 1000,
-        pagesBufferLength: 5,
-    },
-    experimental: {
-        ...experimental,
-        authInterrupts: true,
-        inlineCss: true,
-        optimizeServerReact: true,
-        scrollRestoration: true,
+  async redirects() {
+    return [
+      {
+        source: "/:locale(en|vi)/blog/building-a-bilingual-mdx-blog",
+        destination: "/:locale/case-study/building-a-bilingual-mdx-blog",
+        permanent: true,
+      },
+    ];
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+  cleanDistDir: true,
+  sassOptions: {
+    ...sassOptions,
+    implementation: "sass-embedded",
+  },
+  turbopack: {},
+  compiler: {
+    ...compiler,
+    styledComponents: true,
+  },
+  productionBrowserSourceMaps: true,
+  onDemandEntries: {
+    ...onDemandEntries,
+    maxInactiveAge: 30 * 1000,
+    pagesBufferLength: 5,
+  },
+  experimental: {
+    ...experimental,
+    authInterrupts: true,
+    inlineCss: true,
+    optimizeServerReact: true,
+    scrollRestoration: true,
 
-        parallelServerCompiles: true,
-        parallelServerBuildTraces: true,
-        webpackBuildWorker: true,
-        webpackMemoryOptimizations: true
-    },
-    // output: 'export'
-    // i18n: {
-    //     locales: ['en', 'vi'],
-    //     defaultLocale: 'en',
-    // },
-}
+    parallelServerCompiles: true,
+    parallelServerBuildTraces: true,
+    webpackBuildWorker: true,
+    webpackMemoryOptimizations: true,
+  },
+  // output: 'export'
+  // i18n: {
+  //     locales: ['en', 'vi'],
+  //     defaultLocale: 'en',
+  // },
+};
 
-export default
-    withBundleAnalyzer(
-        withNextIntl(
-            nextConfig
-        )
-    )
+export default withBundleAnalyzer(withNextIntl(nextConfig));

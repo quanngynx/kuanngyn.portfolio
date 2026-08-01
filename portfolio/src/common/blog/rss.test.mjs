@@ -7,6 +7,7 @@ test("renders a deterministic bilingual RSS feed with escaped content", () => {
   const xml = renderRssFeed(
     [
       {
+        kind: "blog",
         locale: "en",
         slug: "older-post",
         title: `Older & <post> "quoted" 'once'`,
@@ -14,6 +15,7 @@ test("renders a deterministic bilingual RSS feed with escaped content", () => {
         publishedAt: "2026-07-01",
       },
       {
+        kind: "case-study",
         locale: "vi",
         slug: "newer-post",
         title: "Bai viet moi",
@@ -30,7 +32,7 @@ test("renders a deterministic bilingual RSS feed with escaped content", () => {
     xml,
     /<lastBuildDate>Fri, 03 Jul 2026 00:00:00 GMT<\/lastBuildDate>/u,
   );
-  assert.match(xml, /https:\/\/example\.com\/vi\/blog\/newer-post/u);
+  assert.match(xml, /https:\/\/example\.com\/vi\/case-study\/newer-post/u);
   assert.match(xml, /https:\/\/example\.com\/en\/blog\/older-post/u);
   assert.match(
     xml,

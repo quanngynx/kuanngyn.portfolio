@@ -4,8 +4,10 @@ const BLOG_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 export type BlogSlug = string & { readonly __blogSlug: unique symbol };
+export type ArticleKind = "blog" | "case-study";
 
 export interface BlogPostFrontmatter {
+  kind: ArticleKind;
   title: string;
   subtitle: string;
   description: string;
@@ -109,7 +111,14 @@ export function parseBlogPostFrontmatter(
 
   const image = optionalString(value, "image", sourcePath);
   const imageAlt = optionalString(value, "imageAlt", sourcePath);
+  const kind = value.kind ?? "blog";
   const draft = value.draft ?? false;
+
+  if (kind !== "blog" && kind !== "case-study") {
+    throw new Error(
+      `${sourcePath}: frontmatter "kind" must be "blog" or "case-study"`,
+    );
+  }
 
   if (typeof draft !== "boolean") {
     throw new Error(`${sourcePath}: frontmatter "draft" must be a boolean`);
@@ -122,6 +131,7 @@ export function parseBlogPostFrontmatter(
   }
 
   return {
+    kind,
     title: requiredString(value, "title", sourcePath),
     subtitle: requiredString(value, "subtitle", sourcePath),
     description: requiredString(value, "description", sourcePath),

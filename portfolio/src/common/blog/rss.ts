@@ -1,6 +1,9 @@
 import type { Locale } from "@/common/i18n/routes";
 
+import type { ArticleKind } from "./content-schema";
+
 export interface RssFeedPost {
+  kind: ArticleKind;
   locale: Locale;
   slug: string;
   title: string;
@@ -39,7 +42,8 @@ export function renderRssFeed(
     ? rssDate(sortedPosts[0].updatedAt ?? sortedPosts[0].publishedAt)
     : undefined;
   const items = sortedPosts.map((post) => {
-    const url = `${baseUrl}/${post.locale}/blog/${post.slug}`;
+    const segment = post.kind === "case-study" ? "case-study" : "blog";
+    const url = `${baseUrl}/${post.locale}/${segment}/${post.slug}`;
 
     return [
       "    <item>",
