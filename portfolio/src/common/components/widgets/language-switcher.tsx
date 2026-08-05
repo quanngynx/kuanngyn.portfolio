@@ -39,7 +39,7 @@ export function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="z-120 min-w-[140px] rounded-2xl border-border/50 bg-background/95 p-2 shadow-2xl backdrop-blur-xl"
+        className="z-120 min-w-35 rounded-2xl border-border/50 bg-background/95 p-2 shadow-2xl backdrop-blur-xl"
       >
         <DropdownMenuItem
           className="my-0.5 flex cursor-pointer items-center rounded-xl focus:bg-secondary"
