@@ -9,16 +9,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/common/components/atoms/dropdown-menu";
+import { cn } from "@/common/utils/ui";
+import type { NavbarActionsMode } from "../molecules/navigation/navbar.types";
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ mode = "mobile-menu" }: { mode?: NavbarActionsMode }) {
   const { setTheme } = useTheme();
+
+  const isBlended = mode === "blended";
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-border/50 bg-background/50 text-foreground shadow-sm backdrop-blur-md transition-[color,background-color,border-color] duration-500 hover:border-foreground/30 hover:bg-foreground hover:text-background focus:outline-none"
+          className={cn(
+            "group relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full transition-[color,background-color,border-color] duration-500 focus:outline-none",
+            isBlended
+              ? "bg-transparent text-inherit border-transparent hover:bg-white/10"
+              : "border border-border/50 bg-background/50 text-foreground shadow-sm backdrop-blur-md hover:border-foreground/30 hover:bg-foreground hover:text-background",
+          )}
         >
           <div className="absolute inset-0 flex h-full w-full -translate-x-full -skew-x-13 justify-center transition-transform duration-700 group-hover:translate-x-full">
             <div className="relative h-full w-4 bg-background/20 dark:bg-background/20" />
@@ -32,7 +41,7 @@ export function ThemeSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="z-120 min-w-[140px] rounded-2xl border-border/50 bg-background/95 p-2 shadow-2xl backdrop-blur-xl"
+        className="z-120 min-w-35 rounded-2xl border-border/50 bg-background/95 p-2 shadow-2xl backdrop-blur-xl"
       >
         <DropdownMenuItem
           onClick={() => setTheme("light")}
