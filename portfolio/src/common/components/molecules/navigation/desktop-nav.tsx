@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { SecondaryLogo } from "@/common/components/atoms/icons/brand";
 import { cn } from "@/common/utils/ui";
@@ -27,7 +28,12 @@ export function DesktopNav({
   isPastHero,
   onNavigate,
 }: DesktopNavProps) {
+  const [mounted, setMounted] = useState(false);
   const { theme, resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -54,7 +60,7 @@ export function DesktopNav({
               link.href === "#home" || link.name.toLowerCase() === "home";
             const isContactLink =
               link.href === "#contact" || link.name.toLowerCase() === "contact";
-            const isLight = resolvedTheme === "light" || theme === "light";
+            const isLight = mounted && (resolvedTheme === "light" || theme === "light");
 
             const isContactSplit =
               !isPastHero &&
