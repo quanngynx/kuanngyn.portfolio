@@ -29,7 +29,6 @@ import {
   type NavigationTarget,
   resolveNavigationHref,
 } from "./navigation-href";
-import { BREAKPOINTS, useMediaQuery } from "@/common/hooks/use-media-query";
 
 export function Navbar() {
   const t = useTranslations("Navigation");
@@ -40,9 +39,6 @@ export function Navbar() {
   const isHomePage = pathname === "/";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPastHero, setIsPastHero] = useState(false);
-  // const is4XlScreen = useMediaQuery(BREAKPOINTS["4xl"]);
-
-  // const valueCurrentTheme = theme ?? resolvedTheme;
 
   const [dimensions, setDimensions] = useState({
     screenWidth: 1920,
@@ -102,19 +98,46 @@ export function Navbar() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    let frameId: number | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
     const updateDimensions = () => {
-      setDimensions({
-        screenWidth: window.innerWidth,
-        scrollHeight: window.innerHeight,
-        containerWidth: dummyRef.current
-          ? dummyRef.current.getBoundingClientRect().width
-          : 1280,
+      frameId = requestAnimationFrame(() => {
+        const next = {
+          screenWidth: window.innerWidth,
+          scrollHeight: window.innerHeight,
+          containerWidth: dummyRef.current
+            ? dummyRef.current.getBoundingClientRect().width
+            : 1280,
+        };
+
+        setDimensions((current) => {
+          if (
+            current.screenWidth === next.screenWidth &&
+            current.scrollHeight === next.scrollHeight &&
+            current.containerWidth === next.containerWidth
+          ) {
+            return current;
+          }
+          return next;
+        });
       });
     };
 
+    const handleResize = () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      if (frameId) cancelAnimationFrame(frameId);
+      timeoutId = setTimeout(updateDimensions, 100);
+    };
+
     updateDimensions();
-    window.addEventListener("resize", updateDimensions);
-    return () => window.removeEventListener("resize", updateDimensions);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (timeoutId) clearTimeout(timeoutId);
+      if (frameId) cancelAnimationFrame(frameId);
+    };
   }, []);
 
   useEffect(() => {
