@@ -22,7 +22,7 @@ export function AboutModal({ open, onOpenChange }: AboutModalProps) {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
                 showCloseButton={true}
-                className="flex flex-col sm:max-w-[640px] max-h-[85vh] p-0 gap-0 border-border/50 bg-background/95 backdrop-blur-xl"
+                className="flex flex-col sm:max-w-160 max-h-[85vh] p-0 gap-0 border-border/50 bg-background/95 backdrop-blur-xl"
             >
                 <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-primary/50 to-transparent z-10" />
 

@@ -17,6 +17,7 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import { type Locale, usePathname } from "@/common/i18n/routes";
 import { useLenis } from "@/common/providers/smooth-scroll-provider";
 import { ThemeSwitcher } from "@/common/components/widgets/theme-switcher";
@@ -28,15 +29,20 @@ import {
   type NavigationTarget,
   resolveNavigationHref,
 } from "./navigation-href";
+import { BREAKPOINTS, useMediaQuery } from "@/common/hooks/use-media-query";
 
 export function Navbar() {
   const t = useTranslations("Navigation");
   const lenis = useLenis();
+  const { theme, resolvedTheme } = useTheme();
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isPastHero, setIsPastHero] = useState(false);
+  // const is4XlScreen = useMediaQuery(BREAKPOINTS["4xl"]);
+
+  // const valueCurrentTheme = theme ?? resolvedTheme;
 
   const [dimensions, setDimensions] = useState({
     screenWidth: 1920,
@@ -232,24 +238,74 @@ export function Navbar() {
 
         <div className="hidden items-center gap-8 xl:flex">
           <ul className="flex items-center gap-6">
-            {navLinks.map((link) => (
-              <li key={link.name}>
-                <Link
-                  href={resolveNavigationHref(link.href, locale, isHomePage)}
-                  onClick={(event) => {
-                    if (isHomePage && link.href.startsWith("#")) {
-                      scrollToSection(event, link.href);
-                    } else {
-                      setIsMobileMenuOpen(false);
-                    }
-                  }}
-                  className="group relative py-2 text-xs font-bold tracking-[0.2em] text-foreground/80 uppercase transition-colors duration-300 hover:text-foreground"
-                >
-                  {link.name}
-                  <span className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-[0.01] bg-foreground opacity-0 transition-[transform,opacity] duration-300 group-hover:scale-x-100 group-hover:opacity-100" />
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const isHomeLink =
+                link.href === "#home" || link.name.toLowerCase() === "home";
+              const isContactLink =
+                link.href === "#contact" ||
+                link.name.toLowerCase() === "contact";
+              const isLight = resolvedTheme === "light" || theme === "light";
+
+              const isContactSplit =
+                !isPastHero &&
+                isLight &&
+                isContactLink &&
+                link.name.toLowerCase().endsWith("ct");
+
+              let textClass = "text-foreground/80 hover:text-foreground";
+              let underlineClass = "bg-foreground";
+
+              if (!isPastHero) {
+                if (isHomeLink) {
+                  textClass = "text-white/80 hover:text-white";
+                  underlineClass = "bg-white";
+                } else if (!isLight) {
+                  textClass = "text-white/80 hover:text-white";
+                  underlineClass = "bg-white";
+                }
+              } else if (!isLight) {
+                textClass = "text-white/80 hover:text-white";
+                underlineClass = "bg-white";
+              }
+
+              return (
+                <li key={link.name}>
+                  <Link
+                    href={resolveNavigationHref(link.href, locale, isHomePage)}
+                    onClick={(event) => {
+                      if (isHomePage && link.href.startsWith("#")) {
+                        scrollToSection(event, link.href);
+                      } else {
+                        setIsMobileMenuOpen(false);
+                      }
+                    }}
+                    className={cn(
+                      "group relative py-2 text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300",
+                      !isContactSplit && textClass,
+                    )}
+                  >
+                    {isContactSplit ? (
+                      <>
+                        <span className="text-foreground/80 transition-colors duration-300 group-hover:text-foreground">
+                          {link.name.slice(0, -2)}
+                        </span>
+                        <span className="text-white/80 transition-colors duration-300 group-hover:text-white">
+                          {link.name.slice(-2)}
+                        </span>
+                      </>
+                    ) : (
+                      link.name
+                    )}
+                    <span
+                      className={cn(
+                        "absolute bottom-0 left-0 h-px w-full origin-left scale-x-[0.01] opacity-0 transition-[transform,opacity] duration-300 group-hover:scale-x-100 group-hover:opacity-100",
+                        underlineClass,
+                      )}
+                    />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="flex items-center gap-3">
