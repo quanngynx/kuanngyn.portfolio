@@ -1,3 +1,3 @@
 export function sanitizePhone(phone: string): string {
-    return phone.replace(/\s+/g, "");
+  return phone.replace(/\s+/g, "");
 }
