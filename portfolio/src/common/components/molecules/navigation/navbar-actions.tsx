@@ -11,9 +11,9 @@ interface NavbarActionsProps {
 export function NavbarActions({ mode, className }: NavbarActionsProps) {
   // If mode is "blended", the parent is expected to apply `mix-blend-difference text-white`
   // so the switchers inherit it (or handle it themselves).
-  // ThemeSwitcher and LanguageSwitcher already check `mode === "blended"` internally 
+  // ThemeSwitcher and LanguageSwitcher already check `mode === "blended"` internally
   // to change their styling appropriately.
-  
+
   return (
     <div className={cn("flex items-center gap-4", className)}>
       <LanguageSwitcher mode={mode} />

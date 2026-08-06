@@ -60,7 +60,8 @@ export function DesktopNav({
               link.href === "#home" || link.name.toLowerCase() === "home";
             const isContactLink =
               link.href === "#contact" || link.name.toLowerCase() === "contact";
-            const isLight = mounted && (resolvedTheme === "light" || theme === "light");
+            const isLight =
+              mounted && (resolvedTheme === "light" || theme === "light");
 
             const isContactSplit =
               !isPastHero &&
@@ -127,4 +128,3 @@ export function DesktopNav({
     </>
   );
 }
-
