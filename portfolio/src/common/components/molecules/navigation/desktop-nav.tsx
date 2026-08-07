@@ -65,6 +65,7 @@ export function DesktopNav({
               mounted && (resolvedTheme === "light" || theme === "light");
 
             const isContactSplit =
+              isHomePage &&
               !isPastHero &&
               isLight &&
               isContactLink &&
@@ -73,7 +74,7 @@ export function DesktopNav({
             let textClass = "text-foreground/80 hover:text-foreground";
             let underlineClass = "bg-foreground";
 
-            if (!isPastHero) {
+            if (isHomePage && !isPastHero) {
               if (isHomeLink) {
                 textClass = "text-white/80 hover:text-white";
                 underlineClass = "bg-white";
