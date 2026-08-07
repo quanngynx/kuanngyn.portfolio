@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { ErrorContent } from "@/common/components/organisms/error-content";
 
 export default function Error({
   error,
@@ -13,12 +14,5 @@ export default function Error({
     console.error(error);
   }, [error]);
 
-  return (
-    <div>
-      <h2 className="">Something went wrong!</h2>
-      <button type="button" onClick={() => reset()}>
-        Try again
-      </button>
-    </div>
-  );
+  return <ErrorContent error={error} reset={reset} />;
 }
