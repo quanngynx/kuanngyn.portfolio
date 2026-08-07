@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { AlignLeft } from "lucide-react";
 import { extractNotionOutline } from "@/common/blog/notion-blocks";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import { useLenis } from "@/common/providers/smooth-scroll-provider";
-import { useReducedMotion } from "framer-motion";
 import { cn } from "@/common/utils/ui";
 
 interface Props {
@@ -57,13 +57,7 @@ export function NotionTableOfContents({ nodes }: Props) {
   );
 
   useEffect(() => {
-    if (itemIds.length === 0) return;
-
     const hashId = window.location.hash.slice(1);
-    const headings = itemIds
-      .map((id) => document.getElementById(id))
-      .filter((heading): heading is HTMLElement => heading !== null);
-
     const frameId = window.requestAnimationFrame(() => {
       setActiveId(
         itemIds.includes(hashId) ? hashId : currentHeadingId(itemIds),
@@ -77,7 +71,11 @@ export function NotionTableOfContents({ nodes }: Props) {
       { rootMargin: "-20% 0px -70% 0px" },
     );
 
-    headings.forEach((heading) => observer.observe(heading));
+    for (const id of itemIds) {
+      const heading = document.getElementById(id);
+      if (heading) observer.observe(heading);
+    }
+
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();

@@ -7,9 +7,14 @@ interface Props {
   language?: string;
 }
 
+function sanitizeCodeHtml(html: string): string {
+  return html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+}
+
 export async function NotionCodeBlock({ code, language = "text" }: Props) {
   const rawHtml = await highlightCode(code, language);
   const formattedHtml = addLineNumbersToHtml(rawHtml);
+  const sanitizedHtml = sanitizeCodeHtml(formattedHtml);
 
   return (
     <figure className="relative my-6 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950">
@@ -22,7 +27,7 @@ export async function NotionCodeBlock({ code, language = "text" }: Props) {
       <div className="overflow-x-auto bg-[#24292e] p-4">
         <div
           className="font-mono text-sm leading-relaxed text-neutral-200"
-          dangerouslySetInnerHTML={{ __html: formattedHtml }}
+          dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
         />
       </div>
     </figure>
