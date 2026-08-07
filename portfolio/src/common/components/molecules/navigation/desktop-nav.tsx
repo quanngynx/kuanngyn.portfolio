@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { SecondaryLogo } from "@/common/components/atoms/icons/brand";
 import { cn } from "@/common/utils/ui";
@@ -21,6 +21,10 @@ interface DesktopNavProps {
   ) => void;
 }
 
+const subscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
+
 export function DesktopNav({
   navLinks,
   locale,
@@ -28,13 +32,12 @@ export function DesktopNav({
   isPastHero,
   onNavigate,
 }: DesktopNavProps) {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
   const { theme, resolvedTheme } = useTheme();
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
 
   return (
     <>

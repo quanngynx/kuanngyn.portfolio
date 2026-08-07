@@ -59,22 +59,23 @@ export async function fetchPageBlockTree(
 ): Promise<NotionBlockNode[]> {
   async function buildTree(blockId: string): Promise<NotionBlockNode[]> {
     const children = await fetchAllChildBlocks(client, blockId);
-    const nodes: NotionBlockNode[] = [];
+    const validChildren = children.filter(
+      (child) => child.type !== "child_page" && child.type !== "child_database",
+    );
 
-    for (const child of children) {
-      if (child.type === "child_page" || child.type === "child_database")
-        continue;
+    const nodes: NotionBlockNode[] = await Promise.all(
+      validChildren.map(async (child) => {
+        let grandChildren: NotionBlockNode[] = [];
+        if (child.has_children && !SKIP_CHILD_FETCH.has(child.type)) {
+          grandChildren = await buildTree(child.id);
+        }
 
-      let grandChildren: NotionBlockNode[] = [];
-      if (child.has_children && !SKIP_CHILD_FETCH.has(child.type)) {
-        grandChildren = await buildTree(child.id);
-      }
-
-      nodes.push({
-        block: child,
-        children: grandChildren,
-      });
-    }
+        return {
+          block: child,
+          children: grandChildren,
+        };
+      }),
+    );
 
     return nodes;
   }

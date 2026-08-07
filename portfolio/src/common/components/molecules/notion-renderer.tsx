@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Lightbulb } from "lucide-react";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import {
@@ -66,9 +67,10 @@ export async function NotionRenderer({ nodes }: Props) {
           const Tag = item.type === "bulleted_list" ? "ul" : "ol";
           const listClass =
             item.type === "bulleted_list" ? "list-disc" : "list-decimal";
+          const groupKey = `group-${idx}-${item.items[0]?.block.id || item.type}`;
           return (
             <Tag
-              key={`list-${idx}`}
+              key={groupKey}
               className={`my-4 space-y-2 pl-6 ${listClass}`}
             >
               {item.items.map((node) => (
@@ -207,12 +209,14 @@ export async function NotionRenderer({ nodes }: Props) {
           }
 
           case "to_do": {
+            const labelText = richTextToPlainText(block.to_do.rich_text) || "To do item";
             return (
               <div key={block.id} className="my-2 flex items-center gap-3">
                 <input
                   type="checkbox"
                   disabled
                   checked={block.to_do.checked}
+                  aria-label={labelText}
                   className="h-4 w-4 rounded border-neutral-700 bg-neutral-900 text-amber-500"
                 />
                 <span
@@ -234,11 +238,13 @@ export async function NotionRenderer({ nodes }: Props) {
             const caption = richTextToPlainText(block.image.caption);
             return (
               <figure key={block.id} className="my-6">
-                <img
+                <Image
                   src={src}
                   alt={caption || "Notion post image"}
+                  width={800}
+                  height={450}
+                  unoptimized
                   className="w-full rounded-xl border border-neutral-800 object-cover"
-                  loading="lazy"
                 />
                 {caption && (
                   <figcaption className="mt-2 text-center text-xs text-neutral-500">

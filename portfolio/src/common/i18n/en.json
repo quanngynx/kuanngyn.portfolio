@@ -285,6 +285,12 @@
     "description": "Please double-check the browser address bar or use navigation to go to a known page.",
     "goHome": "Go to home"
   },
+  "Error": {
+    "title": "Something Went Wrong",
+    "description": "An unexpected error occurred while loading this page. Please try again or return home.",
+    "tryAgain": "Try again",
+    "goHome": "Go to home"
+  },
   "Blog": {
     "title": "Writing",
     "description": "Notes on software engineering, architecture, and the work behind the projects.",

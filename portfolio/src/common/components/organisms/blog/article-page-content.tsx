@@ -18,9 +18,12 @@ interface ArticlePageContentProps {
   relatedPosts?: BlogPost[];
 }
 
-export async function ArticlePageContent({ post, adjacent, relatedPosts = [] }: ArticlePageContentProps) {
+const EMPTY_RELATED_POSTS: BlogPost[] = [];
+
+export async function ArticlePageContent({ post, adjacent, relatedPosts }: ArticlePageContentProps) {
   const locales = await getPostLocales(post.slug, post.kind);
   const canonicalUrl = articleUrl(post.locale, post.slug, post.kind);
+  const activeRelatedPosts = relatedPosts ?? EMPTY_RELATED_POSTS;
 
   return (
     <>
@@ -102,7 +105,7 @@ export async function ArticlePageContent({ post, adjacent, relatedPosts = [] }: 
         />
 
         {adjacent && <ArticlePaginationNav adjacent={adjacent} />}
-        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+        {activeRelatedPosts.length > 0 && <RelatedPosts posts={activeRelatedPosts} />}
       </article>
 
       {post.readingStats && <ReadingControlWidget stats={post.readingStats} />}

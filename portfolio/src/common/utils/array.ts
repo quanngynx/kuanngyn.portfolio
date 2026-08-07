@@ -19,9 +19,13 @@ export const findRepeatingElements = <T>(
   }
 
   const serializedCount = count(serialized);
-  return [...serializedCount]
-    .filter(([, count]) => count > 1)
-    .map(([entry]) => entry);
+  const repeating: string[] = [];
+  for (const [entry, c] of serializedCount) {
+    if (c > 1) {
+      repeating.push(entry);
+    }
+  }
+  return repeating;
 };
 
 export const pickRandom = <T>(source: T[]): T | null => {

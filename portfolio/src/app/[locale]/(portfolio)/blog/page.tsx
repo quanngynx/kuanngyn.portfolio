@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-import { getCombinedPublishedPosts } from "@/common/blog/resolve-post";
 import { filterPosts } from "@/common/blog/filters";
+import { getCombinedPublishedPosts } from "@/common/blog/resolve-post";
+import { AnimatedBlogList } from "@/common/components/organisms/blog/animated-blog-list";
 import { BlogFilterToolbar } from "@/common/components/organisms/blog/blog-filter-toolbar";
-import { isSupportedLocale, type Locale } from "@/common/i18n/routes";
-import { articlePath } from "@/common/utils/url";
+import { isSupportedLocale } from "@/common/i18n/routes";
 
 export const revalidate = 300;
 
@@ -21,13 +21,6 @@ interface BlogPageProps {
   }>;
 }
 
-function formatDate(value: string, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale, {
-    dateStyle: "long",
-    timeZone: "UTC",
-  }).format(new Date(`${value}T00:00:00.000Z`));
-}
-
 export async function generateMetadata({
   params,
 }: BlogPageProps): Promise<Metadata> {
@@ -38,7 +31,10 @@ export async function generateMetadata({
   return { title: t("title"), description: t("description") };
 }
 
-export default async function BlogPage({ params, searchParams }: BlogPageProps) {
+export default async function BlogPage({
+  params,
+  searchParams,
+}: BlogPageProps) {
   const { locale } = await params;
   if (!isSupportedLocale(locale)) notFound();
 
@@ -76,38 +72,11 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
         </p>
       </header>
 
-      <BlogFilterToolbar availableTags={availableTags} />
+      <Suspense fallback={<div className="mt-8 mb-4 h-20 rounded-2xl border border-border bg-card/40" />}>
+        <BlogFilterToolbar availableTags={availableTags} />
+      </Suspense>
 
-      {filteredPosts.length === 0 ? (
-        <p className="mt-16 text-muted-foreground">{t("empty")}</p>
-      ) : (
-        <ol className="mt-12 divide-y divide-border">
-          {filteredPosts.map((post) => (
-            <li key={post.slug}>
-              <Link
-                href={articlePath(locale, post.slug, post.kind)}
-                className="group block py-10 focus-visible:outline-2 focus-visible:outline-offset-4"
-              >
-                <div className="flex flex-wrap gap-x-3 text-sm text-muted-foreground">
-                  <time dateTime={post.publishedAt}>
-                    {formatDate(post.publishedAt, locale)}
-                  </time>
-                  <span aria-hidden="true">·</span>
-                  <span>
-                    {t("minuteRead", { minutes: post.readingMinutes })}
-                  </span>
-                </div>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight transition-opacity group-hover:opacity-65 md:text-4xl">
-                  {post.title}
-                </h2>
-                <p className="mt-3 max-w-3xl text-lg leading-8 text-muted-foreground">
-                  {post.subtitle}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      )}
+      <AnimatedBlogList posts={filteredPosts} locale={locale} />
     </main>
   );
 }

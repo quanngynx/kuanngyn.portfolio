@@ -46,7 +46,8 @@ export function NotionRichText({ richText }: Props) {
           );
         }
 
-        return <React.Fragment key={idx}>{content}</React.Fragment>;
+        const key = `rt-${idx}-${item.plain_text.slice(0, 20)}`;
+        return <React.Fragment key={key}>{content}</React.Fragment>;
       })}
     </>
   );

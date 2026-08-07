@@ -63,22 +63,22 @@ export async function getAllPosts(locale: Locale): Promise<BlogPost[]> {
 
   try {
     const entries = await readdir(localeDirectory, { withFileTypes: true });
+    const mdxFiles = entries.filter(
+      (entry) => entry.isFile() && path.extname(entry.name) === ".mdx",
+    );
+
     const posts = await Promise.all(
-      entries
-        .filter(
-          (entry) => entry.isFile() && path.extname(entry.name) === ".mdx",
-        )
-        .map(async (entry) => {
-          const slug = parseBlogSlug(path.basename(entry.name, ".mdx"));
+      mdxFiles.map(async (entry) => {
+        const slug = parseBlogSlug(path.basename(entry.name, ".mdx"));
 
-          if (!slug) {
-            throw new Error(
-              `${path.join(localeDirectory, entry.name)}: invalid blog slug`,
-            );
-          }
+        if (!slug) {
+          throw new Error(
+            `${path.join(localeDirectory, entry.name)}: invalid blog slug`,
+          );
+        }
 
-          return loadPostFile(locale, slug);
-        }),
+        return loadPostFile(locale, slug);
+      }),
     );
 
     return posts

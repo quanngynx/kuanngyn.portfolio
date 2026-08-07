@@ -283,6 +283,12 @@
     "description": "Vui lòng kiểm tra lại địa chỉ trình duyệt hoặc quay lại trang chủ.",
     "goHome": "Về trang chủ"
   },
+  "Error": {
+    "title": "Đã có lỗi xảy ra",
+    "description": "Đã xảy ra lỗi không mong muốn khi tải trang này. Vui lòng thử lại hoặc quay về trang chủ.",
+    "tryAgain": "Thử lại",
+    "goHome": "Về trang chủ"
+  },
   "Blog": {
     "title": "Bài viết",
     "description": "Ghi chú về kỹ thuật phần mềm, kiến trúc và quá trình xây dựng các dự án.",

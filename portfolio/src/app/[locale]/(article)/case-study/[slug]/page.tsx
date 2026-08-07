@@ -48,8 +48,10 @@ export default async function CaseStudyPage(props: ArticlePageProps) {
   }
 
   const isDraftMode = (await draftMode()).isEnabled;
-  const pageData = await getPageBySlug(slug, locale, { includeDrafts: isDraftMode });
-  const allPosts = await getCombinedPublishedPosts(locale, isDraftMode);
+  const [pageData, allPosts] = await Promise.all([
+    getPageBySlug(slug, locale, { includeDrafts: isDraftMode }),
+    getCombinedPublishedPosts(locale, isDraftMode),
+  ]);
 
   if (pageData && pageData.generalInfo.kind === "case-study") {
     const adjacent = getAdjacentPosts(slug, allPosts);
