@@ -239,11 +239,11 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
           <div
             data-lenis-prevent
             onMouseEnter={handleMouseEnter}
-            className="absolute top-1/2 left-12 max-h-[70vh] w-80 -translate-y-1/2 animate-in overflow-y-auto overscroll-contain rounded-2xl border border-neutral-800 bg-neutral-950/95 p-5 shadow-2xl backdrop-blur-2xl duration-200 zoom-in-95 fade-in"
+            className="absolute top-1/2 left-12 max-h-[70vh] w-80 -translate-y-1/2 animate-in overflow-y-auto overscroll-contain rounded-2xl border border-border bg-accent p-5 shadow-2xl backdrop-blur-2xl duration-200 zoom-in-95 fade-in"
           >
-            <div className="mb-3 flex items-center justify-between border-b border-neutral-800/80 pb-3">
+            <div className="mb-3 flex items-center justify-between border-b border-border pb-3">
               <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-                <AlignLeft className="h-4 w-4 text-amber-400" />
+                <AlignLeft className="h-4 w-4 text-muted-foreground" />
                 <span>{label}</span>
               </div>
               <button
@@ -270,7 +270,7 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
                       className={cn(
                         "inline-block leading-relaxed transition-colors duration-150 hover:underline",
                         isActive
-                          ? "font-semibold text-sky-400 dark:text-sky-400"
+                          ? "font-semibold text-sky-600 dark:text-sky-600 underline"
                           : "text-muted-foreground hover:text-foreground",
                       )}
                     >
