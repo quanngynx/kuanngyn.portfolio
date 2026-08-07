@@ -1,7 +1,7 @@
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import type { BlogPost } from "@/common/blog/content-schema";
 import type { AdjacentPosts } from "@/common/blog/adjacent-posts";
-import { extractNotionOutline } from "@/common/blog/notion-blocks";
+import { extractNotionOutline, calculateNotionReadingStats } from "@/common/blog/notion-blocks";
 import { ArticleNavigator } from "@/common/components/molecules/navigation/article-navigator";
 import { NotionRenderer } from "@/common/components/molecules/notion-renderer";
 import { ReadingProgressBar } from "@/common/components/molecules/blog/reading-progress-bar";
@@ -19,6 +19,9 @@ interface Props {
 
 export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts = [] }: Props) {
   const outline = extractNotionOutline(blockTree);
+  const stats = (generalInfo.readingStats && (generalInfo.readingStats.wordCount > 0 || generalInfo.readingStats.sectionCount > 0))
+    ? generalInfo.readingStats
+    : calculateNotionReadingStats(blockTree);
 
   return (
     <>
@@ -46,10 +49,10 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
             <time dateTime={generalInfo.publishedAt}>
               {generalInfo.publishedAt}
             </time>
-            {generalInfo.readingMinutes > 0 && (
+            {stats.readingMinutes > 0 && (
               <>
                 <span>•</span>
-                <span>{generalInfo.readingMinutes} min read</span>
+                <span>{stats.readingMinutes} min read</span>
               </>
             )}
           </div>
@@ -73,9 +76,7 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
         {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </article>
 
-      {generalInfo.readingStats && (
-        <ReadingControlWidget stats={generalInfo.readingStats} />
-      )}
+      <ReadingControlWidget stats={stats} />
     </>
   );
 }

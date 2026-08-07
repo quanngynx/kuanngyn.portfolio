@@ -3,7 +3,7 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 import { notion } from "./notion-client";
 import { queryAllDataSourcePages } from "./notion-data-source";
 import { checkForDuplicateSlugs, parsePostMetadata } from "./post-metadata";
-import { fetchPageBlockTree } from "./notion-blocks";
+import { fetchPageBlockTree, calculateNotionReadingStats } from "./notion-blocks";
 import { NOTION_DATABASE_ID } from "../venv";
 import type { BlogPost } from "./content-schema";
 import type { Locale } from "../i18n/routes";
@@ -99,9 +99,16 @@ export const getPageBySlug = cache(
     try {
       const pageId = generalInfo.sourcePath.replace("notion://", "");
       const blockTree = await fetchPageBlockTree(notion, pageId);
+      const stats = calculateNotionReadingStats(blockTree);
+
+      const updatedGeneralInfo: BlogPost = {
+        ...generalInfo,
+        readingStats: stats,
+        readingMinutes: stats.readingMinutes > 0 ? stats.readingMinutes : generalInfo.readingMinutes,
+      };
 
       return {
-        generalInfo,
+        generalInfo: updatedGeneralInfo,
         blockTree,
       };
     } catch (error) {
