@@ -149,8 +149,8 @@ export function StoryModal({
                     {tModals("aboutProject")}
                   </h3>
                   <ul className="space-y-2.5 text-sm leading-relaxed font-light text-foreground/85 sm:text-base">
-                    {activeStory.descriptions.map((desc, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5">
+                    {activeStory.descriptions.map((desc) => (
+                      <li key={desc} className="flex items-start gap-2.5">
                         <span className="mt-1 text-primary">•</span>
                         <span>{desc}</span>
                       </li>

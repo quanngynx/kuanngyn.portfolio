@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, BookOpen } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { StoryItem } from "../modals/story-modal";
 import { RoadmapItem } from "../../organisms/roadmap/roadmap";
 
@@ -158,7 +158,7 @@ export function RoadmapBottomNav({
                     key={story.id}
                     variants={storyItemVariants}
                     onClick={() => onSelectStory(story, currentItem)}
-                    className="group relative flex w-full items-center justify-between gap-3 rounded-xl border border-border/50 bg-secondary/20 p-2.5 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-secondary/50"
+                    className="group relative flex w-full items-center justify-between gap-3 rounded-xl border border-border/50 bg-secondary/20 p-2.5 text-left transition-[color,background-color,border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-secondary/50"
                   >
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="min-w-0">

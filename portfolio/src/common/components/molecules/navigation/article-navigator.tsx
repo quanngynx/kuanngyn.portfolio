@@ -82,9 +82,6 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
 
   useEffect(() => {
     const hashId = window.location.hash.slice(1);
-    const headings = items
-      .map(({ id }) => document.getElementById(id))
-      .filter((heading): heading is HTMLElement => heading !== null);
     const frameId = window.requestAnimationFrame(() => {
       setActiveId(
         items.some(({ id }) => id === hashId)
@@ -100,7 +97,11 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
       { rootMargin: "-20% 0px -70% 0px" },
     );
 
-    headings.forEach((heading) => observer.observe(heading));
+    for (const { id } of items) {
+      const heading = document.getElementById(id);
+      if (heading) observer.observe(heading);
+    }
+
     return () => {
       window.cancelAnimationFrame(frameId);
       observer.disconnect();
@@ -239,7 +240,7 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
           <div
             data-lenis-prevent
             onMouseEnter={handleMouseEnter}
-            className="absolute top-1/2 left-12 max-h-[70vh] w-80 -translate-y-1/2 animate-in overflow-y-auto overscroll-contain rounded-2xl border border-border bg-accent p-5 shadow-2xl backdrop-blur-2xl duration-200 zoom-in-95 fade-in"
+            className="absolute top-1/2 left-12 max-h-[70vh] w-80 -translate-y-1/2 animate-in overflow-y-auto overscroll-contain rounded-2xl border border-border bg-accent p-5 shadow-2xl backdrop-blur-2xl duration-200 zoom-in-95 fade-in transition-opacity"
           >
             <div className="mb-3 flex items-center justify-between border-b border-border pb-3">
               <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
@@ -248,8 +249,9 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
               </div>
               <button
                 type="button"
+                aria-label="Close outline panel"
                 onClick={() => setIsPanelOpen(false)}
-                className="rounded-lg p-1 text-muted-foreground hover:bg-neutral-800 hover:text-foreground"
+                className="rounded-lg p-1 text-muted-foreground transition-colors hover:bg-neutral-800 hover:text-foreground"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -270,7 +272,7 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
                       className={cn(
                         "inline-block leading-relaxed transition-colors duration-150 hover:underline",
                         isActive
-                          ? "font-semibold text-sky-600 dark:text-sky-600 underline"
+                          ? "font-semibold text-sky-600 underline dark:text-sky-600"
                           : "text-muted-foreground hover:text-foreground",
                       )}
                     >

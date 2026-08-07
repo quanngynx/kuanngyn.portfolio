@@ -1,6 +1,5 @@
 import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 import type { Locale } from "@/common/i18n/routes";
 import {
   resolveNavigationHref,
@@ -26,8 +25,6 @@ export function MobileMenu({
   isHomePage,
   onNavigate,
 }: MobileMenuProps) {
-  const t = useTranslations("Navigation");
-
   return (
     <AnimatePresence>
       {isOpen && (
