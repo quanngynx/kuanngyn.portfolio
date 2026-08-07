@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import type { BlogPost } from "@/common/blog/content-schema";
 import type { AdjacentPosts } from "@/common/blog/adjacent-posts";
@@ -17,7 +18,9 @@ interface Props {
   relatedPosts?: BlogPost[];
 }
 
-export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts = [] }: Props) {
+const EMPTY_RELATED_POSTS: BlogPost[] = [];
+
+export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts = EMPTY_RELATED_POSTS }: Props) {
   const outline = extractNotionOutline(blockTree);
   const stats = (generalInfo.readingStats && (generalInfo.readingStats.wordCount > 0 || generalInfo.readingStats.sectionCount > 0))
     ? generalInfo.readingStats
@@ -60,9 +63,12 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
 
         {generalInfo.image && (
           <div className="mb-6 overflow-hidden rounded-2xl border border-border">
-            <img
+            <Image
               src={generalInfo.image}
               alt={generalInfo.imageAlt || generalInfo.title}
+              width={1200}
+              height={600}
+              unoptimized
               className="max-h-120 w-full object-cover"
             />
           </div>

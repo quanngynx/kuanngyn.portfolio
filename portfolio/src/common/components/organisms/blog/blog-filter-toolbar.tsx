@@ -1,11 +1,14 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState, useTransition } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { Search, SlidersHorizontal } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useRef, useState, useTransition } from "react";
+import { CustomSelect } from "@/common/components/molecules/custom-select";
 import { cn } from "@/common/utils/ui";
 
-import { CustomSelect } from "@/common/components/molecules/custom-select";
+gsap.registerPlugin(useGSAP);
 
 interface Props {
   availableTags: string[];
@@ -21,10 +24,12 @@ export function BlogFilterToolbar({ availableTags }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
+  const toolbarRef = useRef<HTMLDivElement>(null);
 
   const currentKind = searchParams.get("kind") || "all";
   const currentSort = searchParams.get("sort") || "newest";
   const currentTags = searchParams.getAll("tag");
+  const currentTagSet = new Set(currentTags);
   const currentQuery = searchParams.get("q") || "";
 
   const [query, setQuery] = useState(currentQuery);
@@ -60,15 +65,38 @@ export function BlogFilterToolbar({ availableTags }: Props) {
     });
   };
 
-  const handleTagToggle = (tag: string) => {
-    const nextTags = currentTags.includes(tag)
+  const handleTagToggle = (
+    tag: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    const target = event.currentTarget;
+    gsap.fromTo(
+      target,
+      { scale: 0.92 },
+      { scale: 1, duration: 0.25, ease: "back.out(2)" },
+    );
+
+    if (toolbarRef.current) {
+      const rect = toolbarRef.current.getBoundingClientRect();
+      if (rect.top < 0) {
+        window.scrollTo({
+          top: window.scrollY + rect.top - 80,
+          behavior: "smooth",
+        });
+      }
+    }
+
+    const nextTags = currentTagSet.has(tag)
       ? currentTags.filter((t) => t !== tag)
       : [...currentTags, tag];
     updateFilters({ tag: nextTags });
   };
 
   return (
-    <div className="mt-8 mb-4 space-y-4 rounded-2xl border border-border bg-card/40 p-4 shadow-sm backdrop-blur-sm">
+    <div
+      ref={toolbarRef}
+      className="mt-8 mb-4 space-y-4 rounded-2xl border border-border bg-card/40 p-4 shadow-sm backdrop-blur-sm"
+    >
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Kind Filter Chips */}
         <div className="flex items-center gap-1.5 overflow-x-auto">
@@ -78,7 +106,7 @@ export function BlogFilterToolbar({ availableTags }: Props) {
               type="button"
               onClick={() => updateFilters({ kind })}
               className={cn(
-                "rounded-xl px-3 py-1.5 text-xs font-medium uppercase transition-colors",
+                "rounded-xl px-3 py-1.5 text-xs font-medium uppercase transition-colors select-none",
                 currentKind === kind
                   ? "bg-primary font-semibold text-primary-foreground"
                   : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -95,6 +123,7 @@ export function BlogFilterToolbar({ availableTags }: Props) {
             <Search className="absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
+              aria-label="Search articles"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -116,18 +145,18 @@ export function BlogFilterToolbar({ availableTags }: Props) {
       {/* Available Tags Multi-Select */}
       {availableTags.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-3">
-          <span className="mr-1 flex items-center gap-1 text-xs text-muted-foreground">
+          <span className="mr-1 flex items-center gap-1 text-xs text-muted-foreground select-none">
             <SlidersHorizontal className="h-3 w-3" /> Tags:
           </span>
           {availableTags.map((tag) => {
-            const isSelected = currentTags.includes(tag);
+            const isSelected = currentTagSet.has(tag);
             return (
               <button
                 key={tag}
                 type="button"
-                onClick={() => handleTagToggle(tag)}
+                onClick={(e) => handleTagToggle(tag, e)}
                 className={cn(
-                  "rounded-lg px-2.5 py-1 text-xs transition-colors",
+                  "rounded-lg px-2.5 py-1 text-xs transition-colors select-none",
                   isSelected
                     ? "border border-primary/40 bg-primary/20 font-medium text-primary"
                     : "bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground",
