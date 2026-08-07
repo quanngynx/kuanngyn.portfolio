@@ -1,0 +1,48 @@
+---
+title: "Bridging the Gap: System Design, CV Projects, and Take-Home Tests"
+subtitle: "How to prepare for architecture rounds and leverage past projects"
+description: "A comprehensive look at how I prepared for the more holistic parts of software engineering interviews, including system design, reviewing CV projects, and acing take-home assignments."
+author: "Nguyen Minh Quan"
+publishedAt: "2026-08-06"
+updatedAt: "2026-08-06"
+draft: false
+---
+
+While algorithms often get the most attention (and induce the most anxiety) during interview preparation, they are only one part of the equation. As I progressed in my journey, I realized that companies also heavily index on your ability to design systems, discuss past projects intelligently, and build practical applications.
+
+This post details my strategy for tackling these more holistic, less rigid parts of the interview process.
+
+## Connecting CV Projects to System Design
+
+One of the biggest mistakes I initially made was treating "System Design" and "Past Projects" as two completely separate topics. Interviewers love it when you can apply abstract design principles to the concrete projects you have already built.
+
+I started explicitly connecting the two:
+
+- **Re-analyzing my CV:** For every project listed on my resume, I forced myself to answer architectural questions about it. _Why did I use PostgreSQL instead of MongoDB here? How would this system handle 10,000 concurrent users? Where is the single point of failure?_
+- **Extracting Trade-offs:** System design is entirely about trade-offs. I made sure I could articulate the compromises I made in my personal projects (e.g., "I chose client-side rendering for faster initial development, but I knew it would hurt SEO and initial load time").
+
+This exercise made me sound significantly more experienced and grounded in reality, rather than just someone who memorized a textbook.
+
+## System Design Preparation Strategy
+
+Unlike algorithmic coding which has clear right and wrong answers, system design is famously open-ended. To stop feeling lost, I adopted a framework.
+
+1. **Using a Framework:** I used variations of the **RADIO** (Requirements, Architecture, Data Model, Interface, Optimizations) or **PEDALS** frameworks. Having a structure ensured I didn't immediately jump into drawing databases before I even knew the read/write ratio.
+2. **Key Concepts:** I focused heavily on mastering the foundational concepts rather than memorizing architectures of specific companies. Understanding _when_ to use a cache (and caching strategies), how load balancers work, database sharding, and message queues proved much more valuable than memorizing "How Twitter Works."
+3. **Resources:** The most helpful resources were **ByteByteGo** (Alex Xu's books and newsletter are incredible for visual learners) and the classic **Grokking the System Design Interview** course.
+
+## Tackling Take-Home Tests and Online Assessments
+
+Sometimes, instead of (or in addition to) live interviews, companies give take-home assignments. These test your practical software engineering skills.
+
+- **Timeboxing is Crucial:** It's very easy to spend 20 hours on an assignment meant for 4 hours. Set a strict limit. Deliver a working MVP first, then polish.
+- **The "Wow" Factors:** Functionality is the baseline, but the "wow" factor gets you hired. I always made sure to include:
+  - A stellar, well-formatted `README.md` explaining how to run the project and documenting my design decisions.
+  - A few core unit tests. It shows you care about quality.
+  - Clean code over clever code. Consistent naming, proper linting, and clear module boundaries speak volumes.
+
+## Key Takeaways
+
+The most important takeaway for me was realizing that these rounds are evaluating your _maturity_ as an engineer. Can you communicate effectively? Can you justify your technical choices? Can you build something practical?
+
+Balancing preparation between LeetCode, System Design, and polishing projects is tough, but treating them as interconnected skills rather than isolated chores made the entire process much more rewarding.

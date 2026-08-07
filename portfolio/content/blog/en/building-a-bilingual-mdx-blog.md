@@ -1,16 +1,3 @@
----
-kind: "blog"
-title: "Building a Bilingual MDX Blog"
-subtitle: "How I designed locale isolation, server-only MDX, and reliable static generation in a Next.js portfolio"
-description: "A case study of building a repository-controlled bilingual MDX blog with independent translations, static routes, metadata, and server-only rendering."
-author: "Nguyen Minh Quan"
-publishedAt: "2026-07-28"
-updatedAt: "2026-07-29"
-image: "/blog/building-a-bilingual-mdx-blog/en-index-desktop.webp"
-imageAlt: "English blog index showing the bilingual MDX article, publication date, and estimated reading time"
-draft: false
----
-
 I wanted the portfolio blog to behave like two independent publications that happen to share an application. An English article should appear only when its English MDX file exists. A Vietnamese article should follow the same rule. Matching filenames connect translations, but neither language should silently borrow content from the other.
 
 That sounds like a content-folder decision. In practice, it reached into routing, layout ownership, static generation, metadata, draft policy, and the security model of the MDX compiler. The difficult part was not getting Markdown onto a page. It was making every layer agree on which localized pages were real.
