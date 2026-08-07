@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getAllPosts } from "@/common/blog/content";
+import { getCombinedPublishedPosts } from "@/common/blog/resolve-post";
 import { BASE_URL, BLOG_PATH } from "@/common/constants";
 import { routing } from "@/common/i18n/routes";
 import { articlePath } from "@/common/utils/url";
@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postsByLocale = await Promise.all(
     routing.locales.map(async (locale) => ({
       locale,
-      posts: await getAllPosts(locale),
+      posts: await getCombinedPublishedPosts(locale),
     })),
   );
 

@@ -60,7 +60,11 @@ export default function Hero() {
   const filter = useTransform(blurValue, (value) => `blur(${value}px)`);
 
   const navigateToResume = () => {
-    window.open("https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing", "_blank", "noopener noreferrer");
+    window.open(
+      "https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing",
+      "_blank",
+      "noopener noreferrer",
+    );
   };
 
   return (

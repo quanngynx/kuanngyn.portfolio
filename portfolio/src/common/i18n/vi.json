@@ -6,7 +6,9 @@
     "projects": "Dự án",
     "roadmap": "Lộ trình",
     "blog": "Bài viết",
-    "contact": "Liên hệ"
+    "contact": "Liên hệ",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu"
   },
   "Hero": {
     "scrollDown": "Cuộn xuống",

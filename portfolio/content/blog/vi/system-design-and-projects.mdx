@@ -1,0 +1,48 @@
+---
+title: "Thu hẹp khoảng cách: Thiết kế Hệ thống, Dự án trong CV và Bài Test"
+subtitle: "Cách chuẩn bị cho các vòng phỏng vấn kiến trúc và tận dụng các dự án cũ"
+description: "Cái nhìn toàn diện về cách tôi chuẩn bị cho các phần đánh giá tổng thể hơn trong phỏng vấn kỹ sư phần mềm, bao gồm thiết kế hệ thống, xem xét dự án trong CV, và hoàn thành các bài test lập trình."
+author: "Nguyen Minh Quan"
+publishedAt: "2026-08-06"
+updatedAt: "2026-08-06"
+draft: false
+---
+
+Mặc dù thuật toán thường nhận được nhiều sự chú ý nhất (và cũng gây ra nhiều lo lắng nhất) trong quá trình ôn luyện phỏng vấn, chúng thực ra chỉ là một nửa của phương trình. Càng đi sâu vào quá trình tìm việc, tôi càng nhận ra rằng các công ty cũng cực kỳ đánh giá cao khả năng thiết kế hệ thống, cách bạn thảo luận một cách thông minh về các dự án trong quá khứ, và khả năng xây dựng các ứng dụng thực tế.
+
+Bài viết này trình bày chi tiết chiến lược của tôi để giải quyết các phần phỏng vấn mang tính tổng thể và ít cứng nhắc hơn này.
+
+## Kết nối Dự án trong CV với Thiết kế Hệ thống
+
+Một trong những sai lầm lớn nhất tôi mắc phải ban đầu là coi "Thiết kế Hệ thống" (System Design) và "Dự án cá nhân" (Past Projects) là hai chủ đề hoàn toàn tách biệt. Thực tế là, người phỏng vấn rất thích khi bạn có thể áp dụng các nguyên tắc thiết kế trừu tượng vào các dự án cụ thể mà bạn đã từng xây dựng.
+
+Tôi bắt đầu chủ động kết nối hai điều này lại với nhau:
+
+- **Phân tích lại CV của mình:** Đối với mỗi dự án liệt kê trong sơ yếu lý lịch, tôi ép bản thân phải trả lời các câu hỏi về mặt kiến trúc. _Tại sao tôi lại sử dụng PostgreSQL thay vì MongoDB ở đây? Hệ thống này sẽ xử lý thế nào nếu có 10.000 người dùng truy cập cùng lúc? Đâu là điểm yếu có thể gây sập toàn hệ thống (single point of failure)?_
+- **Trích xuất các Sự đánh đổi (Trade-offs):** Thiết kế hệ thống hoàn toàn xoay quanh sự đánh đổi. Tôi đảm bảo rằng mình có thể trình bày rõ ràng những thỏa hiệp mà tôi đã thực hiện trong các dự án cá nhân (ví dụ: "Tôi chọn client-side rendering để phát triển nhanh hơn lúc ban đầu, nhưng tôi biết nó sẽ ảnh hưởng xấu đến SEO và thời gian tải trang ban đầu").
+
+Bài tập này khiến tôi nghe có vẻ nhiều kinh nghiệm và thực tế hơn rất nhiều, thay vì chỉ là một người học thuộc lòng sách giáo khoa.
+
+## Chiến lược ôn tập Thiết kế Hệ thống
+
+Không giống như các bài toán thuật toán với câu trả lời đúng sai rõ ràng, thiết kế hệ thống nổi tiếng là mở (open-ended). Để không bị lạc lối, tôi đã áp dụng một bộ khung (framework).
+
+1. **Sử dụng một Framework:** Tôi sử dụng các biến thể của framework **RADIO** (Requirements, Architecture, Data Model, Interface, Optimizations) hoặc **PEDALS**. Việc có một cấu trúc đảm bảo tôi không ngay lập tức lao vào vẽ các database trước khi biết được tỷ lệ đọc/ghi (read/write ratio).
+2. **Các khái niệm cốt lõi:** Tôi tập trung nắm vững các khái niệm nền tảng thay vì học thuộc lòng kiến trúc của các công ty cụ thể. Hiểu được _khi nào_ nên sử dụng cache (và các chiến lược caching), cách load balancer hoạt động, phân mảnh cơ sở dữ liệu (database sharding), và hàng đợi tin nhắn (message queues) tỏ ra giá trị hơn rất nhiều so với việc học thuộc "Cách Twitter hoạt động".
+3. **Nguồn tài liệu:** Các tài liệu hữu ích nhất là **ByteByteGo** (Sách và bản tin của Alex Xu cực kỳ tuyệt vời cho những người học qua hình ảnh) và khóa học kinh điển **Grokking the System Design Interview**.
+
+## Vượt qua các bài Take-Home Tests và Online Assessments
+
+Đôi khi, thay vì (hoặc kết hợp với) phỏng vấn trực tiếp, các công ty sẽ giao các bài tập mang về nhà. Chúng kiểm tra kỹ năng lập trình phần mềm thực tế của bạn.
+
+- **Giới hạn thời gian (Timeboxing) là tối quan trọng:** Rất dễ để bạn dành 20 tiếng cho một bài tập đáng lẽ chỉ cần 4 tiếng. Hãy đặt một giới hạn thời gian nghiêm ngặt. Phân phối một MVP (sản phẩm khả dụng tối thiểu) hoạt động được trước, sau đó mới chau chuốt nó.
+- **Các yếu tố "Wow":** Chức năng hoạt động là mức cơ bản, nhưng yếu tố "wow" mới là thứ giúp bạn được tuyển. Tôi luôn đảm bảo bao gồm:
+  - Một file `README.md` xuất sắc, được định dạng tốt giải thích cách chạy dự án và ghi tài liệu lại các quyết định thiết kế của tôi.
+  - Một vài unit tests cốt lõi. Nó cho thấy bạn quan tâm đến chất lượng.
+  - Code sạch (clean code) quan trọng hơn code thông minh (clever code). Cách đặt tên nhất quán, linting chuẩn, và ranh giới các module rõ ràng sẽ nói lên rất nhiều điều.
+
+## Điểm mấu chốt
+
+Bài học quan trọng nhất đối với tôi là nhận ra rằng các vòng phỏng vấn này đang đánh giá sự _trưởng thành_ của bạn với tư cách là một kỹ sư. Bạn có thể giao tiếp hiệu quả không? Bạn có thể bảo vệ các lựa chọn kỹ thuật của mình không? Bạn có thể xây dựng một thứ gì đó thực tế không?
+
+Việc cân bằng giữa ôn luyện LeetCode, Thiết kế Hệ thống, và trau chuốt các dự án cá nhân là rất khó, nhưng việc coi chúng như các kỹ năng có mối liên hệ với nhau thay vì những công việc độc lập đã khiến toàn bộ quá trình trở nên đáng giá hơn rất nhiều.

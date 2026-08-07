@@ -6,15 +6,15 @@ export const count = (array: string[]): Map<string, number> => {
 
 export const findRepeatingElements = <T>(
   array: T[],
-  serializeEntry?: (entry: T) => string
+  serializeEntry?: (entry: T) => string,
 ) => {
   const serialized = serializeEntry
     ? array.map(serializeEntry)
     : ([...array] as string[]);
 
-  if (serialized.some((entry) => typeof entry !== 'string')) {
+  if (serialized.some((entry) => typeof entry !== "string")) {
     throw new Error(
-      'Entry must be serialized to string. If your array stores non-string elements, provide `serializeEntry` function.'
+      "Entry must be serialized to string. If your array stores non-string elements, provide `serializeEntry` function.",
     );
   }
 

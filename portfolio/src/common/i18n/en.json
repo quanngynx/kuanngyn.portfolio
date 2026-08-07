@@ -6,7 +6,9 @@
     "projects": "Projects",
     "roadmap": "Roadmap",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "Hero": {
     "scrollDown": "Scroll Down",
