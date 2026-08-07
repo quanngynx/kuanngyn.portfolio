@@ -1,22 +1,21 @@
 'use client'
 
-import { useState, useEffect, type RefObject } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowUp, Clock, FileText, Layers } from 'lucide-react'
 import type { ReadingStats } from '@/common/blog/content-schema'
 import { useLenis } from '@/common/providers/smooth-scroll-provider'
 
 interface Props {
   stats: ReadingStats
-  targetRef: RefObject<HTMLElement | null>
 }
 
-export function ReadingControlWidget({ stats, targetRef }: Props) {
+export function ReadingControlWidget({ stats }: Props) {
   const lenis = useLenis()
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      const el = targetRef.current
+      const el = document.getElementById('blog-article')
       if (!el) return
       const start = el.offsetTop
       const height = el.offsetHeight
@@ -30,7 +29,7 @@ export function ReadingControlWidget({ stats, targetRef }: Props) {
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [targetRef])
+  }, [])
 
   const remainingMin = Math.max(0, Math.ceil((1 - progress) * stats.readingMinutes))
   const percent = Math.round(progress * 100)

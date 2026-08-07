@@ -1,6 +1,3 @@
-'use client'
-
-import { useRef } from "react";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import type { BlogPost } from "@/common/blog/content-schema";
 import type { AdjacentPosts } from "@/common/blog/adjacent-posts";
@@ -22,14 +19,13 @@ interface Props {
 
 export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts = [] }: Props) {
   const outline = extractNotionOutline(blockTree);
-  const articleRef = useRef<HTMLElement>(null);
 
   return (
     <>
       {generalInfo.draft && <DraftPreviewBanner />}
-      <ReadingProgressBar targetRef={articleRef} />
+      <ReadingProgressBar />
       <ArticleNavigator items={outline} label="Article sections" />
-      <article ref={articleRef} id="blog-article" className="mx-auto max-w-4xl px-4 py-8">
+      <article id="blog-article" className="mx-auto max-w-4xl px-4 py-8">
         <header className="mb-10 space-y-4">
           {generalInfo.kind && (
             <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium tracking-wider uppercase text-primary">
@@ -78,7 +74,7 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
       </article>
 
       {generalInfo.readingStats && (
-        <ReadingControlWidget stats={generalInfo.readingStats} targetRef={articleRef} />
+        <ReadingControlWidget stats={generalInfo.readingStats} />
       )}
     </>
   );

@@ -1,15 +1,17 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useScroll, motion } from 'framer-motion'
-import type { RefObject } from 'react'
 
-interface Props {
-  targetRef: RefObject<HTMLElement | null>
-}
+export function ReadingProgressBar() {
+  const [targetEl, setTargetEl] = useState<HTMLElement | null>(null)
 
-export function ReadingProgressBar({ targetRef }: Props) {
+  useEffect(() => {
+    setTargetEl(document.getElementById('blog-article'))
+  }, [])
+
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: targetEl ? { current: targetEl } : undefined,
     offset: ['start start', 'end end']
   })
 
