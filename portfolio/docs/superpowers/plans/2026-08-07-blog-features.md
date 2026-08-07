@@ -4,9 +4,9 @@
 
 **Goal:** Implement 5 core blog feature enhancements (Reading Progress Widget, Related Posts Scoring Engine, Adjacent Article Navigation, Client-Side Filtering with URL sync, and Next.js Draft Mode Preview).
 
-**Architecture:** Domain logic is decoupled into pure TypeScript modules (`src/common/blog/`) with dedicated unit tests. UI components in `src/common/components/` consume normalized `BlogPost` data contracts. Draft preview uses Next.js Draft Mode cookie authentication and route handlers (`/api/draft` and `/api/draft/disable`).
+**Architecture:** Domain logic is decoupled into pure TypeScript modules (`src/common/blog/`) with dedicated unit tests. UI components in `src/common/components/` consume normalized `BlogPost` data contracts and adhere strictly to semantic theme tokens defined in `globals.css`. Draft preview uses Next.js Draft Mode cookie authentication and route handlers (`/api/draft` and `/api/draft/disable`).
 
-**Tech Stack:** Next.js 16 (App Router, Draft Mode), React 19, TypeScript (strict mode, single quotes, no semicolons), Framer Motion (`useScroll`), Lucide React icons, Tailwind CSS, Vitest / Node.js test runner for unit tests.
+**Tech Stack:** Next.js 16 (App Router, Draft Mode), React 19, TypeScript (strict mode, single quotes, no semicolons), Framer Motion (`useScroll`), Lucide React icons, Tailwind CSS (semantic design tokens), Vitest / Node.js test runner for unit tests.
 
 ## Global Constraints
 
@@ -14,6 +14,7 @@
 - Use functional patterns, small focused modules.
 - Preserve existing component contracts & i18n support.
 - No direct secret tokens in public URLs or client bundles.
+- **Theme Consistency:** All new blog components must reuse the existing semantic colors and CSS variables defined in `globals.css` (e.g. `bg-background`, `bg-card`, `text-foreground`, `text-muted-foreground`, `border-border`, `bg-primary`, `text-primary`, `bg-accent`, `text-accent-foreground`). Do not hard-code standalone Tailwind palettes such as `amber-*`, `sky-*`, or `neutral-*` unless the existing design system explicitly maps to those values.
 
 ---
 
@@ -487,7 +488,7 @@ export async function GET() {
 Modify `portfolio/src/common/blog/notion-posts.ts`:
 Update `getAllPublishedPosts(locale, includeDrafts = false)` and `getPageBySlug(slug, locale, options = { includeDrafts: false })`. When `includeDrafts` is true, omit the Notion `Status === "Done"` filter and bypass cache.
 
-- [ ] **Step 4: Create `DraftPreviewBanner` component**
+- [ ] **Step 4: Create `DraftPreviewBanner` component (Semantic Design Tokens)**
 
 Create `portfolio/src/common/components/molecules/blog/draft-preview-banner.tsx`:
 ```tsx
@@ -496,14 +497,14 @@ import { AlertTriangle } from 'lucide-react'
 
 export function DraftPreviewBanner() {
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between border-b border-amber-500/40 bg-amber-500/10 px-4 py-2 text-xs font-medium text-amber-400 backdrop-blur-md">
+    <div className="sticky top-0 z-50 flex items-center justify-between border-b border-border bg-card/90 px-4 py-2 text-xs font-medium text-foreground backdrop-blur-md">
       <div className="flex items-center gap-2">
-        <AlertTriangle className="h-4 w-4 shrink-0" />
+        <AlertTriangle className="h-4 w-4 shrink-0 text-primary" />
         <span>Draft Preview Mode - Unpublished Article</span>
       </div>
       <Link
         href="/api/draft/disable"
-        className="rounded bg-amber-500/20 px-2.5 py-1 text-amber-300 transition-colors hover:bg-amber-500/30"
+        className="rounded border border-border bg-primary/10 px-2.5 py-1 text-primary transition-colors hover:bg-primary/20"
       >
         Exit Preview
       </Link>
@@ -521,7 +522,7 @@ Expected: PASS
 
 ```bash
 git add src/app/api/draft/route.ts src/app/api/draft/disable/route.ts src/common/blog/notion-posts.ts src/common/components/molecules/blog/draft-preview-banner.tsx
-git commit -m "feat: add Next.js Draft Mode preview route handlers and repository bypass"
+git commit -m "feat: add Next.js Draft Mode preview route handlers and semantic preview banner"
 ```
 
 ---
@@ -533,7 +534,7 @@ git commit -m "feat: add Next.js Draft Mode preview route handlers and repositor
 - Create: `portfolio/src/common/components/molecules/blog/reading-control-widget.tsx`
 - Modify: `portfolio/src/common/components/organisms/notion-content.tsx:1-60`
 
-- [ ] **Step 1: Create `ReadingProgressBar` component**
+- [ ] **Step 1: Create `ReadingProgressBar` component (Semantic Design Tokens)**
 
 Create `portfolio/src/common/components/molecules/blog/reading-progress-bar.tsx`:
 ```tsx
@@ -555,13 +556,13 @@ export function ReadingProgressBar({ targetRef }: Props) {
   return (
     <motion.div
       style={{ scaleX: scrollYProgress }}
-      className="fixed top-0 left-0 right-0 z-50 h-0.5 origin-left bg-gradient-to-r from-amber-500 to-sky-400"
+      className="fixed top-0 left-0 right-0 z-50 h-0.5 origin-left bg-primary"
     />
   )
 }
 ```
 
-- [ ] **Step 2: Create `ReadingControlWidget` component**
+- [ ] **Step 2: Create `ReadingControlWidget` component (Semantic Design Tokens)**
 
 Create `portfolio/src/common/components/molecules/blog/reading-control-widget.tsx`:
 ```tsx
@@ -585,7 +586,6 @@ export function ReadingControlWidget({ stats, targetRef }: Props) {
     const handleScroll = () => {
       const el = targetRef.current
       if (!el) return
-      const rect = el.getBoundingClientRect()
       const start = el.offsetTop
       const height = el.offsetHeight
       const total = height - window.innerHeight
@@ -612,13 +612,13 @@ export function ReadingControlWidget({ stats, targetRef }: Props) {
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2">
-      <div className="group relative flex items-center gap-3 rounded-full border border-neutral-800 bg-neutral-900/90 px-3.5 py-2 text-xs text-muted-foreground shadow-xl backdrop-blur-xl transition-colors hover:border-neutral-700 hover:text-foreground">
-        <span className="font-semibold text-amber-400">{percent}%</span>
-        <span className="h-3 w-px bg-neutral-800" />
+      <div className="group relative flex items-center gap-3 rounded-full border border-border bg-card/90 px-3.5 py-2 text-xs text-muted-foreground shadow-xl backdrop-blur-xl transition-colors hover:text-foreground">
+        <span className="font-semibold text-primary">{percent}%</span>
+        <span className="h-3 w-px bg-border" />
         <span>{progress >= 0.98 ? 'Finished' : `${remainingMin} min left`}</span>
 
         {/* Hover Popover Stats */}
-        <div className="pointer-events-none absolute bottom-full right-0 mb-2 w-48 rounded-xl border border-neutral-800 bg-neutral-950/95 p-3 text-xs opacity-0 shadow-2xl backdrop-blur-2xl transition-opacity group-hover:opacity-100">
+        <div className="pointer-events-none absolute bottom-full right-0 mb-2 w-48 rounded-xl border border-border bg-popover/95 p-3 text-xs opacity-0 shadow-2xl backdrop-blur-2xl transition-opacity group-hover:opacity-100">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-muted-foreground"><FileText className="h-3.5 w-3.5" /> Words</span>
@@ -640,7 +640,7 @@ export function ReadingControlWidget({ stats, targetRef }: Props) {
         type="button"
         onClick={scrollToTop}
         aria-label="Back to top"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-800 bg-neutral-900/90 text-muted-foreground shadow-xl backdrop-blur-xl transition-all hover:border-foreground/40 hover:text-foreground active:scale-95"
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/90 text-muted-foreground shadow-xl backdrop-blur-xl transition-all hover:border-foreground/40 hover:text-foreground active:scale-95"
       >
         <ArrowUp className="h-4 w-4" />
       </button>
@@ -657,7 +657,7 @@ Update `notion-content.tsx` to wrap article in `<article id="blog-article" ref={
 
 ```bash
 git add src/common/components/molecules/blog/reading-progress-bar.tsx src/common/components/molecules/blog/reading-control-widget.tsx src/common/components/organisms/notion-content.tsx
-git commit -m "feat: add article-relative reading progress bar and floating control widget"
+git commit -m "feat: add article-relative reading progress bar and floating control widget with semantic theme tokens"
 ```
 
 ---
@@ -669,7 +669,7 @@ git commit -m "feat: add article-relative reading progress bar and floating cont
 - Create: `portfolio/src/common/components/molecules/blog/article-pagination-nav.tsx`
 - Modify: `portfolio/src/common/components/organisms/notion-content.tsx`
 
-- [ ] **Step 1: Create `RelatedPosts` component**
+- [ ] **Step 1: Create `RelatedPosts` component (Semantic Design Tokens)**
 
 Create `portfolio/src/common/components/molecules/blog/related-posts.tsx`:
 ```tsx
@@ -684,30 +684,30 @@ export function RelatedPosts({ posts }: Props) {
   if (posts.length === 0) return null
 
   return (
-    <section className="mt-16 border-t border-neutral-800 pt-10">
+    <section className="mt-16 border-t border-border pt-10">
       <h2 className="mb-6 text-xl font-bold text-foreground">Related Articles</h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="group flex flex-col justify-between rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-5 transition-colors hover:border-neutral-700 hover:bg-neutral-900/80"
+            className="group flex flex-col justify-between rounded-2xl border border-border/80 bg-card/40 p-5 transition-colors hover:border-border hover:bg-card/80"
           >
             <div>
               <div className="mb-3 flex items-center justify-between text-xs text-muted-foreground">
-                <span className="rounded-full bg-amber-500/10 px-2.5 py-0.5 font-medium text-amber-400 uppercase">
+                <span className="rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary uppercase">
                   {post.kind}
                 </span>
                 <span>{post.readingStats.readingMinutes} min read</span>
               </div>
-              <h3 className="line-clamp-2 text-base font-semibold text-foreground transition-colors group-hover:text-amber-400">
+              <h3 className="line-clamp-2 text-base font-semibold text-foreground transition-colors group-hover:text-primary">
                 {post.title}
               </h3>
               <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
                 {post.description}
               </p>
             </div>
-            <div className="mt-4 flex items-center gap-2 text-xs text-neutral-500">
+            <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
               <time dateTime={post.publishedAt}>{post.publishedAt}</time>
             </div>
           </Link>
@@ -718,7 +718,7 @@ export function RelatedPosts({ posts }: Props) {
 }
 ```
 
-- [ ] **Step 2: Create `ArticlePaginationNav` component**
+- [ ] **Step 2: Create `ArticlePaginationNav` component (Semantic Design Tokens)**
 
 Create `portfolio/src/common/components/molecules/blog/article-pagination-nav.tsx`:
 ```tsx
@@ -739,12 +739,12 @@ export function ArticlePaginationNav({ adjacent }: Props) {
       {newerPost ? (
         <Link
           href={`/blog/${newerPost.slug}`}
-          className="group flex flex-col rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 transition-colors hover:border-neutral-700 hover:bg-neutral-900/80"
+          className="group flex flex-col rounded-2xl border border-border/80 bg-card/40 p-4 transition-colors hover:border-border hover:bg-card/80"
         >
           <span className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground">
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" /> Newer Article
           </span>
-          <span className="line-clamp-1 text-sm font-semibold text-foreground group-hover:text-amber-400">
+          <span className="line-clamp-1 text-sm font-semibold text-foreground group-hover:text-primary">
             {newerPost.title}
           </span>
         </Link>
@@ -753,12 +753,12 @@ export function ArticlePaginationNav({ adjacent }: Props) {
       {olderPost ? (
         <Link
           href={`/blog/${olderPost.slug}`}
-          className="group flex flex-col items-end rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 transition-colors hover:border-neutral-700 hover:bg-neutral-900/80"
+          className="group flex flex-col items-end rounded-2xl border border-border/80 bg-card/40 p-4 transition-colors hover:border-border hover:bg-card/80"
         >
           <span className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground">
             Older Article <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </span>
-          <span className="line-clamp-1 text-sm font-semibold text-foreground group-hover:text-amber-400">
+          <span className="line-clamp-1 text-sm font-semibold text-foreground group-hover:text-primary">
             {olderPost.title}
           </span>
         </Link>
@@ -776,7 +776,7 @@ Modify `notion-content.tsx` to render `<ArticlePaginationNav adjacent={adjacent}
 
 ```bash
 git add src/common/components/molecules/blog/related-posts.tsx src/common/components/molecules/blog/article-pagination-nav.tsx src/common/components/organisms/notion-content.tsx
-git commit -m "feat: add Related Posts grid and Chronological Article Pagination Navigation"
+git commit -m "feat: add Related Posts grid and Chronological Article Pagination Navigation using semantic theme tokens"
 ```
 
 ---
@@ -785,9 +785,9 @@ git commit -m "feat: add Related Posts grid and Chronological Article Pagination
 
 **Files:**
 - Create: `portfolio/src/common/components/organisms/blog/blog-filter-toolbar.tsx`
-- Modify: `portfolio/src/app/[locale]/blog/page.tsx` (or blog list container)
+- Modify: `portfolio/src/app/[locale]/blog/page.tsx`
 
-- [ ] **Step 1: Create `BlogFilterToolbar` component**
+- [ ] **Step 1: Create `BlogFilterToolbar` component (Semantic Design Tokens)**
 
 Create `portfolio/src/common/components/organisms/blog/blog-filter-toolbar.tsx`:
 ```tsx
@@ -849,7 +849,7 @@ export function BlogFilterToolbar({ availableTags }: Props) {
   }
 
   return (
-    <div className="mb-8 space-y-4 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-4 shadow-sm backdrop-blur-sm">
+    <div className="mb-8 space-y-4 rounded-2xl border border-border bg-card/40 p-4 shadow-sm backdrop-blur-sm">
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Kind Filter Chips */}
         <div className="flex items-center gap-1.5 overflow-x-auto">
@@ -861,8 +861,8 @@ export function BlogFilterToolbar({ availableTags }: Props) {
               className={cn(
                 'rounded-xl px-3 py-1.5 text-xs font-medium uppercase transition-colors',
                 currentKind === kind
-                  ? 'bg-amber-500 text-neutral-950 font-semibold'
-                  : 'bg-neutral-800/60 text-muted-foreground hover:bg-neutral-800 hover:text-foreground'
+                  ? 'bg-primary text-primary-foreground font-semibold'
+                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
               {kind}
@@ -882,14 +882,14 @@ export function BlogFilterToolbar({ availableTags }: Props) {
                 updateFilters({ q: e.target.value })
               }}
               placeholder="Search articles..."
-              className="h-9 rounded-xl border border-neutral-800 bg-neutral-950/80 pl-9 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-amber-500 focus:outline-none"
+              className="h-9 rounded-xl border border-border bg-background pl-9 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
           </div>
 
           <select
             value={currentSort}
             onChange={(e) => updateFilters({ sort: e.target.value })}
-            className="h-9 rounded-xl border border-neutral-800 bg-neutral-950/80 px-3 text-xs text-foreground focus:border-amber-500 focus:outline-none"
+            className="h-9 rounded-xl border border-border bg-background px-3 text-xs text-foreground focus:border-primary focus:outline-none"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -899,7 +899,7 @@ export function BlogFilterToolbar({ availableTags }: Props) {
 
       {/* Available Tags Multi-Select */}
       {availableTags.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 border-t border-neutral-800/60 pt-3">
+        <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-3">
           <span className="flex items-center gap-1 text-xs text-muted-foreground mr-1">
             <SlidersHorizontal className="h-3 w-3" /> Tags:
           </span>
@@ -913,8 +913,8 @@ export function BlogFilterToolbar({ availableTags }: Props) {
                 className={cn(
                   'rounded-lg px-2.5 py-1 text-xs transition-colors',
                   isSelected
-                    ? 'bg-sky-500/20 text-sky-400 border border-sky-500/40 font-medium'
-                    : 'bg-neutral-800/40 text-muted-foreground hover:bg-neutral-800 hover:text-foreground'
+                    ? 'bg-primary/20 text-primary border border-primary/40 font-medium'
+                    : 'bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground'
                 )}
               >
                 #{tag}
@@ -941,7 +941,7 @@ Expected: PASS with 0 errors.
 
 ```bash
 git add src/common/components/organisms/blog/blog-filter-toolbar.tsx src/app/\[locale\]/blog/page.tsx
-git commit -m "feat: add BlogFilterToolbar with URL searchParams synchronization and AND tag filtering"
+git commit -m "feat: add BlogFilterToolbar with URL searchParams synchronization using semantic design tokens"
 ```
 
 ---
@@ -949,5 +949,6 @@ git commit -m "feat: add BlogFilterToolbar with URL searchParams synchronization
 ## Plan Self-Review
 
 1. **Spec Coverage**: All 5 feature requirements (Reading progress, Related posts, Prev/Next navigation, Filtering + URL sync, Next.js Draft Mode preview) have dedicated implementation tasks and domain logic modules.
-2. **Placeholder Scan**: Verified no placeholders, TODOs, or vague steps.
-3. **Type Consistency**: Method signatures (`ReadingStats`, `BlogPost`, `AdjacentPosts`, `getRelatedPosts`, `filterPosts`, `getAdjacentPosts`) are consistently declared across domain files and UI components.
+2. **Theme Consistency**: All UI components strictly use `bg-card`, `bg-background`, `border-border`, `text-foreground`, `text-muted-foreground`, `bg-primary`, `text-primary`, `text-primary-foreground` and omit hard-coded `amber-*`, `sky-*`, `neutral-*` palettes.
+3. **Placeholder Scan**: Verified no placeholders, TODOs, or vague steps.
+4. **Type Consistency**: Method signatures (`ReadingStats`, `BlogPost`, `AdjacentPosts`, `getRelatedPosts`, `filterPosts`, `getAdjacentPosts`) are consistently declared across domain files and UI components.
