@@ -1,4 +1,3 @@
-import React from "react";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import type { BlogPost } from "@/common/blog/content-schema";
 import { NotionRenderer } from "@/common/components/molecules/notion-renderer";
