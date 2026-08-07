@@ -1,6 +1,7 @@
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import type { BlogPost, BlogPostFrontmatter, BlogSlug } from "./content-schema";
 import { estimateReadingMinutes, parseBlogSlug } from "./content-schema";
+import { calculateReadingStats } from "./reading-stats";
 import type { Locale } from "../i18n/routes";
 
 export const NOTION_POST_PROPERTIES = {
@@ -140,8 +141,10 @@ export function parsePostMetadata(
     ...frontmatter,
     slug: parsedSlug,
     locale,
+    tags,
     body: bodyText,
     readingMinutes: estimateReadingMinutes(bodyText),
+    readingStats: calculateReadingStats(bodyText),
     sourcePath: `notion://${page.id}`,
   };
 }
