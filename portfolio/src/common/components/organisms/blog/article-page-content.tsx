@@ -2,18 +2,23 @@ import Link from "next/link";
 
 import { getPostLocales } from "@/common/blog/content";
 import type { BlogPost } from "@/common/blog/content-schema";
+import type { AdjacentPosts } from "@/common/blog/adjacent-posts";
 import { formatDate } from "@/common/utils/time";
 import { articlePath, articleUrl } from "@/common/utils/url";
 import { ReadingProgressBar } from "@/common/components/molecules/blog/reading-progress-bar";
 import { ReadingControlWidget } from "@/common/components/molecules/blog/reading-control-widget";
+import { RelatedPosts } from "@/common/components/molecules/blog/related-posts";
+import { ArticlePaginationNav } from "@/common/components/molecules/blog/article-pagination-nav";
 
 import { MdxRenderer } from "./mdx-renderer";
 
 interface ArticlePageContentProps {
   post: BlogPost;
+  adjacent?: AdjacentPosts;
+  relatedPosts?: BlogPost[];
 }
 
-export async function ArticlePageContent({ post }: ArticlePageContentProps) {
+export async function ArticlePageContent({ post, adjacent, relatedPosts = [] }: ArticlePageContentProps) {
   const locales = await getPostLocales(post.slug, post.kind);
   const canonicalUrl = articleUrl(post.locale, post.slug, post.kind);
 
@@ -95,6 +100,9 @@ export async function ArticlePageContent({ post }: ArticlePageContentProps) {
           articleUrl={canonicalUrl}
           articleTitle={post.title}
         />
+
+        {adjacent && <ArticlePaginationNav adjacent={adjacent} />}
+        {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
       </article>
 
       {post.readingStats && <ReadingControlWidget stats={post.readingStats} />}

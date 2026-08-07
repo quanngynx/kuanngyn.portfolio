@@ -68,7 +68,16 @@ export default async function BlogArticlePage(props: ArticlePageProps) {
   const localPost = await getLocalPost(locale, slug);
 
   if (localPost && localPost.kind === "blog") {
-    return <ArticlePageContent post={localPost} />;
+    const adjacent = getAdjacentPosts(slug, allPosts);
+    const relatedPosts = getRelatedPosts(localPost, allPosts);
+
+    return (
+      <ArticlePageContent
+        post={localPost}
+        adjacent={adjacent}
+        relatedPosts={relatedPosts}
+      />
+    );
   }
 
   notFound();
