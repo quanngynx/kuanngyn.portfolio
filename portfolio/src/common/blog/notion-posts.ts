@@ -3,7 +3,7 @@ import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoint
 import { notion } from "./notion-client";
 import { queryAllDataSourcePages } from "./notion-data-source";
 import { checkForDuplicateSlugs, parsePostMetadata } from "./post-metadata";
-import { fetchPageBlockTree } from "./notion-blocks";
+import { fetchPageBlockTree, calculateNotionReadingStats } from "./notion-blocks";
 import { NOTION_DATABASE_ID } from "../venv";
 import type { BlogPost } from "./content-schema";
 import type { Locale } from "../i18n/routes";
@@ -14,7 +14,10 @@ function isFullPage(page: unknown): page is PageObjectResponse {
 }
 
 export const getAllPublishedPosts = cache(
-  async (locale: Locale = "en"): Promise<BlogPost[]> => {
+  async (
+    locale: Locale = "en",
+    includeDrafts = false,
+  ): Promise<BlogPost[]> => {
     const databaseId = NOTION_DATABASE_ID || "";
     if (!databaseId) {
       console.warn("NOTION_DATABASE_ID is missing in environment variables");
@@ -22,8 +25,9 @@ export const getAllPublishedPosts = cache(
     }
 
     try {
-      const filter =
-        process.env.NODE_ENV === "production"
+      const filter = includeDrafts
+        ? undefined
+        : process.env.NODE_ENV === "production"
           ? {
               property: "Status",
               status: {
@@ -68,8 +72,9 @@ export const getPostGeneralInfoBySlug = cache(
   async (
     slug: string,
     locale: Locale = "en",
+    includeDrafts = false,
   ): Promise<BlogPost | undefined> => {
-    const posts = await getAllPublishedPosts(locale);
+    const posts = await getAllPublishedPosts(locale, includeDrafts);
     return posts.find((p) => p.slug === slug);
   },
 );
@@ -78,19 +83,32 @@ export const getPageBySlug = cache(
   async (
     slug: string,
     locale: Locale = "en",
+    options?: { includeDrafts?: boolean },
   ): Promise<{
     generalInfo: BlogPost;
     blockTree: NotionBlockNode[];
   } | null> => {
-    const generalInfo = await getPostGeneralInfoBySlug(slug, locale);
+    const includeDrafts = options?.includeDrafts ?? false;
+    const generalInfo = await getPostGeneralInfoBySlug(
+      slug,
+      locale,
+      includeDrafts,
+    );
     if (!generalInfo) return null;
 
     try {
       const pageId = generalInfo.sourcePath.replace("notion://", "");
       const blockTree = await fetchPageBlockTree(notion, pageId);
+      const stats = calculateNotionReadingStats(blockTree);
+
+      const updatedGeneralInfo: BlogPost = {
+        ...generalInfo,
+        readingStats: stats,
+        readingMinutes: stats.readingMinutes > 0 ? stats.readingMinutes : generalInfo.readingMinutes,
+      };
 
       return {
-        generalInfo,
+        generalInfo: updatedGeneralInfo,
         blockTree,
       };
     } catch (error) {

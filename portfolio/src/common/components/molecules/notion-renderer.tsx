@@ -1,4 +1,4 @@
-import React from "react";
+import { Lightbulb } from "lucide-react";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import {
   richTextToPlainText,
@@ -8,6 +8,7 @@ import { NotionRichText } from "./notion-rich-text";
 import { NotionHeading } from "./notion-heading";
 import { NotionCodeBlock } from "./notion-code-block";
 import { NotionRevealAnswer } from "./notion-reveal-answer";
+import { NotionTableOfContents } from "./notion-table-of-contents";
 
 interface Props {
   nodes: NotionBlockNode[];
@@ -59,7 +60,7 @@ export async function NotionRenderer({ nodes }: Props) {
   const groupedNodes = groupListNodes(nodes);
 
   return (
-    <div className="space-y-4 leading-relaxed text-neutral-300">
+    <div className="space-y-4 leading-relaxed">
       {groupedNodes.map((item, idx) => {
         if ("items" in item) {
           const Tag = item.type === "bulleted_list" ? "ul" : "ol";
@@ -180,16 +181,18 @@ export async function NotionRenderer({ nodes }: Props) {
           }
 
           case "callout": {
-            const emoji =
-              block.callout.icon?.type === "emoji"
-                ? block.callout.icon.emoji
-                : "💡";
+            const icon = block.callout.icon;
+            const emoji = icon?.type === "emoji" ? icon.emoji : null;
             return (
               <div
                 key={block.id}
-                className="my-4 flex items-start gap-3 rounded-lg border border-neutral-800 bg-neutral-900/60 p-4"
+                className="flex items-start gap-3 rounded-lg border border-muted-foreground/20 bg-muted-foreground/20 p-4"
               >
-                <span className="text-xl">{emoji}</span>
+                {emoji ? (
+                  <span className="text-xl">{emoji}</span>
+                ) : (
+                  <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
+                )}
                 <div className="flex-1">
                   <NotionRichText richText={block.callout.rich_text} />
                 </div>
@@ -198,7 +201,9 @@ export async function NotionRenderer({ nodes }: Props) {
           }
 
           case "divider": {
-            return <hr key={block.id} className="my-8 border-neutral-800" />;
+            return (
+              <hr key={block.id} className="my-6 border-muted-foreground/40" />
+            );
           }
 
           case "to_do": {
@@ -260,6 +265,10 @@ export async function NotionRenderer({ nodes }: Props) {
                 </a>
               </div>
             );
+          }
+
+          case "table_of_contents": {
+            return <NotionTableOfContents key={block.id} nodes={nodes} />;
           }
 
           default: {

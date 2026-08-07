@@ -1,4 +1,6 @@
 import type { Locale } from "@/common/i18n/routes";
+import type { ReadingStats } from "./reading-stats";
+export type { ReadingStats };
 
 const BLOG_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
@@ -17,13 +19,16 @@ export interface BlogPostFrontmatter {
   image?: string;
   imageAlt?: string;
   draft: boolean;
+  tags?: string[];
 }
 
 export interface BlogPost extends BlogPostFrontmatter {
   slug: BlogSlug;
   locale: Locale;
+  tags: string[];
   body: string;
   readingMinutes: number;
+  readingStats: ReadingStats;
   sourcePath: string;
 }
 

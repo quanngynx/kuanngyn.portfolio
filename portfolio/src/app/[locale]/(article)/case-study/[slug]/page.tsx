@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
+import { draftMode } from "next/headers";
 
 import { getPost as getLocalPost } from "@/common/blog/content";
 import { parseBlogSlug } from "@/common/blog/content-schema";
 import { getPageBySlug } from "@/common/blog/notion-posts";
+import { getAdjacentPosts } from "@/common/blog/adjacent-posts";
+import { getRelatedPosts } from "@/common/blog/related-posts";
 import {
   ArticlePageProps,
   getCombinedPublishedPosts,
@@ -44,13 +47,20 @@ export default async function CaseStudyPage(props: ArticlePageProps) {
     notFound();
   }
 
-  const pageData = await getPageBySlug(slug, locale);
+  const isDraftMode = (await draftMode()).isEnabled;
+  const pageData = await getPageBySlug(slug, locale, { includeDrafts: isDraftMode });
+  const allPosts = await getCombinedPublishedPosts(locale, isDraftMode);
 
   if (pageData && pageData.generalInfo.kind === "case-study") {
+    const adjacent = getAdjacentPosts(slug, allPosts);
+    const relatedPosts = getRelatedPosts(pageData.generalInfo, allPosts);
+
     return (
       <NotionContent
         generalInfo={pageData.generalInfo}
         blockTree={pageData.blockTree}
+        adjacent={adjacent}
+        relatedPosts={relatedPosts}
       />
     );
   }
@@ -58,7 +68,16 @@ export default async function CaseStudyPage(props: ArticlePageProps) {
   const localPost = await getLocalPost(locale, slug);
 
   if (localPost && localPost.kind === "case-study") {
-    return <ArticlePageContent post={localPost} />;
+    const adjacent = getAdjacentPosts(slug, allPosts);
+    const relatedPosts = getRelatedPosts(localPost, allPosts);
+
+    return (
+      <ArticlePageContent
+        post={localPost}
+        adjacent={adjacent}
+        relatedPosts={relatedPosts}
+      />
+    );
   }
 
   notFound();

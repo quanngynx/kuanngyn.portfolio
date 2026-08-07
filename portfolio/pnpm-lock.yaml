@@ -32,6 +32,15 @@ importers:
       '@radix-ui/themes':
         specifier: ^3.1.6
         version: 3.3.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@tailwindcss/cli':
+        specifier: ^4.3.1
+        version: 4.3.1
+      '@tailwindcss/container-queries':
+        specifier: ^0.1.1
+        version: 0.1.1(tailwindcss@4.3.1)
+      '@tailwindcss/postcss':
+        specifier: ^4.3.1
+        version: 4.3.1
       '@trpc/client':
         specifier: ^11.5.0
         version: 11.18.0(@trpc/server@11.18.0(typescript@6.0.3))(typescript@6.0.3)
@@ -86,6 +95,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      postcss:
+        specifier: ^8.5.15
+        version: 8.5.15
       radix-ui:
         specifier: 1.6.0
         version: 1.6.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -113,6 +125,9 @@ importers:
       tailwind-merge:
         specifier: ^3.6.0
         version: 3.6.0
+      tailwindcss:
+        specifier: ^4.1.12
+        version: 4.3.1
       tw-animate-css:
         specifier: ^1.4.0
         version: 1.4.0
@@ -123,15 +138,6 @@ importers:
       '@qwik.dev/partytown':
         specifier: ^0.14.0
         version: 0.14.0
-      '@tailwindcss/cli':
-        specifier: ^4.3.1
-        version: 4.3.1
-      '@tailwindcss/container-queries':
-        specifier: ^0.1.1
-        version: 0.1.1(tailwindcss@4.3.1)
-      '@tailwindcss/postcss':
-        specifier: ^4.3.1
-        version: 4.3.1
       '@types/node':
         specifier: ^24.1.0
         version: 24.13.2
@@ -156,9 +162,6 @@ importers:
       eslint-plugin-simple-import-sort:
         specifier: ^13.0.0
         version: 13.0.0(eslint@9.39.5(jiti@2.7.0))
-      postcss:
-        specifier: ^8.5.15
-        version: 8.5.15
       prettier:
         specifier: ^3.8.4
         version: 3.8.4
@@ -174,9 +177,6 @@ importers:
       shadcn:
         specifier: ^4.11.0
         version: 4.11.0(typescript@6.0.3)
-      tailwindcss:
-        specifier: ^4.1.12
-        version: 4.3.1
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
