@@ -1,124 +1,255 @@
 # Blog Features Design Specification
 
 **Date**: 2026-08-07  
-**Status**: Draft (Under Review)  
+**Status**: Revised (Approved Design v2)  
 **Target Scope**: Next.js Portfolio Blog System (`portfolio/`)
 
 ---
 
 ## 1. Overview & Goals
 
-This specification defines 5 core feature enhancements for the portfolio blog system (both MDX and Notion-backed posts):
+This specification defines 5 core feature enhancements for the portfolio blog system (supporting both MDX and Notion-backed posts):
 
-1. **Reading Progress & Floating Widget**: Top progress bar with bottom-right control widget (reading time left, word count, section count, back-to-top button).
-2. **Related Posts System**: Recommendation engine scoring posts by tags (+3), content type (+2), technology (+2), and recent date (+1), with recency backfill fallback.
-3. **Previous / Next Article Navigation**: Chronological article navigation ordered by `publishedAt`.
-4. **Blog List Filtering & URL Sync**: Filter by content type, tags, search query, and sort order, synchronized with `searchParams`.
-5. **Draft Preview Mode**: Secure token-based preview (`?preview=<TOKEN>`) for unpublished posts with `noindex` metadata and no-cache headers.
+1. **Reading Progress & Floating Widget**: Progress bar measured relative to `<article>`, combined with a floating control widget (remaining reading time, word count, section count, back-to-top button).
+2. **Related Posts System**: Recommendation engine in `src/common/blog/related-posts.ts` scoring posts by capped tags (+3 max 3), content type (+2), and publication proximity within 30 days (+1), with recency backfill.
+3. **Chronological Article Navigation (`olderPost` / `newerPost`)**: Pure domain navigation in `src/common/blog/adjacent-posts.ts` based on `publishedAt`.
+4. **Client-Side Blog Filtering & URL Sync**: Fast client-side filtering by tags (AND semantics), content type, keyword search (300ms debounced), and sort order, synchronized with `searchParams` without default param noise.
+5. **Next.js Draft Mode Preview**: Secure cookie-based preview via `/api/draft` and `/api/draft/disable` with normalized `draft: boolean` status, `noindex` metadata, and cache bypass.
 
 ---
 
-## 2. Component & Architecture Design
+## 2. Architecture & Domain Layer Separation
 
-### 2.1 Reading Progress & Floating Control Widget
+All domain logic is isolated under `src/common/blog/`:
 
-#### Components
-- `ReadingProgressBar` (`src/common/components/molecules/blog/reading-progress-bar.tsx`):
+```text
+src/common/blog/
+├── content-schema.ts      # Normalized BlogPost model (kind, draft, tags, etc.)
+├── reading-stats.ts       # Server-side calculation of wordCount, sectionCount, readingMinutes
+├── related-posts.ts       # Recommendation scoring algorithm & recency backfill
+├── adjacent-posts.ts      # Chronological olderPost / newerPost navigation
+├── filters.ts             # Client-side filtering logic & AND tag matching
+└── notion-posts.ts        # Notion post fetching & draft status mapping
+```
+
+### 2.1 Normalized Data Model
+
+```ts
+export interface ReadingStats {
+  wordCount: number;
+  sectionCount: number;
+  readingMinutes: number;
+}
+
+export interface BlogPost {
+  slug: BlogSlug;
+  locale: Locale;
+  kind: ArticleKind;
+  title: string;
+  subtitle: string;
+  description: string;
+  author: string;
+  publishedAt: string;
+  updatedAt?: string;
+  image?: string;
+  imageAlt?: string;
+  tags: string[];
+  draft: boolean;
+  body: string;
+  readingStats: ReadingStats;
+  sourcePath: string;
+}
+```
+
+- **Notion Source**: `draft = status !== "Done"` (handles `Not started` and `In progress`).
+- **MDX Source**: `draft = frontmatter.draft ?? false`.
+
+---
+
+## 3. Detailed Component & Feature Design
+
+### 3.1 Reading Progress & Floating Control Widget
+
+#### Progress Calculation
+- Measured relative to `<article id="blog-article">` using Framer Motion `useScroll({ target: articleRef, offset: ["start start", "end end"] })` or element top/height offset:
+  ```ts
+  const start = articleTop;
+  const end = articleTop + articleHeight - window.innerHeight;
+  const progress = clamp((window.scrollY - start) / (end - start), 0, 1);
+  ```
+- **`ReadingProgressBar`** (`src/common/components/molecules/blog/reading-progress-bar.tsx`):
   - Fixed at `top-0 left-0 right-0 z-50`.
-  - 2px height with gradient fill (`bg-amber-500` / `bg-gradient-to-r from-amber-500 to-sky-400`).
-  - Dynamic `width` bound to window scroll percentage: `(scrollY / (scrollHeight - innerHeight)) * 100`.
+  - 2px accent line (`bg-amber-500` / `bg-gradient-to-r from-amber-500 to-sky-400`).
 
-- `ReadingControlWidget` (`src/common/components/molecules/blog/reading-control-widget.tsx`):
+- **`ReadingControlWidget`** (`src/common/components/molecules/blog/reading-control-widget.tsx`):
   - Fixed at `bottom-6 right-6 z-40`.
-  - Displays remaining reading time calculation (`Math.ceil((1 - progress) * totalMinutes)`).
-  - Displays progress percentage badge.
-  - Hover popover showing total word count, section count, and total reading time.
-  - Interactive "Back to Top" button with smooth scroll via `Lenis` or `window.scrollTo({ top: 0, behavior: 'smooth' })`.
+  - **Remaining Time**:
+    - When `progress < 1`: `Math.ceil((1 - progress) * totalMinutes) + " min left"`.
+    - When `progress === 1`: `"Finished"`.
+  - Hover popover displays server-generated `wordCount`, `sectionCount`, and `readingMinutes`.
+  - "Back to Top" smooth scroll button.
 
 ---
 
-### 2.2 Related Posts Recommendation Engine
+### 3.2 Related Posts Recommendation Engine
 
-#### Algorithm Specification
-Function `getRelatedPosts(currentPost: BlogPost, allPosts: BlogPost[], limit = 3): BlogPost[]`:
+#### Algorithm Specification (`src/common/blog/related-posts.ts`)
 
-1. Exclude `currentPost` and any draft posts.
-2. Calculate score for each candidate post:
-   - **Tag match**: +3 points for each overlapping tag in `currentPost.tags` vs `candidate.tags`.
-   - **Content type match**: +2 points if `currentPost.kind === candidate.kind`.
-   - **Technology match**: +2 points for matching tech tags (e.g. `React`, `TypeScript`, `Next.js`).
-   - **Recency match**: +1 point if candidate was published within 30 days of `currentPost.publishedAt`.
-3. Sort candidate posts by `score` descending, then by `publishedAt` descending.
-4. **Fallback logic**: If fewer than `limit` posts have `score > 0`, append the most recent published posts (`publishedAt` descending) until `limit` (3-4 posts) is fulfilled.
+```ts
+export function getRelatedPosts(
+  currentPost: BlogPost,
+  allPosts: BlogPost[],
+  limit = 3,
+): BlogPost[] {
+  const candidates = allPosts.filter(
+    (p) => p.slug !== currentPost.slug && !p.draft && p.locale === currentPost.locale,
+  );
 
-#### Component
-- `RelatedPostsCard` (`src/common/components/molecules/blog/related-posts.tsx`):
-  - Grid layout (1 col mobile, 3 col desktop) at the end of the article.
-  - Displays post cover image, title, kind badge, tags, reading time, and date.
+  const currentDate = new Date(currentPost.publishedAt).getTime();
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
----
+  const scored = candidates.map((candidate) => {
+    let score = 0;
 
-### 2.3 Previous / Next Article Navigation
+    // 1. Tag overlap (capped at 3 tags max to prevent tag-stuffing bias)
+    const matchingTags = candidate.tags.filter((t) => currentPost.tags.includes(t));
+    score += Math.min(matchingTags.length, 3) * 3;
 
-#### Specification
-- Fetch all published posts sorted by `publishedAt` descending.
-- Locate current article index `i`:
-  - **Next Article** (newer): `posts[i - 1]` (if `i > 0`).
-  - **Previous Article** (older): `posts[i + 1]` (if `i < posts.length - 1`).
-- Component `ArticlePaginationNav` (`src/common/components/molecules/blog/article-pagination-nav.tsx`):
-  - Positioned directly above Related Posts section.
-  - Responsive two-column split (`← Previous Article` on left, `Next Article →` on right).
-  - Displays article title, category badge, and publication date.
+    // 2. Same content kind (case-study vs blog)
+    if (candidate.kind === currentPost.kind) {
+      score += 2;
+    }
 
----
+    // 3. Publication date proximity (within 30 days of target post)
+    const candidateDate = new Date(candidate.publishedAt).getTime();
+    if (Math.abs(candidateDate - currentDate) <= THIRTY_DAYS_MS) {
+      score += 1;
+    }
 
-### 2.4 Blog Filtering & URL SearchParams Synchronization
+    return { post: candidate, score };
+  });
 
-#### Component
-- `BlogFilterToolbar` (`src/common/components/organisms/blog/blog-filter-toolbar.tsx`):
-  - **Content Type Filter Chips**: `All`, `Blog`, `Case Study`, `Tutorial`, `Project Log`.
-  - **Search Input**: Real-time keyword filter matching title and description.
-  - **Tag Multi-Select Dropdown**: Filter by selected tags.
-  - **Sort Select**: `Newest First` (`desc`) vs `Oldest First` (`asc`).
-- **URL Synchronization**:
-  - Uses `useSearchParams`, `usePathname`, and `useRouter` from `next/navigation`.
-  - Updates URL query string without full page reload: `?kind=blog&tag=react&sort=newest&q=query`.
-  - Works on both SSR initial load and client interactions.
+  // Sort by score desc, then by publishedAt desc
+  scored.sort((a, b) => b.score - a.score || b.post.publishedAt.localeCompare(a.post.publishedAt));
 
----
+  const result = scored.filter((item) => item.score > 0).map((item) => item.post);
 
-### 2.5 Draft Preview Mode & Security
+  // Recency backfill if under limit
+  if (result.length < limit) {
+    const existingSlugs = new Set(result.map((p) => p.slug));
+    const recentBackfill = candidates
+      .filter((p) => !existingSlugs.has(p.slug))
+      .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 
-#### Specification
-- **Notion Status Criteria**: Posts with Notion Status `Not started` or `In progress` are classified as `draft = true`.
-- **Public Isolation**:
-  - `getAllPublishedPosts()` filters out `draft === true` by default.
-  - `sitemap.ts` and RSS route handlers query published posts only.
-- **Preview Route Resolution**:
-  - Access URL: `/[locale]/blog/[slug]?preview=<SECRET_TOKEN>`.
-  - `getPageBySlug(slug, locale, { previewToken })`:
-    - Validates `previewToken` against `process.env.BLOG_PREVIEW_SECRET`.
-    - If valid, returns the draft post block tree.
-    - If invalid or missing for a draft post, returns `null` (404 Not Found).
-- **Metadata & Caching Controls**:
-  - `generateMetadata`: Sets `robots: { index: false, follow: false, noimageindex: true }` when in preview mode.
-  - Response headers: `Cache-Control: no-store, max-age=0, must-revalidate`.
-- **UI Banner**:
-  - `DraftPreviewBanner` (`src/common/components/molecules/blog/draft-preview-banner.tsx`):
-    - Sticky warning bar at top of page: `⚠️ Draft Preview Mode - Unpublished Article`.
-    - Includes exit preview link returning to `/blog`.
+    result.push(...recentBackfill.slice(0, limit - result.length));
+  }
+
+  return result.slice(0, limit);
+}
+```
 
 ---
 
-## 3. Verification & Testing Plan
+### 3.3 Chronological Article Navigation (`olderPost` / `newerPost`)
 
-1. **Type & Lint Validation**:
-   - `pnpm exec tsc --noEmit`
-   - `pnpm exec eslint .`
-2. **Functional Unit Tests**:
-   - Related posts scoring algorithm unit tests (`related-posts.test.ts`).
-   - Reading minutes & draft token validation unit tests.
-3. **Manual Verification**:
-   - Test draft preview URL with valid vs invalid token.
-   - Verify filter URL sync bookmarking on `/blog`.
-   - Test scroll progress bar & back-to-top smooth scroll widget.
+#### Domain Logic (`src/common/blog/adjacent-posts.ts`)
+
+```ts
+export interface AdjacentPosts {
+  olderPost: BlogPost | null;
+  newerPost: BlogPost | null;
+}
+
+export function getAdjacentPosts(
+  currentSlug: string,
+  allPosts: BlogPost[],
+): AdjacentPosts {
+  const published = allPosts
+    .filter((p) => !p.draft)
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+
+  const index = published.findIndex((p) => p.slug === currentSlug);
+  if (index === -1) return { olderPost: null, newerPost: null };
+
+  return {
+    newerPost: index > 0 ? published[index - 1] : null,
+    olderPost: index < published.length - 1 ? published[index + 1] : null,
+  };
+}
+```
+
+#### Component (`src/common/components/molecules/blog/article-pagination-nav.tsx`)
+- Renders `← Older article` and `Newer article →` links cleanly.
+
+---
+
+### 3.4 Client-Side Blog Filtering & URL Synchronization
+
+#### Architecture
+- Single server load of published posts `BlogPostSummary[]`.
+- Client component `BlogFilterToolbar` manages UI state and URL synchronization.
+
+#### Features & Behavior
+- **Search Input**: Debounced by `300ms` using `useDebouncedCallback` to prevent unnecessary router replacements.
+- **Multi-Tag URL Format**: Repeated `tag` search params (`/blog?tag=react&tag=nextjs`).
+- **AND Semantics for Tags**:
+  ```ts
+  selectedTags.every((tag) => post.tags.includes(tag));
+  ```
+- **Clean URL Defaults**: Default parameters (`kind="all"`, `sort="newest"`, empty query/tags) are omitted from the URL (`/blog`).
+- **Sort Order**: Supports `newest` (desc) vs `oldest` (asc).
+
+---
+
+### 3.5 Next.js Draft Mode Preview Architecture
+
+#### 1. Route Handlers
+- **`/api/draft/route.ts`**:
+  - Validates `secret` parameter against `process.env.BLOG_PREVIEW_SECRET`.
+  - Validates `slug` redirect target (must start with `/` and not `//` to prevent open redirect vulnerabilities).
+  - Calls `(await draftMode()).enable()`.
+  - Redirects to `slug`.
+
+- **`/api/draft/disable/route.ts`**:
+  - Calls `(await draftMode()).disable()`.
+  - Redirects to `/blog`.
+
+#### 2. Repository Layer (`notion-posts.ts`)
+- Function `getPageBySlug(slug, locale, { includeDrafts: boolean })`.
+- Does NOT handle secret tokens directly; relies on `includeDrafts` boolean flag.
+- When `includeDrafts: true`, bypasses ISR shared cache and fetches directly.
+
+#### 3. Page Component Integration
+- Page checks `const { isEnabled } = await draftMode()`.
+- Fetches post using `getPageBySlug(slug, locale, { includeDrafts: isEnabled })`.
+- `generateMetadata`:
+  ```ts
+  if (isEnabled) {
+    return {
+      robots: { index: false, follow: false, noimageindex: true },
+    };
+  }
+  ```
+- Displays `DraftPreviewBanner` with link to `/api/draft/disable`.
+
+---
+
+## 4. Verification & Testing Plan
+
+### Automated Build & Lint
+1. `pnpm exec tsc --noEmit`
+2. `pnpm exec eslint .`
+3. `pnpm build` (Ensures server/client component boundary, searchParams, and draft mode build cleanly).
+
+### Domain Unit Tests
+- `src/common/blog/related-posts.test.mjs`: Tests scoring weights, tag cap, recency proximity, and backfill.
+- `src/common/blog/adjacent-posts.test.mjs`: Tests chronological ordering for newest, middle, and oldest posts.
+- `src/common/blog/filters.test.mjs`: Tests AND tag matching, search filtering, and sorting.
+- `src/common/blog/reading-stats.test.mjs`: Tests word count, reading minutes, and section count calculations.
+
+### Security Tests for Draft Mode
+- Attempt accessing draft post directly -> `404 Not Found`.
+- Call `/api/draft?secret=wrong&slug=/blog/post` -> `401 Unauthorized`.
+- Call `/api/draft?secret=valid&slug=//evil.com` -> `400 Invalid redirect path`.
+- Call `/api/draft?secret=valid&slug=/en/blog/draft-slug` -> Sets draft mode cookie, redirects to `/en/blog/draft-slug`, renders `noindex` metadata and `DraftPreviewBanner`.
+- Click `Exit Preview` -> Calls `/api/draft/disable`, clears cookie, redirects to `/blog`.
