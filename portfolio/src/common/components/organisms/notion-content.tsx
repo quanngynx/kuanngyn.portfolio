@@ -12,17 +12,17 @@ export function NotionContent({ generalInfo, blockTree }: Props) {
     <article className="mx-auto max-w-4xl px-4 py-8">
       <header className="mb-10 space-y-4">
         {generalInfo.kind && (
-          <span className="inline-block rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium tracking-wider text-amber-400 uppercase">
+          <span className="inline-block rounded-full bg-amber-500 px-3 py-1 text-xs font-medium tracking-wider uppercase">
             {generalInfo.kind}
           </span>
         )}
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
           {generalInfo.title}
         </h1>
         {generalInfo.subtitle && (
-          <p className="text-xl text-neutral-400">{generalInfo.subtitle}</p>
+          <p className="text-xl text-muted-foreground">{generalInfo.subtitle}</p>
         )}
-        <div className="flex items-center gap-4 border-t border-neutral-800 pt-2 text-xs text-neutral-500">
+        <div className="flex items-center gap-4 border-t border-neutral-800 pt-2 text-xs text-muted-foreground">
           <span>By {generalInfo.author}</span>
           <span>•</span>
           <time dateTime={generalInfo.publishedAt}>
@@ -38,7 +38,7 @@ export function NotionContent({ generalInfo, blockTree }: Props) {
       </header>
 
       {generalInfo.image && (
-        <div className="mb-10 overflow-hidden rounded-2xl border border-neutral-800">
+        <div className="mb-6 overflow-hidden rounded-2xl border border-neutral-800">
           <img
             src={generalInfo.image}
             alt={generalInfo.imageAlt || generalInfo.title}

@@ -28,7 +28,7 @@ export function NotionRichText({ richText }: Props) {
         }
         if (annotations.code) {
           content = (
-            <code className="rounded bg-neutral-800/60 px-1.5 py-0.5 font-mono text-sm text-amber-400">
+            <code className="rounded bg-accent-foreground px-1.5 py-0.5 font-mono text-sm text-amber-400 dark:text-amber-600">
               {content}
             </code>
           );
@@ -39,7 +39,7 @@ export function NotionRichText({ richText }: Props) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-neutral-200 underline underline-offset-4 hover:text-white"
+              className="text-muted-foreground hover:underline underline-offset-4 hover:text-muted-foreground/60"
             >
               {content}
             </a>
