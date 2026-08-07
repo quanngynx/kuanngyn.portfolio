@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 import { getCombinedPublishedPosts } from "@/common/blog/resolve-post";
+import { filterPosts } from "@/common/blog/filters";
+import { BlogFilterToolbar } from "@/common/components/organisms/blog/blog-filter-toolbar";
 import { isSupportedLocale, type Locale } from "@/common/i18n/routes";
 import { articlePath } from "@/common/utils/url";
 
@@ -11,6 +13,12 @@ export const revalidate = 300;
 
 interface BlogPageProps {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{
+    kind?: string;
+    sort?: "newest" | "oldest";
+    q?: string;
+    tag?: string | string[];
+  }>;
 }
 
 function formatDate(value: string, locale: Locale): string {
@@ -30,16 +38,32 @@ export async function generateMetadata({
   return { title: t("title"), description: t("description") };
 }
 
-export default async function BlogPage({ params }: BlogPageProps) {
+export default async function BlogPage({ params, searchParams }: BlogPageProps) {
   const { locale } = await params;
   if (!isSupportedLocale(locale)) notFound();
+
+  const sp = (await searchParams) || {};
+  const kind = sp.kind || "all";
+  const sort = (sp.sort as "newest" | "oldest") || "newest";
+  const query = sp.q || "";
+  const rawTags = sp.tag;
+  const tags = Array.isArray(rawTags) ? rawTags : rawTags ? [rawTags] : [];
 
   const [posts, t] = await Promise.all([
     getCombinedPublishedPosts(locale),
     getTranslations({ locale, namespace: "Blog" }),
   ]);
 
-  const blogPosts = posts;
+  const availableTags = Array.from(
+    new Set(posts.flatMap((p) => p.tags || [])),
+  ).sort();
+
+  const filteredPosts = filterPosts(posts, {
+    kind,
+    sort,
+    query,
+    tags,
+  });
 
   return (
     <main className="mx-auto min-h-screen max-w-5xl px-container pt-36 pb-24 md:pt-48 md:pb-32">
@@ -52,11 +76,13 @@ export default async function BlogPage({ params }: BlogPageProps) {
         </p>
       </header>
 
-      {blogPosts.length === 0 ? (
+      <BlogFilterToolbar availableTags={availableTags} />
+
+      {filteredPosts.length === 0 ? (
         <p className="mt-16 text-muted-foreground">{t("empty")}</p>
       ) : (
-        <ol className="mt-16 divide-y divide-border">
-          {blogPosts.map((post) => (
+        <ol className="mt-12 divide-y divide-border">
+          {filteredPosts.map((post) => (
             <li key={post.slug}>
               <Link
                 href={articlePath(locale, post.slug, post.kind)}

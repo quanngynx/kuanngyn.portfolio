@@ -14,7 +14,10 @@ function isFullPage(page: unknown): page is PageObjectResponse {
 }
 
 export const getAllPublishedPosts = cache(
-  async (locale: Locale = "en"): Promise<BlogPost[]> => {
+  async (
+    locale: Locale = "en",
+    includeDrafts = false,
+  ): Promise<BlogPost[]> => {
     const databaseId = NOTION_DATABASE_ID || "";
     if (!databaseId) {
       console.warn("NOTION_DATABASE_ID is missing in environment variables");
@@ -22,8 +25,9 @@ export const getAllPublishedPosts = cache(
     }
 
     try {
-      const filter =
-        process.env.NODE_ENV === "production"
+      const filter = includeDrafts
+        ? undefined
+        : process.env.NODE_ENV === "production"
           ? {
               property: "Status",
               status: {
@@ -68,8 +72,9 @@ export const getPostGeneralInfoBySlug = cache(
   async (
     slug: string,
     locale: Locale = "en",
+    includeDrafts = false,
   ): Promise<BlogPost | undefined> => {
-    const posts = await getAllPublishedPosts(locale);
+    const posts = await getAllPublishedPosts(locale, includeDrafts);
     return posts.find((p) => p.slug === slug);
   },
 );
@@ -78,11 +83,17 @@ export const getPageBySlug = cache(
   async (
     slug: string,
     locale: Locale = "en",
+    options?: { includeDrafts?: boolean },
   ): Promise<{
     generalInfo: BlogPost;
     blockTree: NotionBlockNode[];
   } | null> => {
-    const generalInfo = await getPostGeneralInfoBySlug(slug, locale);
+    const includeDrafts = options?.includeDrafts ?? false;
+    const generalInfo = await getPostGeneralInfoBySlug(
+      slug,
+      locale,
+      includeDrafts,
+    );
     if (!generalInfo) return null;
 
     try {

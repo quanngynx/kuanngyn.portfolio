@@ -8,14 +8,13 @@ import matter from "gray-matter";
 import type { Locale } from "@/common/i18n/routes";
 import { routing } from "@/common/i18n/routes";
 
+import type { ArticleKind, BlogPost, BlogSlug } from "./content-schema";
 import {
-  type ArticleKind,
-  type BlogPost,
-  type BlogSlug,
   estimateReadingMinutes,
   parseBlogPostFrontmatter,
   parseBlogSlug,
 } from "./content-schema";
+import { calculateReadingStats } from "./reading-stats";
 
 const BLOG_ROOT = path.join(process.cwd(), "content", "blog");
 
@@ -42,12 +41,15 @@ async function loadPostFile(
     const source = await readFile(sourcePath, "utf8");
     const { data, content } = matter(source);
 
+    const frontmatter = parseBlogPostFrontmatter(data, sourcePath);
     return {
-      ...parseBlogPostFrontmatter(data, sourcePath),
+      ...frontmatter,
       slug,
       locale,
+      tags: frontmatter.tags || [],
       body: content,
       readingMinutes: estimateReadingMinutes(content),
+      readingStats: calculateReadingStats(content),
       sourcePath,
     };
   } catch (error) {

@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { isSupportedLocale, type Locale } from "../i18n/routes";
 import {
@@ -16,9 +17,9 @@ export interface ArticlePageProps {
 }
 
 export const getCombinedPublishedPosts = cache(
-  async (locale: Locale = "en"): Promise<BlogPost[]> => {
+  async (locale: Locale = "en", includeDrafts = false): Promise<BlogPost[]> => {
     const [notionPosts, localPosts] = await Promise.all([
-      getAllNotionPosts(locale),
+      getAllNotionPosts(locale, includeDrafts),
       getAllLocalPosts(locale),
     ]);
 
@@ -38,7 +39,8 @@ export async function resolvePost({ params }: ArticlePageProps) {
 
   if (!isSupportedLocale(locale) || !slug) notFound();
 
-  const notionPost = await getPostGeneralInfoBySlug(slug, locale);
+  const isDraft = (await draftMode()).isEnabled;
+  const notionPost = await getPostGeneralInfoBySlug(slug, locale, isDraft);
   if (notionPost) return notionPost;
 
   const localPost = await getLocalPost(locale, slug);
