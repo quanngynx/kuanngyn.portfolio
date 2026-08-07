@@ -101,10 +101,10 @@ export function NotionTableOfContents({ nodes }: Props) {
   return (
     <nav
       aria-label="Table of Contents"
-      className="my-8 rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6 shadow-sm backdrop-blur-sm"
+      className="my-6 rounded-2xl border border-border p-6"
     >
       <div className="mb-4 flex items-center gap-2 text-sm font-semibold tracking-wider text-muted-foreground uppercase">
-        <AlignLeft className="h-4 w-4 text-amber-400" />
+        <AlignLeft className="h-4 w-4 text-muted-foreground" />
         <span>Table of Contents</span>
       </div>
 
@@ -123,7 +123,7 @@ export function NotionTableOfContents({ nodes }: Props) {
                 className={cn(
                   "inline-block leading-relaxed transition-colors duration-150 hover:underline",
                   isActive
-                    ? "font-semibold text-sky-400 dark:text-sky-400"
+                    ? "font-semibold text-sky-600 dark:text-sky-600"
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >

@@ -14,15 +14,17 @@ export async function NotionCodeBlock({ code, language = "text" }: Props) {
   return (
     <figure className="relative my-6 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950">
       {language && (
-        <div className="border-b border-neutral-800 bg-neutral-900/60 px-4 py-2 font-mono text-xs tracking-wider text-neutral-400 uppercase">
+        <div className="border-b border-neutral-800 bg-neutral-900/60 px-4 py-3 font-mono text-xs tracking-wider text-neutral-400 uppercase">
           {language}
         </div>
       )}
       <CodeBlockCopyButton text={code} />
-      <div
-        className="overflow-x-auto p-4 font-mono text-sm leading-relaxed text-neutral-200"
-        dangerouslySetInnerHTML={{ __html: formattedHtml }}
-      />
+      <div className="overflow-x-auto bg-[#24292e] p-4">
+        <div
+          className="font-mono text-sm leading-relaxed text-neutral-200"
+          dangerouslySetInnerHTML={{ __html: formattedHtml }}
+        />
+      </div>
     </figure>
   );
 }

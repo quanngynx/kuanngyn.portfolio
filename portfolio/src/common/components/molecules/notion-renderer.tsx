@@ -186,7 +186,7 @@ export async function NotionRenderer({ nodes }: Props) {
             return (
               <div
                 key={block.id}
-                className="flex items-start gap-3 rounded-lg border border-muted-foreground/40 bg-muted-foreground/20 p-4"
+                className="flex items-start gap-3 rounded-lg border border-muted-foreground/20 bg-muted-foreground/20 p-4"
               >
                 {emoji ? (
                   <span className="text-xl">{emoji}</span>
