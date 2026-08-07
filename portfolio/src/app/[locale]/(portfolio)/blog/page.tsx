@@ -3,9 +3,11 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-import { getAllPosts } from "@/common/blog/content";
+import { getCombinedPublishedPosts } from "@/common/blog/resolve-post";
 import { isSupportedLocale, type Locale } from "@/common/i18n/routes";
 import { articlePath } from "@/common/utils/url";
+
+export const revalidate = 300;
 
 interface BlogPageProps {
   params: Promise<{ locale: string }>;
@@ -33,9 +35,11 @@ export default async function BlogPage({ params }: BlogPageProps) {
   if (!isSupportedLocale(locale)) notFound();
 
   const [posts, t] = await Promise.all([
-    getAllPosts(locale),
+    getCombinedPublishedPosts(locale),
     getTranslations({ locale, namespace: "Blog" }),
   ]);
+
+  const blogPosts = posts;
 
   return (
     <main className="mx-auto min-h-screen max-w-5xl px-container pt-36 pb-24 md:pt-48 md:pb-32">
@@ -48,11 +52,11 @@ export default async function BlogPage({ params }: BlogPageProps) {
         </p>
       </header>
 
-      {posts.length === 0 ? (
+      {blogPosts.length === 0 ? (
         <p className="mt-16 text-muted-foreground">{t("empty")}</p>
       ) : (
         <ol className="mt-16 divide-y divide-border">
-          {posts.map((post) => (
+          {blogPosts.map((post) => (
             <li key={post.slug}>
               <Link
                 href={articlePath(locale, post.slug, post.kind)}
