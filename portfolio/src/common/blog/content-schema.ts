@@ -1,5 +1,6 @@
 import type { Locale } from "@/common/i18n/routes";
 import type { ReadingStats } from "./reading-stats";
+export type { ReadingStats };
 
 const BLOG_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
