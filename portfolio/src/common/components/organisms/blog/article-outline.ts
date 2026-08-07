@@ -1,6 +1,7 @@
 export interface ArticleOutlineItem {
   id: string;
   title: string;
+  level?: number;
   excerpt?: string;
 }
 
@@ -105,6 +106,7 @@ export function createArticleOutlineCollector(): {
           outline.push({
             id,
             title,
+            level: node.depth,
             excerpt: excerptAfterHeading(tree.children, index),
           });
         });

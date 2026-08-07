@@ -1,4 +1,3 @@
-import React from "react";
 import { Lightbulb } from "lucide-react";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
 import {
@@ -9,6 +8,7 @@ import { NotionRichText } from "./notion-rich-text";
 import { NotionHeading } from "./notion-heading";
 import { NotionCodeBlock } from "./notion-code-block";
 import { NotionRevealAnswer } from "./notion-reveal-answer";
+import { NotionTableOfContents } from "./notion-table-of-contents";
 
 interface Props {
   nodes: NotionBlockNode[];
@@ -201,7 +201,9 @@ export async function NotionRenderer({ nodes }: Props) {
           }
 
           case "divider": {
-            return <hr key={block.id} className="my-6 border-muted-foreground/40" />;
+            return (
+              <hr key={block.id} className="my-6 border-muted-foreground/40" />
+            );
           }
 
           case "to_do": {
@@ -263,6 +265,10 @@ export async function NotionRenderer({ nodes }: Props) {
                 </a>
               </div>
             );
+          }
+
+          case "table_of_contents": {
+            return <NotionTableOfContents key={block.id} nodes={nodes} />;
           }
 
           default: {

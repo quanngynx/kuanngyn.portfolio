@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+import { AlignLeft, X } from "lucide-react";
 
 import {
   HoverCard,
@@ -18,6 +19,7 @@ interface ArticleNavigatorProps {
 }
 
 function currentHeadingId(items: ArticleOutlineItem[]): string {
+  if (typeof window === "undefined") return items[0]?.id ?? "";
   const threshold = window.innerHeight * 0.3;
   let currentId = items[0]?.id ?? "";
 
@@ -35,6 +37,26 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
   const shouldReduceMotion = useReducedMotion();
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
   const [previewId, setPreviewId] = useState<string | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsPanelOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsPanelOpen(false);
+    }, 200);
+  };
 
   const scrollToHeading = useCallback(
     (id: string) => {
@@ -111,6 +133,14 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
     };
   }, [items, scrollToHeading]);
 
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const navigateToSection = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
       event.preventDefault();
@@ -121,6 +151,7 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
       }
 
       scrollToHeading(id);
+      setIsPanelOpen(false);
     },
     [scrollToHeading],
   );
@@ -130,70 +161,128 @@ export function ArticleNavigator({ items, label }: ArticleNavigatorProps) {
   return (
     <nav
       aria-label={label}
-      className="fixed top-1/2 left-3 z-40 hidden -translate-y-1/2 xl:block"
+      ref={panelRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="fixed top-1/2 left-4 z-40 hidden -translate-y-1/2 xl:block"
     >
-      <ol className="flex flex-col">
-        {items.map((item, index) => {
-          const isActive = item.id === activeId;
-          const accessibleTitle = item.title || item.id;
+      <div className="relative flex flex-col items-start gap-3">
+        <ol className="flex flex-col gap-1 pl-1">
+          {items.map((item, index) => {
+            const isActive = item.id === activeId;
+            const accessibleTitle = item.title || item.id;
 
-          return (
-            <li key={item.id}>
-              <HoverCard
-                open={previewId === item.id}
-                onOpenChange={(open) => setPreviewId(open ? item.id : null)}
-                openDelay={100}
-                closeDelay={100}
-              >
-                <HoverCardTrigger asChild>
-                  <a
-                    href={`#${item.id}`}
-                    aria-current={isActive ? "location" : undefined}
-                    aria-label={`${index + 1}. ${accessibleTitle}`}
-                    onClick={(event) => navigateToSection(event, item.id)}
-                    onFocus={(event) => {
-                      const trigger = event.currentTarget;
-                      window.requestAnimationFrame(() => {
-                        if (document.activeElement === trigger) {
-                          setPreviewId(item.id);
-                        }
-                      });
-                    }}
-                    onBlur={() => setPreviewId(null)}
-                    className="group flex h-3 w-10 items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "h-0.5 transition-[width,background-color] duration-200 motion-reduce:transition-none",
-                        isActive
-                          ? "w-8 bg-foreground"
-                          : "w-2 bg-muted-foreground/45 group-hover:w-6 group-hover:bg-foreground/70 group-focus-visible:w-6 group-focus-visible:bg-foreground/70",
-                      )}
-                    />
-                  </a>
-                </HoverCardTrigger>
-
-                <HoverCardContent
-                  side="right"
-                  align="center"
-                  sideOffset={16}
-                  className="w-96 max-w-[calc(100vw-5rem)] rounded-2xl border-border/80 bg-background/95 p-4 shadow-2xl backdrop-blur-xl"
+            return (
+              <li key={item.id}>
+                <HoverCard
+                  open={!isPanelOpen && previewId === item.id}
+                  onOpenChange={(open) =>
+                    setPreviewId(open && !isPanelOpen ? item.id : null)
+                  }
+                  openDelay={100}
+                  closeDelay={100}
                 >
-                  <p className="line-clamp-2 text-sm font-semibold text-foreground">
-                    {accessibleTitle}
-                  </p>
-                  {item.excerpt && (
-                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
-                      {item.excerpt}
+                  <HoverCardTrigger asChild>
+                    <a
+                      href={`#${item.id}`}
+                      aria-current={isActive ? "location" : undefined}
+                      aria-label={`${index + 1}. ${accessibleTitle}`}
+                      onClick={(event) => navigateToSection(event, item.id)}
+                      onFocus={(event) => {
+                        const trigger = event.currentTarget;
+                        window.requestAnimationFrame(() => {
+                          if (
+                            document.activeElement === trigger &&
+                            !isPanelOpen
+                          ) {
+                            setPreviewId(item.id);
+                          }
+                        });
+                      }}
+                      onBlur={() => setPreviewId(null)}
+                      className="group flex h-3 w-10 items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          "h-0.5 transition-[width,background-color] duration-200 motion-reduce:transition-none",
+                          isActive
+                            ? "w-8 bg-foreground"
+                            : "w-2 bg-muted-foreground/45 group-hover:w-6 group-hover:bg-foreground/70 group-focus-visible:w-6 group-focus-visible:bg-foreground/70",
+                        )}
+                      />
+                    </a>
+                  </HoverCardTrigger>
+
+                  <HoverCardContent
+                    side="right"
+                    align="center"
+                    sideOffset={16}
+                    className="w-96 max-w-[calc(100vw-5rem)] rounded-2xl border-border/80 bg-background/95 p-4 shadow-2xl backdrop-blur-xl"
+                  >
+                    <p className="line-clamp-2 text-sm font-semibold text-foreground">
+                      {accessibleTitle}
                     </p>
-                  )}
-                </HoverCardContent>
-              </HoverCard>
-            </li>
-          );
-        })}
-      </ol>
+                    {item.excerpt && (
+                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
+                        {item.excerpt}
+                      </p>
+                    )}
+                  </HoverCardContent>
+                </HoverCard>
+              </li>
+            );
+          })}
+        </ol>
+
+        {isPanelOpen && (
+          <div
+            data-lenis-prevent
+            onMouseEnter={handleMouseEnter}
+            className="absolute top-1/2 left-12 max-h-[70vh] w-80 -translate-y-1/2 animate-in overflow-y-auto overscroll-contain rounded-2xl border border-neutral-800 bg-neutral-950/95 p-5 shadow-2xl backdrop-blur-2xl duration-200 zoom-in-95 fade-in"
+          >
+            <div className="mb-3 flex items-center justify-between border-b border-neutral-800/80 pb-3">
+              <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                <AlignLeft className="h-4 w-4 text-amber-400" />
+                <span>{label}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsPanelOpen(false)}
+                className="rounded-lg p-1 text-muted-foreground hover:bg-neutral-800 hover:text-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+
+            <ol className="space-y-2 text-sm">
+              {items.map((item) => {
+                const isActive = item.id === activeId;
+                const level = item.level ?? 2;
+                const paddingClass =
+                  level === 1 ? "pl-0" : level === 3 ? "pl-5" : "pl-2.5";
+
+                return (
+                  <li key={item.id} className={paddingClass}>
+                    <a
+                      href={`#${item.id}`}
+                      onClick={(event) => navigateToSection(event, item.id)}
+                      className={cn(
+                        "inline-block leading-relaxed transition-colors duration-150 hover:underline",
+                        isActive
+                          ? "font-semibold text-sky-400 dark:text-sky-400"
+                          : "text-muted-foreground hover:text-foreground",
+                      )}
+                    >
+                      {item.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
