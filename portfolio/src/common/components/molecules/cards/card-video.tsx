@@ -1,7 +1,8 @@
 "use client";
 
-import { cn } from "@/common/utils/ui";
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
+import { cn } from "@/common/utils/ui";
 
 export interface VideoCardProject {
   id: string | number;
@@ -63,12 +64,14 @@ export function VideoCard({
           isActive && project.video ? "opacity-0" : "opacity-100",
         )}
       >
-        <img
+        <Image
           src={
             project.thumbnail ||
             "/stories/modern-architecture-black-and-white.jpg"
           }
           alt={project.title}
+          fill
+          sizes="(max-width: 640px) 224px, 256px"
           className={cn(
             "h-full w-full object-cover transition-all duration-700",
             !isActive && "brightness-75 grayscale",

@@ -1,13 +1,12 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { useScroll, useTransform, m } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ContactModal } from "@/common/components/molecules/modals/contact-modal";
 import { InteractiveParticles } from "@/common/components/effects/interactive-particles";
-import { ShineButton } from "@/common/components/atoms/button/button.shine";
 import { ButtonWithVideo } from "../../atoms/button/button.video";
 import { cn } from "@/common/utils";
 
@@ -37,6 +36,7 @@ const COL_1_IMAGES = [
   })),
   ...TRACK_1.map((src) => ({ id: `second-${src}`, priority: false, src })),
 ];
+
 const COL_2_IMAGES = [
   ...TRACK_2.map((src, index) => ({
     id: `first-${src}`,
@@ -45,6 +45,14 @@ const COL_2_IMAGES = [
   })),
   ...TRACK_2.map((src) => ({ id: `second-${src}`, priority: false, src })),
 ];
+
+function navigateToResume() {
+  window.open(
+    "https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing",
+    "_blank",
+    "noopener noreferrer",
+  );
+}
 
 export default function Hero() {
   const tHero = useTranslations("Hero");
@@ -58,14 +66,6 @@ export default function Hero() {
   const y = useTransform(scrollY, [0, 800], [0, -150]);
   const blurValue = useTransform(scrollY, [0, 800], [0, 10]);
   const filter = useTransform(blurValue, (value) => `blur(${value}px)`);
-
-  const navigateToResume = () => {
-    window.open(
-      "https://drive.google.com/file/d/1wfaTzAQA5LUwdtXlISH0DltSaw_KhaO2/view?usp=sharing",
-      "_blank",
-      "noopener noreferrer",
-    );
-  };
 
   return (
     <section
