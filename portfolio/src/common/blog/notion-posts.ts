@@ -4,7 +4,7 @@ import { notion } from "./notion-client";
 import { queryAllDataSourcePages } from "./notion-data-source";
 import { checkForDuplicateSlugs, parsePostMetadata } from "./post-metadata";
 import { fetchPageBlockTree, calculateNotionReadingStats } from "./notion-blocks";
-import { NOTION_DATABASE_ID } from "../venv";
+import { NOTION_DATABASE_ID_POSTS } from "../venv";
 import type { BlogPost } from "./content-schema";
 import type { Locale } from "../i18n/routes";
 import type { NotionBlockNode } from "./notion-types";
@@ -18,9 +18,9 @@ export const getAllPublishedPosts = cache(
     locale: Locale = "en",
     includeDrafts = false,
   ): Promise<BlogPost[]> => {
-    const databaseId = NOTION_DATABASE_ID || "";
+    const databaseId = NOTION_DATABASE_ID_POSTS || "";
     if (!databaseId) {
-      console.warn("NOTION_DATABASE_ID is missing in environment variables");
+      console.warn("NOTION_DATABASE_ID_POSTS is missing in environment variables");
       return [];
     }
 
