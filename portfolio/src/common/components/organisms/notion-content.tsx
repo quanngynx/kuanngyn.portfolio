@@ -70,6 +70,7 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
               height={600}
               unoptimized
               className="max-h-120 w-full object-cover"
+              loading="eager"
             />
           </div>
         )}
