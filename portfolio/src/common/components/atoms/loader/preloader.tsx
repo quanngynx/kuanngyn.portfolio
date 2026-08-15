@@ -1,11 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useTheme } from "next-themes";
+
+const subscribe = () => () => {};
+const getSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true);
+  const mounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const { resolvedTheme } = useTheme();
+
+  // Default to dark until mounted (matches defaultTheme="dark" in layout)
+  const isDark = !mounted || resolvedTheme !== "light";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -94,15 +104,27 @@ export function Preloader() {
 
               <div className="absolute inset-3 rounded-full border border-border/50 bg-secondary/5 backdrop-blur-md" />
 
-              <Image
-                src='/main_logo.png'
-                alt='Logo'
-                width={56}
-                height={56}
-                className='z-10 object-contain'
-                style={{ width: '56px', height: '56px' }}
-                priority
-              />
+              {isDark ? (
+                <Image
+                  src={"/main_logo_light_1.png"}
+                  alt='Logo'
+                  width={56}
+                  height={56}
+                  className='z-10 object-contain'
+                  style={{ width: '56px', height: '56px' }}
+                  priority
+                />
+              ) : (
+                <Image
+                  src={"/main_logo.png"}
+                  alt='Logo'
+                  width={56}
+                  height={56}
+                  className='z-10 object-contain'
+                  style={{ width: '56px', height: '56px' }}
+                  priority
+                />
+              )}
             </div>
           </m.div>
         </m.div>
