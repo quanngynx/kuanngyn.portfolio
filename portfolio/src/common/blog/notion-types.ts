@@ -5,6 +5,13 @@ export type NotionBlockNode = {
   children: NotionBlockNode[];
 };
 
+export interface NotionLinkOverride {
+  href?: string;
+  label: string;
+}
+
+export type NotionLinkOverrides = Record<string, NotionLinkOverride>;
+
 export interface DecorationMark {
   type: "bold" | "italic" | "strikethrough" | "code" | "link" | "color";
   value?: string;

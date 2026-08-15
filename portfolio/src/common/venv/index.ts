@@ -4,3 +4,4 @@ export const revalidateSecret = process.env.REVALIDATE_SECRET;
 
 export const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN;
 export const NOTION_DATABASE_ID_POSTS = process.env.NOTION_DATABASE_ID_POSTS;
+export const NOTION_DATABASE_ID_SERIES = process.env.NOTION_DATABASE_ID_SERIES;

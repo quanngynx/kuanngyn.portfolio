@@ -1,8 +1,12 @@
 import Image from "next/image";
 import type { NotionBlockNode } from "@/common/blog/notion-types";
+import type { NotionLinkOverrides } from "@/common/blog/notion-types";
 import type { BlogPost } from "@/common/blog/content-schema";
 import type { AdjacentPosts } from "@/common/blog/adjacent-posts";
-import { extractNotionOutline, calculateNotionReadingStats } from "@/common/blog/notion-blocks";
+import {
+  extractNotionOutline,
+  calculateNotionReadingStats,
+} from "@/common/blog/notion-blocks";
 import { ArticleNavigator } from "@/common/components/molecules/navigation/article-navigator";
 import { NotionRenderer } from "@/common/components/molecules/notion-renderer";
 import { ReadingProgressBar } from "@/common/components/molecules/blog/reading-progress-bar";
@@ -16,15 +20,27 @@ interface Props {
   blockTree: NotionBlockNode[];
   adjacent?: AdjacentPosts;
   relatedPosts?: BlogPost[];
+  linkOverrides?: NotionLinkOverrides;
+  seriesStatus?: string;
 }
 
 const EMPTY_RELATED_POSTS: BlogPost[] = [];
 
-export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts = EMPTY_RELATED_POSTS }: Props) {
+export function NotionContent({
+  generalInfo,
+  blockTree,
+  adjacent,
+  relatedPosts = EMPTY_RELATED_POSTS,
+  linkOverrides,
+  seriesStatus,
+}: Props) {
   const outline = extractNotionOutline(blockTree);
-  const stats = (generalInfo.readingStats && (generalInfo.readingStats.wordCount > 0 || generalInfo.readingStats.sectionCount > 0))
-    ? generalInfo.readingStats
-    : calculateNotionReadingStats(blockTree);
+  const stats =
+    generalInfo.readingStats &&
+    (generalInfo.readingStats.wordCount > 0 ||
+      generalInfo.readingStats.sectionCount > 0)
+      ? generalInfo.readingStats
+      : calculateNotionReadingStats(blockTree);
 
   return (
     <>
@@ -33,11 +49,15 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
       <ArticleNavigator items={outline} label="Article sections" />
       <article id="blog-article" className="mx-auto max-w-4xl px-4 py-8">
         <header className="mb-10 space-y-4">
-          {generalInfo.kind && (
-            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium tracking-wider uppercase text-primary">
+          {seriesStatus ? (
+            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium tracking-wider text-primary uppercase">
+              Case study series · {seriesStatus}
+            </span>
+          ) : generalInfo.kind ? (
+            <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium tracking-wider text-primary uppercase">
               {generalInfo.kind}
             </span>
-          )}
+          ) : null}
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             {generalInfo.title}
           </h1>
@@ -46,19 +66,21 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
               {generalInfo.subtitle}
             </p>
           )}
-          <div className="flex items-center gap-4 border-t border-border pt-2 text-xs text-muted-foreground">
-            <span>By {generalInfo.author}</span>
-            <span>•</span>
-            <time dateTime={generalInfo.publishedAt}>
-              {generalInfo.publishedAt}
-            </time>
-            {stats.readingMinutes > 0 && (
-              <>
-                <span>•</span>
-                <span>{stats.readingMinutes} min read</span>
-              </>
-            )}
-          </div>
+          {!seriesStatus && (
+            <div className="flex items-center gap-4 border-t border-border pt-2 text-xs text-muted-foreground">
+              <span>By {generalInfo.author}</span>
+              <span>•</span>
+              <time dateTime={generalInfo.publishedAt}>
+                {generalInfo.publishedAt}
+              </time>
+              {stats.readingMinutes > 0 && (
+                <>
+                  <span>•</span>
+                  <span>{stats.readingMinutes} min read</span>
+                </>
+              )}
+            </div>
+          )}
         </header>
 
         {generalInfo.image && (
@@ -76,7 +98,7 @@ export function NotionContent({ generalInfo, blockTree, adjacent, relatedPosts =
         )}
 
         <main className="prose prose-invert max-w-none">
-          <NotionRenderer nodes={blockTree} />
+          <NotionRenderer nodes={blockTree} linkOverrides={linkOverrides} />
         </main>
 
         {adjacent && <ArticlePaginationNav adjacent={adjacent} />}

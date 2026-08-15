@@ -1,17 +1,30 @@
 import React from "react";
 import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { NotionLinkOverrides } from "@/common/blog/notion-types";
 
 interface Props {
   richText: RichTextItemResponse[];
+  linkOverrides?: NotionLinkOverrides;
 }
 
-export function NotionRichText({ richText }: Props) {
+function normalizeNotionId(value: string): string {
+  return value.replace(/-/g, "").toLowerCase();
+}
+
+export function NotionRichText({ richText, linkOverrides }: Props) {
   if (!richText || !richText.length) return null;
 
   return (
     <>
       {richText.map((item, idx) => {
-        const { annotations, href, plain_text: text } = item;
+        const pageId =
+          item.type === "mention" && item.mention.type === "page"
+            ? normalizeNotionId(item.mention.page.id)
+            : undefined;
+        const linkOverride = pageId ? linkOverrides?.[pageId] : undefined;
+        const { annotations } = item;
+        const href = linkOverride ? linkOverride.href : item.href;
+        const text = linkOverride?.label || item.plain_text;
         let content: React.ReactNode = text;
 
         if (annotations.bold) {
@@ -39,7 +52,7 @@ export function NotionRichText({ richText }: Props) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:underline underline-offset-4 hover:text-muted-foreground/60"
+              className="text-muted-foreground underline-offset-4 hover:text-muted-foreground/60 hover:underline"
             >
               {content}
             </a>

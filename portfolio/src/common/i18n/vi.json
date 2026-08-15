@@ -44,6 +44,7 @@
         "description": "Nền tảng vận hành bảo hành ứng dụng AI agentic cho trung tâm dịch vụ gia dụng. Tích hợp quản lý ca sửa chữa, truy xuất tri thức RAG (PostgreSQL/pgvector), trợ lý AI copilot và quy trình phê duyệt Human-in-the-loop cho các thao tác do AI tạo.",
         "image": "/projects/servexa-warranty-ai.svg",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
+        "caseStudy": "/en/case-study/engineering-servexa-warranty-ai",
         "stack": [
           "React",
           "Express",

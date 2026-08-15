@@ -44,6 +44,7 @@
         "description": "Agentic AI warranty operation platform for home appliance service centers. Features repair case management, RAG knowledge retrieval (PostgreSQL/pgvector), AI copilot assistance, and Human-in-the-loop approval workflows.",
         "image": "/projects/servexa-warranty-ai.svg",
         "repo": "https://github.com/quanngynx/servexa-warranty-ai",
+        "caseStudy": "/en/case-study/engineering-servexa-warranty-ai",
         "stack": [
           "React",
           "Express",
