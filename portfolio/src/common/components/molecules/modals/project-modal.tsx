@@ -70,6 +70,7 @@ export function ProjectModal({
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 800px"
                 className="rounded-lg object-cover"
+                loading="eager"
                 priority
               />
             )}

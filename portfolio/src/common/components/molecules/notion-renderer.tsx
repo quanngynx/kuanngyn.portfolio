@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { Lightbulb } from "lucide-react";
-import type { NotionBlockNode } from "@/common/blog/notion-types";
+import type {
+  NotionBlockNode,
+  NotionLinkOverrides,
+} from "@/common/blog/notion-types";
 import {
   richTextToPlainText,
   generateHeadingSlug,
@@ -13,6 +16,7 @@ import { NotionTableOfContents } from "./notion-table-of-contents";
 
 interface Props {
   nodes: NotionBlockNode[];
+  linkOverrides?: NotionLinkOverrides;
 }
 
 function groupListNodes(
@@ -54,7 +58,7 @@ function groupListNodes(
   return result;
 }
 
-export async function NotionRenderer({ nodes }: Props) {
+export async function NotionRenderer({ nodes, linkOverrides }: Props) {
   if (!nodes || !nodes.length) return null;
 
   const headingSlugs = new Map<string, number>();
@@ -69,24 +73,26 @@ export async function NotionRenderer({ nodes }: Props) {
             item.type === "bulleted_list" ? "list-disc" : "list-decimal";
           const groupKey = `group-${idx}-${item.items[0]?.block.id || item.type}`;
           return (
-            <Tag
-              key={groupKey}
-              className={`my-4 space-y-2 pl-6 ${listClass}`}
-            >
+            <Tag key={groupKey} className={`my-4 space-y-2 pl-6 ${listClass}`}>
               {item.items.map((node) => (
                 <li key={node.block.id}>
                   {node.block.type === "bulleted_list_item" && (
                     <NotionRichText
                       richText={node.block.bulleted_list_item.rich_text}
+                      linkOverrides={linkOverrides}
                     />
                   )}
                   {node.block.type === "numbered_list_item" && (
                     <NotionRichText
                       richText={node.block.numbered_list_item.rich_text}
+                      linkOverrides={linkOverrides}
                     />
                   )}
                   {node.children && node.children.length > 0 && (
-                    <NotionRenderer nodes={node.children} />
+                    <NotionRenderer
+                      nodes={node.children}
+                      linkOverrides={linkOverrides}
+                    />
                   )}
                 </li>
               ))}
@@ -103,7 +109,10 @@ export async function NotionRenderer({ nodes }: Props) {
               return <div key={block.id} className="h-4" />;
             return (
               <p key={block.id} className="my-3">
-                <NotionRichText richText={block.paragraph.rich_text} />
+                <NotionRichText
+                  richText={block.paragraph.rich_text}
+                  linkOverrides={linkOverrides}
+                />
               </p>
             );
           }
@@ -165,7 +174,10 @@ export async function NotionRenderer({ nodes }: Props) {
                 richText={block.toggle.rich_text}
               >
                 {node.children && node.children.length > 0 && (
-                  <NotionRenderer nodes={node.children} />
+                  <NotionRenderer
+                    nodes={node.children}
+                    linkOverrides={linkOverrides}
+                  />
                 )}
               </NotionRevealAnswer>
             );
@@ -177,7 +189,10 @@ export async function NotionRenderer({ nodes }: Props) {
                 key={block.id}
                 className="my-4 border-l-4 border-amber-500/60 pl-4 text-neutral-200 italic"
               >
-                <NotionRichText richText={block.quote.rich_text} />
+                <NotionRichText
+                  richText={block.quote.rich_text}
+                  linkOverrides={linkOverrides}
+                />
               </blockquote>
             );
           }
@@ -196,7 +211,10 @@ export async function NotionRenderer({ nodes }: Props) {
                   <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
                 )}
                 <div className="flex-1">
-                  <NotionRichText richText={block.callout.rich_text} />
+                  <NotionRichText
+                    richText={block.callout.rich_text}
+                    linkOverrides={linkOverrides}
+                  />
                 </div>
               </div>
             );
@@ -209,7 +227,8 @@ export async function NotionRenderer({ nodes }: Props) {
           }
 
           case "to_do": {
-            const labelText = richTextToPlainText(block.to_do.rich_text) || "To do item";
+            const labelText =
+              richTextToPlainText(block.to_do.rich_text) || "To do item";
             return (
               <div key={block.id} className="my-2 flex items-center gap-3">
                 <input
@@ -224,8 +243,50 @@ export async function NotionRenderer({ nodes }: Props) {
                     block.to_do.checked ? "text-neutral-500 line-through" : ""
                   }
                 >
-                  <NotionRichText richText={block.to_do.rich_text} />
+                  <NotionRichText
+                    richText={block.to_do.rich_text}
+                    linkOverrides={linkOverrides}
+                  />
                 </span>
+              </div>
+            );
+          }
+
+          case "table": {
+            const rows = node.children.filter(
+              (child) => child.block.type === "table_row",
+            );
+
+            return (
+              <div key={block.id} className="my-6 overflow-x-auto">
+                <table className="w-full border-collapse text-left text-sm">
+                  <tbody>
+                    {rows.map((row, rowIndex) => {
+                      if (row.block.type !== "table_row") return null;
+
+                      const CellTag =
+                        block.table.has_column_header && rowIndex === 0
+                          ? "th"
+                          : "td";
+
+                      return (
+                        <tr key={row.block.id}>
+                          {row.block.table_row.cells.map((cell, cellIndex) => (
+                            <CellTag
+                              key={`${row.block.id}-${cellIndex}`}
+                              className="border border-border px-4 py-3 align-top"
+                            >
+                              <NotionRichText
+                                richText={cell}
+                                linkOverrides={linkOverrides}
+                              />
+                            </CellTag>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             );
           }
